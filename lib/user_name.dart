@@ -168,7 +168,7 @@ class _UserNameState extends State<UserName> {
                   ),
                   CustomButton(category: "Premium", onTap: () { 
                     Navigator.pushNamed(context, "/glass");
-                   }, icon: Icons.workspace_premium, selection: 'Premium',),
+                   }, icon: Icons.workspace_premium, selection: 'Welcom',),
                   const SizedBox(
                     height: 10,
                   ),
