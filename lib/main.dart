@@ -1,68 +1,36 @@
+import 'package:famibo/change_pages.dart';
+import 'package:famibo/glass.dart';
+//import 'package:glassmorphism/glassmorphism.dart';
+import 'package:famibo/login_page.dart';
+import 'package:famibo/team_profile.dart';
+import 'package:famibo/user_name.dart';
 import 'package:flutter/material.dart';
 
+
 void main() {
-  runApp(const MyWidget());
+  runApp(const HomeScreen());
 }
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
   Widget build(BuildContext context) {
-    SafeArea;
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromRGBO(187, 187, 30, 1),
-          title: const Center(child: Text("FamilyBoard")
-          ),
-        ),
-        body: Center(
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text("Welcome", style: TextStyle(fontSize: 28, color: Colors.red),
-                
-                 ),
-                 ElevatedButton(onPressed: () {
-                  print("Gedrückt");
-                 }, child: Text("Welcomebutton"))
-              ],
-            ),
-            ),
-            ),
-            bottomNavigationBar: BottomNavigationBar(items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home, ),
-                label: "Home",
-                backgroundColor:  Color.fromRGBO(187, 187, 30, 1),
-                ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.business, ),
-                label: "Business",
-                backgroundColor:  Color.fromRGBO(187, 187, 30, 1),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.calculate, ),
-                  label: "Calculator",
-                  backgroundColor:  Color.fromRGBO(187, 187, 30, 1),
-                  ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings,),
-                  label: "Settings",
-                  backgroundColor: Color.fromRGBO(187, 187, 30, 1),
-                  
-                  ),
-                  
-            ],
-          selectedItemColor: Colors.black,
-         unselectedItemColor: Colors.black,
-            ),
-        ),
+      initialRoute: "/login",
+      routes: {
+        "/change_page": (context) => const ChangePages(),
+        "/team_profile": (context) => const TeamProfile(),
+        "/login": (context) => const LoginPage(),
+        "/username":(context) => const UserName(),
+        "/glass":(context) =>  DemoApp()
+        
+      },
     );
-    
-  
   }
 }
