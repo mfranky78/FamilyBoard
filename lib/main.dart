@@ -1,7 +1,6 @@
-import 'package:famibo/change_pages.dart';
-import 'package:famibo/glass.dart';
-//import 'package:glassmorphism/glassmorphism.dart';
+import 'package:famibo/buttonnavigation.dart';
 import 'package:famibo/login_page.dart';
+
 import 'package:famibo/team_profile.dart';
 import 'package:famibo/user_name.dart';
 import 'package:flutter/material.dart';
@@ -22,13 +21,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: "/login",
+      initialRoute: "/loginpage",
       routes: {
-        "/change_page": (context) => const ChangePages(),
+        "/change_page": (context) => const ButtonNavigation(),
         "/team_profile": (context) => const TeamProfile(),
-        "/login": (context) => const LoginPage(),
+        "/loginpage":(context) => LogInPage(),
         "/username":(context) => const UserName(),
-        "/glass":(context) =>  DemoApp()
+        
         
       },
     );

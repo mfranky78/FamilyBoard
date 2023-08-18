@@ -126,7 +126,9 @@ class _UserNameState extends State<UserName> {
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(9, 9, 9, 9),
                 children: [
-                  CustomButton(category: "Goal", onTap: () {  }, icon: Icons.flag, selection: 'Goal',),
+                  CustomButton(category: "Goal", onTap: () { 
+                    Navigator.pushNamed(context, "/glass");
+                   }, icon: Icons.flag, selection: 'WelcomeDemo',),
                   const SizedBox(
                     height: 10,
                   ),

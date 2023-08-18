@@ -1,34 +1,30 @@
 import 'package:famibo/calculator.dart';
 import 'package:famibo/login_page.dart';
-import 'package:famibo/setting_page.dart';
+import 'package:famibo/mycaledar.dart';
 import 'package:famibo/user_name.dart';
 import 'package:flutter/material.dart';
 
-
-
-
-class ChangePages extends StatefulWidget {
-   const ChangePages({super.key});
+class ButtonNavigation extends StatefulWidget {
+  const ButtonNavigation({super.key});
 
   @override
-  State<ChangePages> createState() => _ChangePagesState();
+  State<ButtonNavigation> createState() => _ChangePagesState();
 }
 
-class _ChangePagesState extends State<ChangePages> {
+class _ChangePagesState extends State<ButtonNavigation> {
   final List<Widget> _pages = [
-     const LoginPage(),
+   LogInPage(),
     const UserName(),
     const Calculator(),
-    const FlutterCarouselWidgetDemo(),
+    MyCaledar(),
    
-    
   ];
 
- int _selectedIndex = 1;
+  int _selectedIndex = 1;
 
   void _navigateBottomBar(int index) {
     if (index == 0) {
-     Navigator.popUntil(context, ModalRoute.withName('/login'));
+      Navigator.popUntil(context, ModalRoute.withName('/loginpage'));
     }
     setState(() {
       _selectedIndex = index;
@@ -38,7 +34,7 @@ class _ChangePagesState extends State<ChangePages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
         items: const <BottomNavigationBarItem>[
@@ -62,17 +58,15 @@ class _ChangePagesState extends State<ChangePages> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.settings,
+              Icons.calendar_today,
             ),
-            label: "Settings",
+            label: "Caledar",
           ),
         ],
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
       ),
-      body:_pages[_selectedIndex], 
+      body: _pages[_selectedIndex],
     );
   }
 }
-
-

@@ -29,7 +29,6 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter_simple_calculator: 
-  flutter_carousel_widget: ^2.0.4
   flutter:
     sdk: flutter
 
@@ -43,6 +42,7 @@ dependencies:
   http: ^1.1.0
   animated_gesture_detector: ^1.0.0
   glassmorphism_buttons: ^0.0.8
+  scrollable_clean_calendar: ^1.4.1
 
 dev_dependencies:
   flutter_test:

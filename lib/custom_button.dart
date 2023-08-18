@@ -46,7 +46,7 @@ class CustomButton extends StatelessWidget {
             child: GlassmorphicContainer(
               width: 250,
               height: 50,
-              borderRadius: 20,
+              borderRadius: 10,
               blur: 1,
               alignment: Alignment.bottomCenter,
               border: 1,
@@ -89,6 +89,7 @@ class CustomButton extends StatelessWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.w400),
                     ),
+                   
                   ),
                 ],
               ),
