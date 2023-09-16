@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
-class LogInPage extends StatelessWidget {
+class DemoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +12,9 @@ class LogInPage extends StatelessWidget {
             gradient: LinearGradient(colors: [
           Color.fromRGBO(101, 142, 165, 0.91),
           Color.fromRGBO(137, 38, 223, 0.71)
-        ], begin: Alignment.centerLeft, end: Alignment.centerRight)),
+        ], begin: Alignment.centerLeft, 
+           end: Alignment.centerRight)
+           ),
         child: LayoutBuilder(
           builder: (context, constraints) {
             return Stack(
@@ -189,9 +191,11 @@ class LogInPage extends StatelessWidget {
                                     style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all(
-                                                Color.fromARGB(255, 97, 71, 227))),
+                                                Color.fromARGB(
+                                                    255, 97, 71, 227))),
                                     onPressed: () {
-                                      Navigator.pushNamed(context, "/change_page");
+                                      Navigator.pushNamed(
+                                          context, "/change_page");
                                     },
                                     child: const Text(
                                       'Log In',

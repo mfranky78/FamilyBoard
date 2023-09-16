@@ -1,7 +1,8 @@
+import 'package:famibo/core/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
-class DemoApp extends StatelessWidget {
+class LogInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +102,7 @@ class DemoApp extends StatelessWidget {
                       border: 1,
                       blur: 5,
                       borderRadius: 10,
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.8,
                       width: MediaQuery.of(context).size.width * 0.85,
                       linearGradient: LinearGradient(colors: [
                         Colors.white.withOpacity(0.3),
@@ -139,7 +140,7 @@ class DemoApp extends StatelessWidget {
                                       decoration: InputDecoration(
                                         hintText: 'Email',
                                         filled: true,
-                                        fillColor: Colors.white,
+                                        fillColor: const Color.fromARGB(120, 255, 255, 255),
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -161,7 +162,7 @@ class DemoApp extends StatelessWidget {
                                       decoration: InputDecoration(
                                         hintText: 'Password',
                                         filled: true,
-                                        fillColor: Colors.white,
+                                        fillColor: const Color.fromARGB(120, 255, 255, 255),
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -182,27 +183,32 @@ class DemoApp extends StatelessWidget {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Container(
-                                margin: const EdgeInsets.only(right: 16),
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Color.fromARGB(255, 97, 71, 227))),
-                                    onPressed: () {
-                                      Navigator.pushNamed(context, "/change_page");
-                                    },
-                                    child: const Text(
-                                      'Log In',
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                              )
+                              Container(width: 120,
+                                margin: const EdgeInsets.only(left: 175),
+                                alignment: Alignment.centerLeft,
+                                child: CustomButton(
+                                  selection: 'LogIn',
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, "/change_page");
+                                  },
+                                  icon: Icons.login,
+                                  category: 'LogIn E-mail',
+                                ),
+                              ),
+                              // CustomButton(
+                              //   category: "Google",
+                              //   onTap: () {
+                              //     Navigator.pushNamed(context, "/signingoogle");
+                              //   },
+                              //   icon: Icons.workspace_premium,
+                              //   selection: 'Google',
+                              // ),
                             ],
                           )),
                     ),
                   ),
-                )
+                ),
               ],
             );
           },

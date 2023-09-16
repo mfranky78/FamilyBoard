@@ -1,4 +1,4 @@
-import 'package:famibo/custom_button.dart';
+import 'package:famibo/core/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class TeamProfile extends StatelessWidget {

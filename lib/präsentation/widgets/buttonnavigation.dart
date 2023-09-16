@@ -1,7 +1,7 @@
-import 'package:famibo/calculator.dart';
-import 'package:famibo/login_page.dart';
-import 'package:famibo/mycaledar.dart';
-import 'package:famibo/user_name.dart';
+import 'package:famibo/pr%C3%A4sentation/widgets/calculator.dart';
+import 'package:famibo/pr%C3%A4sentation/Onboarding/pages/login_page.dart';
+import 'package:famibo/pr%C3%A4sentation/widgets/mycaledar.dart';
+import 'package:famibo/pr%C3%A4sentation/app/home_screen_page.dart';
 import 'package:flutter/material.dart';
 
 class ButtonNavigation extends StatefulWidget {
@@ -14,7 +14,7 @@ class ButtonNavigation extends StatefulWidget {
 class _ChangePagesState extends State<ButtonNavigation> {
   final List<Widget> _pages = [
    LogInPage(),
-    const UserName(),
+    const HomeScreen(),
     const Calculator(),
     MyCaledar(),
    

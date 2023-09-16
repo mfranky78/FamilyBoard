@@ -1,8 +1,9 @@
-import 'package:famibo/buttonnavigation.dart';
-import 'package:famibo/login_page.dart';
-
-import 'package:famibo/team_profile.dart';
-import 'package:famibo/user_name.dart';
+import 'package:famibo/pr%C3%A4sentation/Onboarding/pages/onboarding_page.dart';
+import 'package:famibo/pr%C3%A4sentation/app/login_google_page.dart';
+import 'package:famibo/pr%C3%A4sentation/widgets/buttonnavigation.dart';
+import 'package:famibo/pr%C3%A4sentation/Onboarding/pages/login_page.dart';
+import 'package:famibo/pr%C3%A4sentation/Onboarding/pages/logo_page.dart';
+import 'package:famibo/pr%C3%A4sentation/app/team_profile.dart';
 import 'package:flutter/material.dart';
 
 
@@ -21,12 +22,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: "/loginpage",
+      initialRoute: "/logopage",
       routes: {
         "/change_page": (context) => const ButtonNavigation(),
         "/team_profile": (context) => const TeamProfile(),
         "/loginpage":(context) => LogInPage(),
-        "/username":(context) => const UserName(),
+        "/homescreen":(context) => const HomeScreen(),
+        "/logopage":(context) => const LogoPage(),
+        "/signingoogle":(context) => const SignInDemo(),
+        "/onboarding":(context) => const OnboardingPage(),
         
         
       },
