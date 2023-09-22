@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
       routes: {
         "/change_page": (context) => const ButtonNavigation(),
         "/team_profile": (context) => const TeamProfile(),
-        "/loginpage":(context) => LogInPage(),
+        "/loginpage":(context) => const LogInPage(),
         "/homescreen":(context) => const HomeScreen(),
         "/logopage":(context) => const LogoPage(),
         "/signingoogle":(context) => const SignInDemo(),

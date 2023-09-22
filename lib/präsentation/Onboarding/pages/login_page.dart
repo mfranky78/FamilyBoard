@@ -1,6 +1,7 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/textfield_button.dart';
+import 'package:famibo/pr%C3%A4sentation/Onboarding/pages/regestration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
@@ -93,7 +94,8 @@ class LogInPage extends StatelessWidget {
                                   Navigator.pushNamed(context, "/change_page");
                                 },
                                 icon: Icons.login,
-                                category: 'LogIn E-mail',
+                                category: 'LogIn E-mail', 
+                                image: const AssetImage(''),
                               ),
                             ),
                           ],
@@ -101,31 +103,39 @@ class LogInPage extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Container(
-                          width: 120,
+                        SizedBox(
+                          height: 100,
+                          width: 320,
                           child: CustomButton(
+                            image: const AssetImage('assets/images/google.png'),
                             category: "Google",
                             onTap: () {
                               Navigator.pushNamed(context, "/signingoogle");
                             },
-                            icon: Icons.login,
+                            
+                            
                             selection: 'Google',
+                             icon: Icons.login,
                           ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        Padding(
+                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Align(
                               alignment: Alignment.centerRight,
-                              child: Container(
-                                  child: const Text(
-                                'Not register yet ? Create Account',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    decoration: TextDecoration.underline),
-                              ))),
+                              child: GestureDetector(
+                                onTap: () {
+                                 Navigator.push(context, MaterialPageRoute(builder: (context)=> const RegestrationPage())); 
+                                },
+                                child: const Text(
+                                  'Not register yet ? Create Account',
+                                  style: TextStyle(
+                                  fontSize: 14,
+                                  decoration: TextDecoration.underline),
+                                ),
+                              )),
                         )
                       ],
                     )),

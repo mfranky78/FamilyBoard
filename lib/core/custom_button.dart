@@ -14,13 +14,14 @@ class MainButton extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: CustomButton(
-        selection: category,
-        onTap: onTap,
-        icon: icon,
-        category: '',
-      ),
+    return CustomButton(
+      selection: category,
+      onTap: onTap,
+      icon: icon,
+      category: '', 
+      image: const AssetImage('assetName'),
+    
+      
     );
   }
 }
@@ -29,12 +30,15 @@ class CustomButton extends StatelessWidget {
   final String selection;
   final VoidCallback onTap;
   final IconData icon;
-  const CustomButton({
+        AssetImage? image;
+   CustomButton({
     super.key,
     required this.selection,
     required this.onTap,
     required this.icon,
     required String category,
+    required AssetImage image,
+   
   });
   @override
   Widget build(BuildContext context) {
@@ -75,6 +79,7 @@ class CustomButton extends StatelessWidget {
                     width: 10,
                   ),
                   Icon(icon),
+                  
                   const Padding(
                     padding: EdgeInsets.all(5),
                   ),

@@ -2,6 +2,7 @@ import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:flutter/material.dart';
 
+
 //import 'team_profile.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,6 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 10,
                 ),
+               
                 const Text(
                   "HomeScreen",
                   style: TextStyle(
@@ -106,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 //ListView Elevatedbutton
                 Expanded(
                   child: ListView(
-                    padding: const EdgeInsets.fromLTRB(9, 9, 9, 9),
+                    padding: const EdgeInsets.all(9),
                     children: [
                       CustomButton(
                         category: "Goal",
@@ -115,6 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         icon: Icons.flag,
                         selection: 'WelcomeDemo',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,
@@ -124,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {},
                         icon: Icons.check,
                         selection: 'Checklist',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,
@@ -133,6 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {},
                         icon: Icons.group,
                         selection: 'My Team',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,
@@ -142,6 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {},
                         icon: Icons.food_bank,
                         selection: 'Food',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,
@@ -151,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {},
                         icon: Icons.map,
                         selection: 'Map',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,
@@ -160,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {},
                         icon: Icons.contacts,
                         selection: 'Contact',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,
@@ -169,6 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {},
                         icon: Icons.calendar_today,
                         selection: 'Calender',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,
@@ -178,6 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {},
                         icon: Icons.school,
                         selection: 'Timetable',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,
@@ -187,6 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {},
                         icon: Icons.money,
                         selection: 'Money',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,
@@ -196,6 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {},
                         icon: Icons.newspaper,
                         selection: 'News',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,
@@ -207,6 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         icon: Icons.workspace_premium,
                         selection: 'Premium',
+                        image: const AssetImage(''),
                       ),
                       const SizedBox(
                         height: 10,

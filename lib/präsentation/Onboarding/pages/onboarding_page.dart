@@ -192,7 +192,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
           },
           selection: 'Skip',
           icon: Icons.skip_next,
-          category: 'Skip',
+          category: 'Skip', 
+         image: const AssetImage(''),
         ),
       ),
     );
@@ -210,7 +211,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
           },
           selection: 'Sign up',
           icon: Icons.login,
-          category: 'Sign up',
+          category: 'Sign up', 
+          image: const AssetImage(''),
         ),
       ),
     );
