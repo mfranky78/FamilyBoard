@@ -37,13 +37,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.system,
+      theme : ThemeData.light(
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData.dark(
+        useMaterial3: true
+      ),
       home: const WidgetTree(),
       debugShowCheckedModeBanner: false,
       initialRoute: "/logopage",
       routes: {
     
         "/team_profile": (context) =>  TeamProfile(setImage: (imagePath) {},),
-        "/loginpage":(context) =>  LogInPage(),
+        "/loginpage":(context) =>  const LogInPage(),
         "/MyApp":(context) => const MyApp(),
         "/logopage":(context) => const LogoPage(),
         "/signingoogle":(context) => const SignInDemo(),

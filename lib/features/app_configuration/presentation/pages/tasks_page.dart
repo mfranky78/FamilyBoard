@@ -1,5 +1,4 @@
 import 'package:famibo/core/backround_screen.dart';
-import 'package:famibo/core/cutom_button_onpressed.dart';
 import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/core/textfield_button.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +12,13 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   final TextEditingController listTextController = TextEditingController();
-  final List<String> shoppingList = [];
+  final List<String> toDoList = [];
 
   void _addToList() {
     final newItem = listTextController.text;
     if (newItem.isNotEmpty) {
       setState(() {
-        shoppingList.add(newItem);
+        toDoList.add(newItem);
         listTextController.clear();
       });
     }
@@ -56,10 +55,9 @@ class _TaskPageState extends State<TaskPage> {
                     hintText: 'Posten hinzufügen',
                     textController: listTextController),
                     const SizedBox(height: 10,),
-                CustomButtonPressed(
+                ElevatedButton(
                   onPressed: _addToList,
-                  icon: Icons.list,
-                  text: const Text('Add'),
+                 child: const Text('Add'),
                 ),
                 const SizedBox(height: 10,),
                 const Padding(
@@ -78,10 +76,10 @@ class _TaskPageState extends State<TaskPage> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                      itemCount: shoppingList.length,
+                      itemCount: toDoList.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text(shoppingList[index]),
+                          title: Text(toDoList[index].toString()),
                         );
                       }),
                 )

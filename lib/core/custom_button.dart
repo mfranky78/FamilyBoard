@@ -9,7 +9,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton({super.key, 
     required this.onTap,
     required this.icon,      
-    required this.text,
+    required this.text, 
   });
 
   @override

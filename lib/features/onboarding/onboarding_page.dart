@@ -205,7 +205,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Hiermit akzeptiere ich die AGB und Dateschnutzerklärung der App Akademie GmbH",
+                    "Hiermit akzeptiere ich die AGB und Dateschnutzerklärung",
                     style: pageInfoStyle,
                     textAlign: TextAlign.left,
                   ),

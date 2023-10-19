@@ -46,7 +46,7 @@ class NewPasswordPage extends StatelessWidget {
                    Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const LoginRegisterPage()));
+                                builder: (context) => const RegistrationPage()));
                 }, icon: Icons.point_of_sale, text: const Text('Passwort bestätigen'))
               ],
             ))

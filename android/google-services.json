@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "795109230334",
+    "project_id": "family-board-cab4a",
+    "storage_bucket": "family-board-cab4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795109230334:android:0d71ce2fee6c6067f7c7af",
+        "android_client_info": {
+          "package_name": "com.example.famibo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhRhhGsGevCcddoPm3qhBdrpi4uKpAIkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
