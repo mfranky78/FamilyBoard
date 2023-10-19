@@ -1,11 +1,11 @@
-import 'package:famibo/features/app_configuration/applikation/user_model_json.dart';
+import 'package:famibo/auth.dart';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_button_icon.dart';
 import 'package:famibo/core/text_style_page.dart';
-import 'package:famibo/features/app_configuration/presentation/pages/list_page.dart';
-import 'package:famibo/features/app_configuration/presentation/pages/my_profile_page.dart';
-import 'package:famibo/features/app_configuration/presentation/pages/target_page.dart';
+import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/list_page.dart';
+import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/my_profile_page.dart';
+import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/target_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +16,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +26,13 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const UserListScreen()));
+                setState(() {
+                  Auth().signOut();
+                });
+                Navigator.pushReplacementNamed(context, "/loginpage");
               },
               icon: const Icon(
-                Icons.person,
+                Icons.logout,
                 color: Colors.black,
               ))
         ],
@@ -43,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BackroundScreen(
             Column(
               children: [
+                
                 const SizedBox(
                   height: 10,
                 ),
@@ -205,6 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         height: 10,
                       ),
+                      
                     ],
                   ),
                 ),

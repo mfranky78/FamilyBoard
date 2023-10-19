@@ -1,7 +1,7 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/textfield_button.dart';
-import 'package:famibo/features/app_configuration/presentation/pages/screens/login_page.dart';
+import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/login_page.dart';
 import 'package:flutter/material.dart';
 
 class PasswordForgetPage extends StatelessWidget {

@@ -1,13 +1,11 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/textfield_button.dart';
-//import 'package:famibo/core/textfield_password.dart';
-import 'package:famibo/features/app_configuration/presentation/pages/screens/regestration_page.dart';
+import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/screens_pages/regestration_page.dart';
 import 'package:flutter/material.dart';
 
 class NewPasswordPage extends StatelessWidget {
    final TextEditingController _emailController = TextEditingController();
-  //final TextEditingController _passwordController = TextEditingController();
    NewPasswordPage({super.key});
 
   @override
@@ -46,7 +44,7 @@ class NewPasswordPage extends StatelessWidget {
                    Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const LoginRegisterPage()));
+                                builder: (context) => const RegistrationPage()));
                 }, icon: Icons.point_of_sale, text: const Text('Passwort bestätigen'))
               ],
             ))

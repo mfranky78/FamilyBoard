@@ -4,7 +4,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:famibo/core/data/remote_data_source.dart';
-import 'package:famibo/features/app_configuration/applikation/domain/shopping_model.dart';
+import 'package:famibo/features_1/app_configuration/applikation/domain/shopping_model.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingRepository {

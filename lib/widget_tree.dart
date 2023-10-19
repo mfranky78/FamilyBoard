@@ -1,6 +1,4 @@
-
-
-import 'package:famibo/home_page.dart';
+import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/screens_pages/home_screen_page.dart';
 import 'package:famibo/login_register_page.dart';
 import 'package:flutter/material.dart';
 import 'auth.dart';
@@ -20,7 +18,7 @@ class _WidgetTreeState extends State<WidgetTree> {
       stream: Auth().authStateChanges, 
     builder: (context, snapshot) {
       if (snapshot.hasData) {
-        return HomeAuthPage();
+        return const HomeScreen();
       } else {
         return const LoginRegisterPage();
       }

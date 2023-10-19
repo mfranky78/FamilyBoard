@@ -2,8 +2,8 @@
 
 
 
-import 'package:famibo/features/app_configuration/applikation/domain/shopping_model.dart';
-import 'package:famibo/features/app_configuration/data/shopping_repository.dart';
+import 'package:famibo/features_1/app_configuration/applikation/domain/shopping_model.dart';
+import 'package:famibo/features_1/app_configuration/data/shopping_repository.dart';
 
 class ShoppingService {
   ShoppingRepository shoppingRepository = ShoppingRepository();

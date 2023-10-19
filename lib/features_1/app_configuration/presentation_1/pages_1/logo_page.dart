@@ -1,5 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:famibo/features/onboarding/onboarding_page.dart';
+import 'package:famibo/features_1/onboarding/onboarding_page.dart';
 import 'package:flutter/material.dart';
 
 class LogoPage extends StatelessWidget {

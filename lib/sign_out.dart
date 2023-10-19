@@ -2,8 +2,8 @@ import 'package:famibo/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomeAuthPage extends StatelessWidget {
-   HomeAuthPage({super.key});
+class SignOutPage extends StatelessWidget {
+   SignOutPage({super.key});
 
   final User? user = Auth().currentUser;
 
@@ -28,7 +28,7 @@ class HomeAuthPage extends StatelessWidget {
       body: Container(
         height: double.infinity, 
         width: double.infinity,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

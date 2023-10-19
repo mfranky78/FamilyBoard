@@ -48,7 +48,7 @@ class MyProfilePage extends StatelessWidget {
               leading: const Icon(Icons.group),
               title: const Text('Team Profile'),
               onTap: () =>
-                Navigator.pushReplacementNamed(context, "/team_profile")
+                Navigator.pushReplacementNamed(context, "/imagepicker_profile")
             ),
           ],
         ),
