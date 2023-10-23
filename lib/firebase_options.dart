@@ -63,11 +63,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBvnDgZKeStMmuIjISY2eyXU4BCAr-8MPQ',
-    appId: '1:795109230334:ios:2119a532db14d71cf7c7af',
+    appId: '1:795109230334:ios:cec4e120a16e3442f7c7af',
     messagingSenderId: '795109230334',
     projectId: 'family-board-cab4a',
     storageBucket: 'family-board-cab4a.appspot.com',
-    iosBundleId: 'com.example.famibo',
+    androidClientId: '795109230334-7u7akv4sifk3klmja94mkrucmt3vq2sq.apps.googleusercontent.com',
+    iosClientId: '795109230334-tbcssn8j1a9jbqrbg3daobdgggo65284.apps.googleusercontent.com',
+    iosBundleId: 'com.example.familyboard',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -76,6 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '795109230334',
     projectId: 'family-board-cab4a',
     storageBucket: 'family-board-cab4a.appspot.com',
+    androidClientId: '795109230334-7u7akv4sifk3klmja94mkrucmt3vq2sq.apps.googleusercontent.com',
+    iosClientId: '795109230334-sb5ph8celfr4cgaf2cn7fk82s0dk8gjm.apps.googleusercontent.com',
     iosBundleId: 'com.example.famibo.RunnerTests',
   );
 }

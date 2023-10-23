@@ -12,7 +12,20 @@
           "package_name": "com.example.famibo"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "795109230334-7u7akv4sifk3klmja94mkrucmt3vq2sq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.famibo",
+            "certificate_hash": "734063d8928b42891684c2aad1a8fdcf0cade2f6"
+          }
+        },
+        {
+          "client_id": "795109230334-mcd386d9esn2djq3d3bio1u8k60bq0o8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDhRhhGsGevCcddoPm3qhBdrpi4uKpAIkE"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795109230334-mcd386d9esn2djq3d3bio1u8k60bq0o8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "795109230334-fmrugffuk209g3f57a2kb154js0mefr7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.famibo"
+              }
+            }
+          ]
         }
       }
     }

@@ -10,6 +10,7 @@ import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/team_
 import 'package:famibo/features_1/app_configuration/presentation_1/widgets/calculator.dart';
 import 'package:famibo/features_1/onboarding/domain/user_model.dart';
 import 'package:famibo/features_1/onboarding/onboarding_page.dart';
+import 'package:famibo/firebase_options.dart';
 import 'package:famibo/widget_tree.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,9 @@ void main() async {
   await Hive.openBox<User>("userBox");
   
    WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MyApp());
 }
 

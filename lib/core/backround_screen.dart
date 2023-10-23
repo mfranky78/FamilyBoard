@@ -20,42 +20,75 @@ class BackroundScreen extends StatelessWidget {
             child: LayoutBuilder(builder: (context, constraints) {
               return Stack(
                 children: [
+                  
                 Positioned(
-                    top: constraints.maxHeight * 0.5,
-                    left: constraints.maxWidth * 0.10,
+                    top: constraints.maxHeight * 0.6,
+                    left: constraints.maxWidth * -0.10,
                     child: Container(
                       height: constraints.maxHeight * 0.55,
                       width: constraints.maxWidth * 0.45,
                       decoration: const BoxDecoration(
                           gradient: RadialGradient(
                             colors: [
-                              Color.fromRGBO(89, 99, 236, 1),
-                              Color.fromRGBO(84, 177, 44, 1)
+                              Color.fromRGBO(130, 138, 247, 1),
+                              Color.fromRGBO(51, 115, 24, 1)
                             ],
                             radius: 0.7,
                           ),
-
-                          //color: Colors.red,
-
                           shape: BoxShape.circle),
                     )),
+
+                     Positioned(
+                    top: constraints.maxHeight * 0.34,
+                    left: constraints.maxWidth * 0.29,
+                    child: Container(
+                      height: constraints.maxHeight * 0.55,
+                      width: constraints.maxWidth * 0.65,
+                      decoration: const BoxDecoration(
+                          gradient: RadialGradient(
+                            colors: [
+                              Color.fromRGBO(201, 205, 255, 1),
+                              Color.fromRGBO(44, 57, 177, 1)
+                            ],
+                            radius: 0.7,
+                          ),
+                          shape: BoxShape.circle),
+                    )),
+
+                     Positioned(
+                    top: constraints.maxHeight * 0.19,
+                    left: constraints.maxWidth * 0.09,
+                    child: Container(
+                      height: constraints.maxHeight * 0.55,
+                      width: constraints.maxWidth * 0.45,
+                      decoration: const BoxDecoration(
+                          gradient: RadialGradient(
+                            colors: [
+                              Color.fromRGBO(201, 205, 255, 1),
+                              Color.fromRGBO(148, 44, 177, 1)
+                            ],
+                            radius: 0.7,
+                          ),
+                          shape: BoxShape.circle),
+                    )),
+
                 Positioned(
-                    top: constraints.maxHeight * 0.55,
-                    right: constraints.maxWidth * 0.00,
+                    top: constraints.maxHeight * 0.85,
+                    right: constraints.maxWidth * -0.10,
                     child: Container(
                       height: constraints.maxHeight * 0.15,
                       width: constraints.maxWidth * 0.35,
                       decoration: BoxDecoration(
                           gradient: RadialGradient(
                             colors: [
-                              Colors.red,
-                              const Color.fromARGB(255, 75, 22, 40)
+                              Color.fromARGB(255, 255, 110, 100),
+                              Color.fromARGB(255, 148, 37, 74)
                                   .withOpacity(0.5)
                             ],
                             radius: 0.7,
                           ),
 
-                          // color: Colors.red,
+                   
 
                           shape: BoxShape.circle),
                     )),
@@ -68,13 +101,13 @@ class BackroundScreen extends StatelessWidget {
                       decoration: const BoxDecoration(
                           gradient: RadialGradient(
                             colors: [
-                              Color.fromRGBO(245, 52, 210, 1),
-                              Color.fromRGBO(166, 177, 44, 1)
+                              Color.fromRGBO(255, 201, 245, 1),
+                              Color.fromRGBO(101, 110, 0, 1)
                             ],
                             radius: 0.7,
                           ),
 
-                          //color: Colors.red,
+                       
 
                           shape: BoxShape.circle),
                     )),
@@ -93,7 +126,7 @@ class BackroundScreen extends StatelessWidget {
                             radius: 0.7,
                           ),
 
-                          //color: Colors.red,
+                        
 
                           shape: BoxShape.circle),
 

@@ -2,38 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<<<<<<< HEAD
-        <key>AD_UNIT_ID_FOR_BANNER_TEST</key>
-        <string>ca-app-pub-3940256099942544/2934735716</string>
-        <key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
-        <string>ca-app-pub-3940256099942544/4411468910</string>
-        <key>CLIENT_ID</key>
-        <string>test-do-not-use.apps.googleusercontent.com</string>
-        <key>REVERSED_CLIENT_ID</key>
-        <string>com.googleusercontent.apps.test-do-not-use</string>
-        <key>API_KEY</key>
-        <string>000000000000000000000000000000000000000</string>
-        <key>GCM_SENDER_ID</key>
-        <string>999999999999</string>
-        <key>PLIST_VERSION</key>
-        <string>1</string>
-        <key>BUNDLE_ID</key>
-        <string>com.google.example.BannerExample</string>
-        <key>IS_ADS_ENABLED</key>
-        <true/>
-        <key>IS_ANALYTICS_ENABLED</key>
-        <false/>
-        <key>IS_APPINVITE_ENABLED</key>
-        <false/>
-        <key>IS_GCM_ENABLED</key>
-        <true/>
-        <key>IS_SIGNIN_ENABLED</key>
-        <true/>
-        <key>GOOGLE_APP_ID</key>
-        <string>1:999999999999:ios:0000000000000000</string>
-        <key>DATABASE_URL</key>
-        <string>https://test-do-not-use.firebaseio.com</string>
-=======
+	<key>CLIENT_ID</key>
+	<string>795109230334-fmrugffuk209g3f57a2kb154js0mefr7.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.795109230334-fmrugffuk209g3f57a2kb154js0mefr7</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>795109230334-7u7akv4sifk3klmja94mkrucmt3vq2sq.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBvnDgZKeStMmuIjISY2eyXU4BCAr-8MPQ</string>
 	<key>GCM_SENDER_ID</key>
@@ -58,23 +32,5 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:795109230334:ios:2119a532db14d71cf7c7af</string>
-	<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
-	<!-- Google Sign-in Section -->
-	<key>CFBundleURLTypes</key>
-	<array>
-			<dict>
-					<key>CFBundleTypeRole</key>
-					<string>Editor</string>
-					<key>CFBundleURLSchemes</key>
-					<array>
-							<!-- TODO Replace this value: -->
-							<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-							<string>com.googleusercontent.apps.861823949799-vc35cprkp249096uujjn0vvnmcvjppkn</string>
-					</array>
-			</dict>
-	</array>
-	<!-- End of the Google Sign-in Section -->
->>>>>>> 34792ad73d5b08fb398b6672249a33abd9b26032
 </dict>
 </plist>
-
