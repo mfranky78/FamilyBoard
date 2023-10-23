@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: "/logopage",
       routes: {
     
-        "/imagepicker_profile": (context) =>  ImagePickerProfile(),
+        "/imagepicker_profile": (context) =>  TeamProfileImage(setImage: (String) {  },),
         "/loginpage":(context) =>  const LogInPage(),
         "/MyApp":(context) => const MyApp(),
         "/logopage":(context) => const LogoPage(),

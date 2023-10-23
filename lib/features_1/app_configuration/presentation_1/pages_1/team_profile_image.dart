@@ -1,67 +1,115 @@
+import 'package:famibo/core/backround_screen.dart';
+import 'package:famibo/core/custom_button.dart';
+import 'package:famibo/features_1/app_configuration/presentation_1/widgets/custom_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
+class TeamProfileImage extends StatefulWidget {
+  final Function(String?) setImage;
 
+  const TeamProfileImage({super.key, required this.setImage});
 
-class ImagePickerProfile extends StatefulWidget {
   @override
-  _ImagePickerProfileState createState() => _ImagePickerProfileState();
+  State<TeamProfileImage> createState() => _TeamProfileImageState();
 }
 
-class _ImagePickerProfileState extends State<ImagePickerProfile> {
-  File? _image;
+class _TeamProfileImageState extends State<TeamProfileImage> {
+ 
+  String? avatarImagePath;
 
-  Future getImageFromGallery() async {
-    final imagePicker = ImagePicker();
-    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+  void setAvatarImagePath(imagePath) {
+    avatarImagePath = imagePath ?? "";
   }
-   Future getImageFromCamera() async {
-    final imagePicker = ImagePicker();
-    final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+  void pickImageGallery(ImageSource source) async {
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        avatarImagePath = pickedImage.path;
+      });
+      widget.setImage(avatarImagePath);
+    }
+  }
+    void pickImageCamera(ImageSource source) async {
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (pickedImage != null) {
+      setState(() {
+        avatarImagePath = pickedImage.path;
+      });
+      widget.setImage(avatarImagePath);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Image Picker Example'),
+      appBar: AppBar( 
+        title: const Text('Teamprofil bearbeiten'),       
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Center(
-            child: _image == null
-                ? Text('No image selected.')
-                : Image.file(_image!),
+          BackroundScreen(
+            Column(
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(40.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomImagePicker(
+                          setImage: setAvatarImagePath,
+                        
+                        ),
+                        const SizedBox(height: 40,),
+                        CustomButton(
+                          onTap: () {
+                            pickImageGallery(ImageSource.gallery);
+                          },
+                          text: const Text('Bild aus Galerie auswählen'),
+                          icon: Icons.image,
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        CustomButton(
+                          onTap: () {
+                            pickImageCamera(ImageSource.camera);
+                          },
+                          text: const Text('Foto mit Kamera aufnehmen'),
+                          icon: Icons.camera,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          ElevatedButton(onPressed: getImageFromGallery,
-        
-        child: const Icon(Icons.add_a_photo),),
-        ElevatedButton(onPressed: getImageFromCamera,
-        
-        child: const Icon(Icons.camera_alt),),
+          if (avatarImagePath != null)
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: CustomButton(
+                  onTap: () {
+                    setState(() {
+                      avatarImagePath = null;
+                    });
+                    widget.setImage(null);
+                  },
+                  // selection: 'Image Cancel',
+                  icon: Icons.delete,
+                  text: const Text('Delete'),
+                ),
+              ),
+            ),
         ],
       ),
-     
-      
-      
-       
     );
   }
 }
+      
+       
+ 
