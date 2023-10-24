@@ -68,10 +68,6 @@ class ListPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  CustomButton(
-                      onTap: () {},
-                      icon: Icons.other_houses,
-                      text: const Text('Other')),
                 ],
               ),
             ))
