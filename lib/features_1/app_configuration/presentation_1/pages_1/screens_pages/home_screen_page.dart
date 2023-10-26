@@ -1,11 +1,11 @@
-import 'package:famibo/auth.dart';
+import 'package:famibo/login/auth.dart';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_button_icon.dart';
 import 'package:famibo/core/text_style_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/list_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/my_profile_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/target_page.dart';
+import 'package:famibo/list_todo/list_page.dart';
+import 'package:famibo/my_profile/my_profile_page.dart';
+import 'package:famibo/target/target_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {

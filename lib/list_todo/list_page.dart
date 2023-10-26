@@ -1,7 +1,7 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/shopping_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/tasks_page.dart';
+import 'package:famibo/list_todo/shopping_page.dart';
+import 'package:famibo/list_todo/tasks_page.dart';
 import 'package:flutter/material.dart';
 
 class ListPage extends StatelessWidget {

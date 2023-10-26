@@ -1,12 +1,12 @@
-import 'package:famibo/auth.dart';
+import 'package:famibo/login/auth.dart';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/cutom_button_asset_image.dart';
 import 'package:famibo/core/textfield_button.dart';
 import 'package:famibo/core/textfield_password.dart';
 import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/screens_pages/home_screen_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/screens_pages/password_forget_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/screens_pages/regestration_page.dart';
+import 'package:famibo/login/password_forget_page.dart';
+import 'package:famibo/login/regestration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';

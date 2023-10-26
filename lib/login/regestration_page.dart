@@ -1,5 +1,5 @@
-import 'package:famibo/auth.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/login_page.dart';
+import 'package:famibo/login/auth.dart';
+import 'package:famibo/login/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';

@@ -1,9 +1,8 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/textfield_button.dart';
+import 'package:famibo/login/login_page.dart';
 import 'package:flutter/material.dart';
-
-import 'login_page.dart';
 
 class PasswordForgetPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -31,7 +30,7 @@ class PasswordForgetPage extends StatelessWidget {
                 Navigator.of(context).pop(); // Popup schließen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  const LogInPage()),
+                  MaterialPageRoute(builder: (context) =>  LogInPage()),
                 );
               },
             ),

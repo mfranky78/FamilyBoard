@@ -22,10 +22,10 @@ class CustomButtonSmall extends StatelessWidget {
         child: Row(
           children: [
             GlassmorphicContainer(
-              width: 120,
+              width: 130,
               height: 50,
               borderRadius: 20,
-              blur: 1,
+              blur: 10,
               alignment: Alignment.bottomCenter,
               border: 1,
               linearGradient: LinearGradient(
@@ -50,7 +50,6 @@ class CustomButtonSmall extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(icon),            
-                    const SizedBox(width: 10),
                     text,
                   ],
                 ),

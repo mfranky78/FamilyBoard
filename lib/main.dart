@@ -1,17 +1,15 @@
 
 
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/login_google_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/login_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/logo_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/my_profile_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/my_profile_settings_page.dart';
+import 'package:famibo/login/login_page.dart';
+import 'package:famibo/features_1/onboarding/logo_page.dart';
+import 'package:famibo/my_profile/my_profile_page.dart';
+import 'package:famibo/my_profile/my_profile_settings_page.dart';
 import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/screens_pages/home_screen_page.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/pages_1/team_profile_image.dart';
+import 'package:famibo/team/team_profile_image.dart';
 import 'package:famibo/features_1/app_configuration/presentation_1/widgets/calculator.dart';
 import 'package:famibo/features_1/onboarding/domain/user_model.dart';
 import 'package:famibo/features_1/onboarding/onboarding_page.dart';
 import 'package:famibo/firebase_options.dart';
-import 'package:famibo/widget_tree.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -50,7 +48,7 @@ class _MyAppState extends State<MyApp> {
       ),
       
      
-      home: const WidgetTree(),
+      home: const MyApp(),
       debugShowCheckedModeBanner: false,
       initialRoute: "/logopage",
       routes: {
@@ -59,7 +57,6 @@ class _MyAppState extends State<MyApp> {
         "/loginpage":(context) =>  const LogInPage(),
         "/MyApp":(context) => const MyApp(),
         "/logopage":(context) => const LogoPage(),
-        "/signingoogle":(context) => const SignInDemo(),
         "/onboarding":(context) => const OnboardingPage(),
         "/homescreen": (context) => const HomeScreen(),
         "/myprofile": (context) => const MyProfilePage(),
