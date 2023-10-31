@@ -1,6 +1,6 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
-import 'package:famibo/features_1/app_configuration/presentation_1/widgets/custom_image_picker.dart';
+import 'package:famibo/widgets/custom_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

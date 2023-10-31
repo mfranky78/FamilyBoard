@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class TextfieldButton extends StatefulWidget {
+class TextfieldEmail extends StatefulWidget {
   final String hintText;
  final TextEditingController textController;
-  const TextfieldButton({Key? key, required this.hintText, required  this.textController}) : super(key: key);
+  const TextfieldEmail({Key? key, required this.hintText, required  this.textController}) : super(key: key);
 
   @override
-  State<TextfieldButton> createState() => _TextfieldButtonState();
+  State<TextfieldEmail> createState() => _TextfieldEmailState();
 }
 
-class _TextfieldButtonState extends State<TextfieldButton> {
+class _TextfieldEmailState extends State<TextfieldEmail> {
   @override
   Widget build(BuildContext context) {
     return Padding(

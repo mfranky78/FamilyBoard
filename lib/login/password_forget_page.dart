@@ -1,6 +1,6 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
-import 'package:famibo/core/textfield_button.dart';
+import 'package:famibo/core/textfield_email.dart';
 import 'package:famibo/login/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +62,7 @@ class PasswordForgetPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 40),
-                 TextfieldButton(hintText: 'E-Mail Adresse', textController: _emailController,),
+                 TextfieldEmail(hintText: 'E-Mail Adresse', textController: _emailController,),
                 const SizedBox(height: 160),
                 CustomButton(
                   onTap: () {

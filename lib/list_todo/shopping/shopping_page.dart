@@ -5,32 +5,31 @@ import 'package:famibo/core/textfield_email.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class TaskPage extends StatefulWidget {
-  const TaskPage({super.key});
+class ShoppingPage extends StatefulWidget {
+  const ShoppingPage({super.key});
 
   @override
-  _TaskPageState createState() => _TaskPageState();
+  _ShoppingPageState createState() => _ShoppingPageState();
 }
 
-class _TaskPageState extends State<TaskPage> {
+class _ShoppingPageState extends State<ShoppingPage> {
   String docId = '';
   String todos = '';
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _textEditingController = TextEditingController();
 
-  Future<void> _addTask() async {
-  
+  Future<void> _addShopping() async {
     String todoText = _textEditingController.text;
     if (todoText.isNotEmpty) {
       // hinzufügen zur collection
-      await _firestore.collection('tasks').add({'text': todoText});
+      await _firestore.collection('shoppings').add({'text': todoText});
       _textEditingController.clear();
     }
   }
 
-  Future<void> _deleteTask(String docId) async {
-    final todoCollection = _firestore.collection('tasks');
+  Future<void> _deleteShopping(String docId) async {
+    final todoCollection = _firestore.collection('shoppings');
     // Hier nutzen wir das Dokument-ID anstelle des Index.
     await todoCollection.doc(docId).delete();
   }
@@ -39,7 +38,7 @@ class _TaskPageState extends State<TaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Task List'),
+          title: const Text('Shopping List'),
         ),
         body: Stack(children: [
           BackroundScreen(
@@ -51,15 +50,15 @@ class _TaskPageState extends State<TaskPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Image.asset(
-                      'assets/images/todo_work.png',
+                      'assets/images/market.png',
                       fit: BoxFit.contain,
                     ),
                   ),
                 )),
               ),
-              const Text('Füge Aufgaben hinzu'),
+              const Text('Erstelle eine Liste deiner Einkäufe'),
               TextfieldEmail(
-                hintText: 'Posten hinzufügen',
+                hintText: 'Enter your shopping',
                 textController: _textEditingController,
               ),
               Padding(
@@ -67,7 +66,7 @@ class _TaskPageState extends State<TaskPage> {
                 child: Row(mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     CustomButtonIcon(
-                      onTap: _addTask,
+                      onTap: _addShopping,
                       icon: Icons.add,
                     ),
                   ],
@@ -88,28 +87,31 @@ class _TaskPageState extends State<TaskPage> {
               Expanded(
                 child: StreamBuilder(
                   // daten aus der DB holen
-                  stream: _firestore.collection('tasks').snapshots(),
+                  stream: _firestore.collection('shoppings').snapshots(),
                   builder: ((context, snapshot) {
                     if (!snapshot.hasData) {
                       return const CircularProgressIndicator();
                     }
                     // liste der todos zwischenspeichern
-                    var tasks = snapshot.data?.docs;
+                    var shoppings = snapshot.data?.docs;
                     return ListView.builder(
-                      itemCount: tasks!.length,
+                      itemCount: shoppings!.length,
                       itemBuilder: ((context, index) {
                         // einzelnes todo anlegen
-                        var task = tasks[index];
+                        var shopping = shoppings[index];
                         
-                        return ListTile(
-                          trailing: IconButton(
-                            onPressed: () {
-                              _deleteTask(task.id);
-                            },
-                            icon: const Icon(Icons.delete, size: 30,),
-                          ),
-                          title: Text(
-                            task['text'],style: const TextStyle(fontSize: 30)
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            trailing: IconButton(
+                              onPressed: () {
+                                _deleteShopping(shopping.id);
+                              },
+                              icon: const Icon(Icons.delete),
+                            ),
+                            title: Text(
+                              shopping['text'],
+                            ),
                           ),
                         );
                       }),

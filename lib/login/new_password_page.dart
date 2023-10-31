@@ -1,6 +1,6 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
-import 'package:famibo/core/textfield_button.dart';
+import 'package:famibo/core/textfield_email.dart';
 import 'package:famibo/login/regestration_page.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +25,7 @@ class NewPasswordPage extends StatelessWidget {
                             image: AssetImage("assets/images/new_password.png"),
                             fit: BoxFit.fitWidth))),
                             const SizedBox(height: 40,),
-                 TextfieldButton(hintText: 'E-Mail Adresse', textController: _emailController,),
+                 TextfieldEmail(hintText: 'E-Mail Adresse', textController: _emailController,),
                
                 const Padding(
                   padding: EdgeInsets.fromLTRB(20,0,0,0),
@@ -44,7 +44,7 @@ class NewPasswordPage extends StatelessWidget {
                    Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const RegistrationPage()));
+                                builder: (context) => RegistrationPage()));
                 }, icon: Icons.point_of_sale, text: const Text('Passwort bestätigen'))
               ],
             ))

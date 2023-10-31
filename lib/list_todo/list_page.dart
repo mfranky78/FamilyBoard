@@ -1,6 +1,6 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
-import 'package:famibo/list_todo/shopping_page.dart';
+import 'package:famibo/list_todo/shopping/shopping_page.dart';
 import 'package:famibo/list_todo/tasks_page.dart';
 import 'package:flutter/material.dart';
 

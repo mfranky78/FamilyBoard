@@ -81,8 +81,8 @@ class BackroundScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                           gradient: RadialGradient(
                             colors: [
-                              Color.fromARGB(255, 255, 110, 100),
-                              Color.fromARGB(255, 148, 37, 74)
+                              const Color.fromARGB(255, 255, 110, 100),
+                              const Color.fromARGB(255, 148, 37, 74)
                                   .withOpacity(0.5)
                             ],
                             radius: 0.7,

@@ -4,10 +4,9 @@ import 'package:glassmorphism/glassmorphism.dart';
 class CustomButtonSmall extends StatelessWidget {
   final VoidCallback onTap;
   final IconData icon;
-  
   final Text text;
 
-  CustomButtonSmall({
+   CustomButtonSmall({
     Key? key,
     required this.onTap,
     required this.icon,      
@@ -22,7 +21,7 @@ class CustomButtonSmall extends StatelessWidget {
         child: Row(
           children: [
             GlassmorphicContainer(
-              width: 130,
+              width: 150,
               height: 50,
               borderRadius: 20,
               blur: 10,

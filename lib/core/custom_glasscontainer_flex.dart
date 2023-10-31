@@ -17,22 +17,22 @@ class ContainerGlassFlex extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFFffffff).withOpacity(0.1),
-            const Color(0xFFFFFFFF).withOpacity(0.05),
+            const Color(0xFFffffff).withOpacity(0.06),
+            const Color(0xFFFFFFFF).withOpacity(0.03),
           ],
           stops: const [
             0.1,
             1,
           ],
         ),
-        border: 2,
-        blur: 20,
+        border: 4,
+        blur: 10,
         borderGradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFFffffff).withOpacity(0.5),
-            const Color(0xFFFFFFFF).withOpacity(0.5),
+            const Color(0xFFffffff).withOpacity(0.3),
+            const Color(0xFFFFFFFF).withOpacity(0.3),
           ],
         ),
         child: child, 

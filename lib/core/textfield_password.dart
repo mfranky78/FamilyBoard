@@ -47,8 +47,10 @@ class _TextfieldPasswordState extends State<TextfieldPassword> {
                     },
                   )
                 : null,
+            filled: true,
+            fillColor: const Color.fromARGB(100, 255, 255, 255),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10), 
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),

@@ -1,36 +1,29 @@
-import 'package:famibo/login/auth.dart';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_button_icon.dart';
 import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/list_todo/list_page.dart';
+import 'package:famibo/login/bloc_cubit/auth_cubit.dart';
+import 'package:famibo/login/bloc_cubit/auth_state.dart';
 import 'package:famibo/my_profile/my_profile_page.dart';
 import 'package:famibo/target/target_page.dart';
 import 'package:flutter/material.dart';
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-  
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state){
+        if(state is Authenticated){
+        return Scaffold(
+           appBar: AppBar(
         actions: [
           IconButton(
               onPressed: () {
-                setState(() {
-                  Auth().signOut();
-                });
-                Navigator.pushReplacementNamed(context, "/loginpage");
-              },
+                context.read<AuthCubit>().signOut(context);            
+              },             
               icon: const Icon(
                 Icons.logout,
                 color: Colors.black,
@@ -46,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BackroundScreen(
             Column(
               children: [
-                
                 const SizedBox(
                   height: 10,
                 ),
@@ -109,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 10,
                 ),
 
-                const Text("HomeScreen", style: kTextHeadLine1),
+                Text(state.email, style: kTextHeadLine1),
                 const Text("Team Admin", style: kTextHeadLine2),
                 const SizedBox(
                   height: 20,
@@ -162,7 +154,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 10,
                       ),
                       CustomButton(
-                        onTap: () {},
+                        onTap: () {
+                          
+                        },
                         icon: Icons.map,
                         text: const Text('Map'),
                       ),
@@ -170,7 +164,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 10,
                       ),
                       CustomButton(
-                        onTap: () {},
+                        onTap: () {
+                          print(state);
+                        },
                         icon: Icons.contacts,
                         text: const Text('Contacts'),
                       ),
@@ -209,7 +205,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      
                     ],
                   ),
                 ),
@@ -219,5 +214,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+    }else if (state is AuthLoading) {
+      return Center(child: Text(state.message),);
+      }else{
+          return Text("Das geht so nicht");
+    }
+      },);
   }
 }
+  
+

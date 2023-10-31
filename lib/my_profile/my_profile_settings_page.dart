@@ -1,6 +1,6 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_text_button.dart';
-import 'package:famibo/core/textfield_button.dart';
+import 'package:famibo/core/textfield_email.dart';
 import 'package:flutter/material.dart';
 
 class MyProfileSettings extends StatelessWidget {
@@ -52,13 +52,13 @@ class MyProfileSettings extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                       TextfieldButton(
+                       TextfieldEmail(
                           hintText: 'Konto ID Verifizieren', textController: _verifyController,),
-                       TextfieldButton(
+                       TextfieldEmail(
                           hintText: 'E-Mail Adresse eingeben', textController: _emailController,),
-                            TextfieldButton(
+                            TextfieldEmail(
                           hintText: 'Name eingeben', textController: _textController,),
-                            TextfieldButton(
+                            TextfieldEmail(
                           hintText: 'Geburtsdatum eingeben', textController: _dateTimeController,),
                           const SizedBox(height: 40,),
                         Row(
