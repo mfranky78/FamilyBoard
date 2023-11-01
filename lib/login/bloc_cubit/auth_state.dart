@@ -24,11 +24,12 @@ class AuthLoading  extends AuthState {
 // Zustand, wenn die Authentifizierung erfolgreich ist
 class Authenticated extends AuthState {
   final String email;
+  
  
  
   const Authenticated(
-    
     this.email,
+  
   );
   @override
   List<Object> get props => [email];

@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         darkTheme: ThemeData.dark(
           useMaterial3: true
         ),
-        home:  RoutePage(),
+        home: const RoutePage(),
         debugShowCheckedModeBanner: false,
         
       ),

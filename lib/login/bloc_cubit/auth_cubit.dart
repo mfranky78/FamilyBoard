@@ -34,7 +34,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> singInWithEmailPassword(
       String email, String password, BuildContext context) async {
     try {
-      emit(AuthLoading("Lädt"));
+      emit(const AuthLoading("Lädt"));
       
       var userCredential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -42,13 +42,14 @@ class AuthCubit extends Cubit<AuthState> {
         Authenticated(
           
           userCredential.user!.email.toString(),
+          
         ),
       );
       if (context.mounted) Navigator.pushNamed(context, "/homescreen");
     } on FirebaseAuthException catch (e) {
       emit(AuthError(e.toString()));
     }
-  }
+  } // Mehtode um einen User zu erstellen
  Future<void> createUserWithEmailAndPassword(
   String email, String password, BuildContext context) async {
   try {
@@ -61,20 +62,8 @@ class AuthCubit extends Cubit<AuthState> {
         message: 'E-Mail und Passwort dürfen nicht leer sein',
       );
     }
-
-    var userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-
-    // Benutzer erfolgreich erstellt, hier könnten Sie weiterleiten oder andere Aktionen ausführen.
-    if (context.mounted) {
-      Navigator.pushNamed(context, "/loginpage");
-    }
   } on FirebaseAuthException catch (e) {
     emit(AuthError(e.toString()));
-    
-
   }
 }
 

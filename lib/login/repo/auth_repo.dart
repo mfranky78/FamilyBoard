@@ -31,7 +31,6 @@ class AuthRepository {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-
     return _firebaseAuth.signInWithCredential(credential);
   }
 

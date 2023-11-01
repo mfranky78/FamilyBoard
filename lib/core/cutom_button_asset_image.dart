@@ -8,7 +8,7 @@ class CustomImageButton extends StatelessWidget {
 
   CustomImageButton({
     super.key, 
-     this.image,
+    required this.image,
     required this.onTap,
     required this.text,
   });

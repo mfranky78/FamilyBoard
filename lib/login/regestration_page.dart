@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegistrationPage extends StatelessWidget {
-   RegistrationPage({super.key});
+ RegistrationPage({super.key});
 
   String? errorMessage = '';
 
@@ -58,7 +58,7 @@ class RegistrationPage extends StatelessWidget {
                               _controllerPassword.text,
                               context,
                             );
-                            
+                           Navigator.pushNamed(context, "/loginpage"); 
 
                       }, 
                       icon: Icons.app_registration, 

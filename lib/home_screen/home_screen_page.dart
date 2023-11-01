@@ -12,8 +12,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class HomeScreen extends StatelessWidget {
+
+  
   @override
   Widget build(BuildContext context) {
+    
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state){
         if(state is Authenticated){
@@ -217,7 +220,8 @@ class HomeScreen extends StatelessWidget {
     }else if (state is AuthLoading) {
       return Center(child: Text(state.message),);
       }else{
-          return Text("Das geht so nicht");
+          return const Center(child: Text('Du kannst dich so nicht anmelden'));
+  
     }
       },);
   }
