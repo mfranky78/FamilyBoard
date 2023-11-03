@@ -12,6 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
 
   
   @override
@@ -149,14 +151,6 @@ class HomeScreen extends StatelessWidget {
                         height: 10,
                       ),
                       CustomButton(
-                        onTap: () {},
-                        icon: Icons.food_bank,
-                        text: const Text('Food'),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomButton(
                         onTap: () {
                           
                         },
@@ -168,7 +162,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       CustomButton(
                         onTap: () {
-                          print(state);
+                          
                         },
                         icon: Icons.contacts,
                         text: const Text('Contacts'),
@@ -188,14 +182,6 @@ class HomeScreen extends StatelessWidget {
                         onTap: () {},
                         icon: Icons.school,
                         text: const Text('School'),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomButton(
-                        onTap: () {},
-                        icon: Icons.money,
-                        text: const Text('Money'),
                       ),
                       const SizedBox(
                         height: 10,

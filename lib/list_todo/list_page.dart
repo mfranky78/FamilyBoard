@@ -48,7 +48,7 @@ class ListPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  ShoppingPage()));
+                              builder: (context) =>  const ShoppingPage()));
                     },
                     icon: Icons.shop,
                     text: const Text('Shopping'),

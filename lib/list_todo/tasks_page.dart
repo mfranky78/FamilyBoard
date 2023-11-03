@@ -38,6 +38,7 @@ class _TaskPageState extends State<TaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('Task List'),
         ),
@@ -76,7 +77,7 @@ class _TaskPageState extends State<TaskPage> {
               const SizedBox(
                 width: 20,
               ),
-              const Text('Liste',style: TextStyle(fontSize: 26),),
+              const Text('Liste',style: TextStyle(fontSize: 22),),
               const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Divider(
@@ -109,7 +110,7 @@ class _TaskPageState extends State<TaskPage> {
                             icon: const Icon(Icons.delete, size: 30,),
                           ),
                           title: Text(
-                            task['text'],style: const TextStyle(fontSize: 30)
+                            task['text'],style: const TextStyle(fontSize: 20)
                           ),
                         );
                       }),

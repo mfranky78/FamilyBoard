@@ -19,131 +19,156 @@ class LogInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Stack(children: [
-      BackroundScreen(Center(
-          child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SizedBox(
-                height: 800,
-                child: ContainerGlassFlex(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          'WELCOME',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 26,
-                              letterSpacing: 0.5,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    
-                      Container(
-                        margin: const EdgeInsets.all(16),
-                        child: Column(
-                          children: [
-                            TextfieldEmail(
-                              hintText: 'E-Mail',
-                              textController: _controllerEmail,
-                            ),
-                            TextfieldPassword(
-                              hintText: 'Password',
-                              textController: _controllerPassword,
-                              isPassword: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Align(
-                            alignment: Alignment.centerRight,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, "/passwordforget");
-                              },
-                              child: const Text(
-                                'Forgot Password ?',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            )),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Flexible(
-                        child: Column(
-                          children: [
-                            CustomButton(
-                              onTap: () {
-                                context.read<AuthCubit>().singInWithEmailPassword(
-                                      _controllerEmail.text,
-                                      _controllerPassword.text,
-                                      context,
-                                    );
-                                Navigator.pushNamed(context, "/homescreen");
-                              },
-                              text: const Text('LogIn'),
-                              icon: Icons.login,
-                            ),
-                          
-                        
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text(
-                          '____LogIn with Google Account____',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        CustomImageButton(
-                          image: const AssetImage('assets/images/google.png'),
-                          onTap: () {
-                            context.read<AuthCubit>().signInWithGoogle(context);
-                                        
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ));
-                          },
-                          text: const Text('Sign in with Google'),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Align(
-                              alignment: Alignment.centerRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              RegistrationPage()));
-                                },
-                                child: const Text(
-                                  'Not register yet ? Create Account',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              )),
-                        ),
-                                 ] ),
-                      ), ],
+      BackroundScreen(Padding(
+          padding: const EdgeInsets.fromLTRB(0,30,0,30),
+          child: ContainerGlassFlex(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'WELCOME',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 26,
+                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-              ))))
-    ]));
+              
+                Container(
+                  margin: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      TextfieldEmail(
+                        hintText: 'E-Mail',
+                        textController: _controllerEmail,
+                      ),
+                      TextfieldPassword(
+                        hintText: 'Password',
+                        textController: _controllerPassword,
+                        isPassword: true,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/passwordforget");
+                        },
+                        child: const Text(
+                          'Forgot Password ?',
+                          style: TextStyle(
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      )),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Flexible(
+                  child: Column(
+                    children: [
+                      CustomButton(
+                        onTap: () {
+                          context.read<AuthCubit>().singInWithEmailPassword(
+                                _controllerEmail.text,
+                                _controllerPassword.text,
+                                context,
+                              );
+                          Navigator.pushNamed(context, "/homescreen");
+                        },
+                        text: const Text('LogIn'),
+                        icon: Icons.login,
+                      ),
+                    
+                  
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  const Row(children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Divider(
+                  height: 20,
+                  thickness: 1,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Text(
+              "Log In with Google ",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Divider(
+                  height: 20,
+                  thickness: 1,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ]),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomImageButton(
+                    image: const AssetImage('assets/images/google.png'),
+                    onTap: () {
+                      context.read<AuthCubit>().signInWithGoogle(context);
+                                  
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ));
+                    },
+                    text: const Text('Sign in with Google'),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        RegistrationPage()));
+                          },
+                          child: const Text(
+                            'Not register yet ? Create Account',
+                            style: TextStyle(
+                              fontSize: 14,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        )),
+                  ),
+                           ] 
+                           ),
+                ), 
+                ],
+            ),
+          )
+          )
+          )
+    ]
+    )
+    );
   }
 }

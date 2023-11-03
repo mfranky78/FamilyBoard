@@ -39,23 +39,27 @@ class AuthCubit extends Cubit<AuthState> {
       var userCredential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       emit(
-        Authenticated(
-          
-          userCredential.user!.email.toString(),
-          
+        Authenticated(userCredential.user!.email.toString(),
         ),
       );
       if (context.mounted) Navigator.pushNamed(context, "/homescreen");
     } on FirebaseAuthException catch (e) {
       emit(AuthError(e.toString()));
     }
-  } // Mehtode um einen User zu erstellen
+  } 
+
+  
+  // Mehtode um einen User zu erstellen
  Future<void> createUserWithEmailAndPassword(
   String email, String password, BuildContext context) async {
   try {
     emit(const AuthLoading('Lädt'));
-    
-    if (email.isEmpty || password.isEmpty) {
+    var userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+    emit(Authenticated(userCredential.user!.email.toString()),
+          );
+    if (context.mounted) Navigator.pushNamed(context, "/homescreen");
+   else if (email.isEmpty || password.isEmpty) {
       // Überprüfung durchführen und einen Fehler auslösen, wenn Felder leer sind.
       throw FirebaseAuthException(
         code: 'empty-fields',

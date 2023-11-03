@@ -37,6 +37,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('Shopping List'),
         ),
@@ -80,8 +81,8 @@ class _ShoppingPageState extends State<ShoppingPage> {
                 padding: EdgeInsets.all(16.0),
                 child: Divider(
                   color: Colors.black,
-                  height: 3,
-                  thickness: 2,
+                  height: 1,
+                  thickness: 1,
                 ),
               ),
               Expanded(

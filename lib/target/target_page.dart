@@ -12,22 +12,34 @@ class TargetPage extends StatelessWidget {
        body:  Stack(
         children: [
           BackroundScreen(
-            Column(children: [
-            Image.asset('assets/images/todo.png'),
-           
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomButton(onTap: (){}, icon: Icons.tornado_outlined, text: const Text('Target')),
-            ),
-             Padding(
-               padding: const EdgeInsets.all(8.0),
-               child: CustomButton(onTap: (){}, icon: Icons.tornado_outlined, text: const Text('Add Target')),
-             ),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(children: [
+              Image.asset('assets/images/mytarget2.png'),                        
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CustomButton(onTap: (){}, icon: Icons.tornado_outlined, text: const Text('Score')),
+                child: CustomButton(onTap: (){}, 
+                icon: Icons.tornado_outlined, 
+                text: const Text('Target / Ziele')),
               ),
-          ],))
+               Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: CustomButton(onTap: (){
+                  Navigator.pushNamed(context, "/addtarget");
+                 }, 
+                 icon: Icons.tornado_outlined, 
+                 text: const Text('Add Target / Ziele hinzufügen')),
+               ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomButton(onTap: (){
+                    Navigator.pushNamed(context, "/targetpoint");
+                  }, 
+                  icon: Icons.tornado_outlined, 
+                  text: const Text('Score / erreichte Punkte')),
+                ),
+                        ],),
+            ))
          ],
      ) );
   }

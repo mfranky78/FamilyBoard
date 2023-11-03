@@ -3,7 +3,7 @@ import 'package:famibo/core/text_style_page.dart';
 import 'package:flutter/material.dart';
 
 class MyProfilePage extends StatelessWidget {
-  const MyProfilePage({Key? key}) : super(key: key);
+  const MyProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {

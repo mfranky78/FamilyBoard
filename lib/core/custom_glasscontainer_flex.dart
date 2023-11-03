@@ -25,8 +25,8 @@ class ContainerGlassFlex extends StatelessWidget {
             1,
           ],
         ),
-        border: 4,
-        blur: 10,
+        border: 2,
+        blur: 8,
         borderGradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

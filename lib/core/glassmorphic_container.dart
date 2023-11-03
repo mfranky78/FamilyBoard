@@ -27,6 +27,7 @@ class CustomGlassContainer extends StatelessWidget {
                   color: Colors.white.withOpacity(0.2),
                 ),
                 borderRadius: BorderRadius.circular(10)),
+                
             child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

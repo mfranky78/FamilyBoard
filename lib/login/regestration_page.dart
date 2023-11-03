@@ -51,14 +51,15 @@ class RegistrationPage extends StatelessWidget {
                       textController: _controllerPassword, 
                       isPassword: true),
                     CustomButton(
-                      onTap: (){context
+                      onTap: ()async {
+                        await context
                             .read<AuthCubit>()
                             .createUserWithEmailAndPassword(
                               _controllerEmail.text,
                               _controllerPassword.text,
                               context,
                             );
-                           Navigator.pushNamed(context, "/loginpage"); 
+                           Navigator.pushNamed(context, "/homescreen"); 
 
                       }, 
                       icon: Icons.app_registration, 
