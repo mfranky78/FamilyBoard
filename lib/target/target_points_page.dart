@@ -1,5 +1,6 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/custom_glasscontainer_text.dart';
 import 'package:famibo/core/text_style_page.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -10,6 +11,7 @@ class TargetPointPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('Target Point'),
         ),
@@ -24,17 +26,11 @@ class TargetPointPage extends StatelessWidget {
                         children: [
                           SizedBox(height: 250,width: 250,
                             child: Image.asset('assets/images/child.png')),
-                          Padding(
-                            padding: const EdgeInsets.all(32.0),
-                            child: Container(
-                              height: 50,
-                              width: 250,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white70),
-                              child: const Text('Deine Punkte:',textAlign: TextAlign.center,),
-                            ),
+                          const Padding(
+                            padding: EdgeInsets.all(32.0),
+                            child: Text('Deine Punkte:',textAlign: TextAlign.center,),
                           ),
+                          const GlassContainerFixText(child: Text('Deine Punkte'),),
                           const Text(
                               style: kTextHeadLine2,
                               'Behalte dein Ziel im Auge'),

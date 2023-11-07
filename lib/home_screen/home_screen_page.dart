@@ -143,7 +143,9 @@ class HomeScreen extends StatelessWidget {
                         height: 10,
                       ),
                       CustomButton(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, "/teampage");
+                        },
                         icon: Icons.group,
                         text: const Text('Team'),
                       ),

@@ -1,4 +1,5 @@
 import 'package:famibo/core/backround_screen.dart';
+import 'package:famibo/core/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class MemberInvitationPage extends StatelessWidget {
@@ -8,9 +9,13 @@ class MemberInvitationPage extends StatelessWidget {
   Widget build(BuildContext context) {
    return  Scaffold(
       appBar: AppBar(title: const Text('Member Invitation'),),
-       body: const Stack(
+       body: Stack(
         children: [
-          BackroundScreen(Column())
+          BackroundScreen(Column(children: [
+            Image.asset('assets/images/invite.png'),
+            CustomButton(onTap: (){}, icon: Icons.email, text: const Text('Invitation with E-mail')),
+            CustomButton(onTap: (){}, icon: Icons.link, text: const Text('Invitation about Link')),
+          ],))
          ],
      ) );
   }

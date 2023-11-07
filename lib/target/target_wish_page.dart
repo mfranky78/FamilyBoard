@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:famibo/core/backround_screen.dart';
-import 'package:famibo/core/custom_button.dart';
-import 'package:famibo/core/custom_glasscontainer_fix.dart';
+import 'package:famibo/core/custom_button_icon.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
-import 'package:famibo/core/custom_textfield.dart';
+import 'package:famibo/core/textfield_email.dart';
 import 'package:flutter/material.dart';
 
 class WishPage extends StatefulWidget {
@@ -14,7 +13,7 @@ class WishPage extends StatefulWidget {
 }
 
 class _WishPageState extends State<WishPage> {
-  TextEditingController textController = TextEditingController();
+  
   String docId = '';
   String wishes = '';
 
@@ -25,7 +24,7 @@ class _WishPageState extends State<WishPage> {
     String wishText = _textEditingController.text;
     if (wishText.isNotEmpty) {
       // hinzufügen zur collection
-      await _firestore.collection('wish').add({'text': wishText});
+      await _firestore.collection('wishes').add({'text': wishText});
       _textEditingController.clear();
     }
   }
@@ -47,63 +46,69 @@ class _WishPageState extends State<WishPage> {
           children: [
             BackroundScreen(Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 200,
-                    child: ContainerGlassFlex(
-                        child: Padding(
+              child: ContainerGlassFlex(
+                child: Column(
+                  children: [
+                    Padding(
                       padding: const EdgeInsets.all(18.0),
-                      child: Image.asset('assets/images/child3.png'),
-                    )),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  CustomTextField(
-                    decoration: const InputDecoration(
-                        hintText: 'Dein Wunsch',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        )),
-                    textController: textController,
-                  ),
-                  const Text('Füge deinen Wunsch hinzu'),
-                  Expanded(
-                    child: StreamBuilder(
-                      // daten aus der DB holen
-                      stream: _firestore.collection('wishes').snapshots(),
-                      builder: ((context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const CircularProgressIndicator();
-                        }
-                        // liste der todos zwischenspeichern
-                        var wishes = snapshot.data?.docs;
-                        return ListView.builder(
-                          itemCount: wishes!.length,
-                          itemBuilder: ((context, index) {
-                            // einzelnes todo anlegen
-                            var wish = wishes[index];
-
-                            return ListTile(
-                              trailing: IconButton(
-                                onPressed: () {
-                                  _deleteWish(wish.id);
-                                },
-                                icon: const Icon(
-                                  Icons.delete,
-                                  size: 30,
-                                ),
-                              ),
-                              title: Text(wish['text'],
-                                  style: const TextStyle(fontSize: 20)),
-                            );
-                          }),
-                        );
-                      }),
+                      child: Container(height: 200, 
+                      child: Image.asset('assets/images/child3.png')),
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextfieldEmail(
+                      textController: _textEditingController,
+                       hintText: 'Dein Wunsch', 
+                    ),
+                    Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomButtonIcon(
+                      onTap: _addWish,
+                      icon: Icons.add,
+                    ),
+                  ],
+                ),
+                              ),
+                    const Text('Füge deinen Wunsch hinzu'),
+                    Expanded(
+                      child: StreamBuilder(
+                        // daten aus der DB holen
+                        stream: _firestore.collection('wishes').snapshots(),
+                        builder: ((context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return const CircularProgressIndicator();
+                          }
+                          // liste der todos zwischenspeichern
+                          var wishes = snapshot.data?.docs;
+                          return ListView.builder(
+                            itemCount: wishes!.length,
+                            itemBuilder: ((context, index) {
+                              // einzelnes todo anlegen
+                              var wish = wishes[index];
+                
+                              return ListTile(
+                                trailing: IconButton(
+                                  onPressed: () {
+                                    _deleteWish(wish.id);
+                                  },
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    size: 30,
+                                  ),
+                                ),
+                                title: Text(wish['text'],
+                                    style: const TextStyle(fontSize: 20)),
+                              );
+                            }),
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ))
           ],

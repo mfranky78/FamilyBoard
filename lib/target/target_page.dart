@@ -1,5 +1,6 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
+import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:flutter/material.dart';
 
 class TargetPage extends StatelessWidget {
@@ -14,31 +15,45 @@ class TargetPage extends StatelessWidget {
           BackroundScreen(
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(children: [
-              Image.asset('assets/images/mytarget2.png'),                        
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomButton(onTap: (){}, 
-                icon: Icons.tornado_outlined, 
-                text: const Text('Target / Ziele')),
-              ),
-               Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: CustomButton(onTap: (){
-                  Navigator.pushNamed(context, "/addtarget");
-                 }, 
-                 icon: Icons.tornado_outlined, 
-                 text: const Text('Add Target / Ziele hinzufügen')),
-               ),
+              child: 
+              ContainerGlassFlex(
+                child: Column(children: [
+                Image.asset('assets/images/mytarget2.png'), 
+                const SizedBox(height: 50,),                       
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomButton(onTap: (){
-                    Navigator.pushNamed(context, "/targetpoint");
+                    Navigator.pushNamed(context, "/targetoverview");
                   }, 
-                  icon: Icons.tornado_outlined, 
-                  text: const Text('Score / erreichte Punkte')),
+                  icon: Icons.tornado_rounded, 
+                  text: const Text('Target / Overview')),
                 ),
-                        ],),
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: CustomButton(onTap: (){
+                    Navigator.pushNamed(context, "/addtarget");
+                   }, 
+                   icon: Icons.account_balance_rounded, 
+                   text: const Text('Add Target / Ziele hinzufügen')),
+                 ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomButton(onTap: (){
+                      Navigator.pushNamed(context, "/targetpoint");
+                    }, 
+                    icon: Icons.tornado_outlined, 
+                    text: const Text('Score / erreichte Punkte')),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomButton(onTap: (){
+                      Navigator.pushNamed(context, "/targetsettings");
+                    }, 
+                    icon: Icons.settings,
+                    text: const Text('Target Settings')),
+                  ),
+                          ],),
+              ),
             ))
          ],
      ) );
