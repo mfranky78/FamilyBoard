@@ -2,10 +2,13 @@
 
 
 
+import 'dart:io';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/widgets/custom_image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class TeamProfile extends StatefulWidget {
@@ -25,67 +28,65 @@ class _TeamProfileState extends State<TeamProfile> {
     avatarImagePath = imagePath ?? "";
   }
 
-  void pickImageGallery(ImageSource source) async {
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        avatarImagePath = pickedImage.path;
-      });
-      widget.setImage(avatarImagePath);
+  // void pickImageGallery(ImageSource source) async {
+  //   final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //   if (pickedImage != null) {
+  //     setState(() {
+  //       avatarImagePath = pickedImage.path;
+  //     });
+  //     widget.setImage(avatarImagePath);
+  //   }
+  // }
+
+    File? imageGallery;
+  Future pickImageGallery([ImageSource? imageSource]) async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      //print(image.toString());
+      if (image == null) return;
+      final imageTemp = File(image.path);
+      setState(() => this.imageGallery = imageTemp);
+    } on PlatformException catch (e) {
+      debugPrint('Failed to pick image: $e');
     }
   }
-//   Future<String> uploadImageToFirebaseStorage(String imagePath) async {
-//   FirebaseStorage storage = FirebaseStorage.instance;
-//   Reference storageReference = storage.ref().child('avatars/avatar.jpg'); // Ersetzen Sie 'avatar.jpg' durch den gewünschten Speicherpfad.
 
-//   UploadTask uploadTask = storageReference.putFile(File(imagePath));
-//   TaskSnapshot taskSnapshot = await uploadTask;
-//   String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-
-//   return downloadUrl;
-// }
-// void pickImageGallery(ImageSource gallery) async {
-//   final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-//   if (pickedImage != null) {
-//     setState(() {
-//       avatarImagePath = pickedImage.path;
-//     });
-    
-//     // Hochladen des Bildes in Firebase Storage
-//     String downloadUrl = await uploadImageToFirebaseStorage(avatarImagePath!);
-
-//     // Hier können Sie den Download-URL in Ihrer Firestore-Datenbank speichern oder anders verwenden.
-//     // Zum Speichern in Firestore benötigen Sie die Firebase Firestore-Pakete.
-
-//     widget.setImage(downloadUrl);
-//   }
-// }
-    void pickImageCamera(ImageSource source) async {
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (pickedImage != null) {
-      setState(() {
-        avatarImagePath = pickedImage.path;
-      });
-      widget.setImage(avatarImagePath);
+  //   void pickImageCamera(ImageSource source) async {
+  //   final pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+  //   if (pickedImage != null) {
+  //     setState(() {
+  //       avatarImagePath = pickedImage.path;
+  //     });
+  //     widget.setImage(avatarImagePath);
+  //   }
+  // }
+     File? imageCamera;
+  Future pickImageCamera([ImageSource? camera]) async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      //print(image.toString());
+      if (image == null) return;
+      final imageTemp = File(image.path);
+      setState(() => this.imageCamera = imageTemp);
+    } on PlatformException catch (e) {
+      debugPrint('Failed to pick image: $e');
     }
   }
-  /// Funktion, um ein Bild von der Kamera aufzunehmen und in Firebase Storage hochzuladen
-// Future<void> pickImageCamera(ImageSource camera) async {
-//   final pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
 
-//   if (pickedImage != null) {
-//     // Pfad zum aufgenommenen Bild
-//     String imagePath = pickedImage.path;
+  Future<String> uploadUserImageToStorage(File imageFile, String userId)async{
+    try {
+      Reference storageReference = FirebaseStorage.instance.ref().child("userProfiles/$userId/userImage");
+      TaskSnapshot uploadTask = await storageReference.putFile(imageFile);
 
-//     // Hochladen des Bildes in Firebase Storage
-//     String downloadUrl = await uploadImageToFirebaseStorage(imagePath);
+      String downloadUrl = await uploadTask.ref.getDownloadURL();
 
-//     // Speichern des Download-URLs in Firebase Firestore oder auf andere Weise verwenden
-//     widget.setImage(downloadUrl);
-//   }
-// }
-
-
+      return downloadUrl;
+      
+    } catch (e) {
+      debugPrint(e.toString());
+      return "";
+    }
+  }
 
 @override
 Widget build(BuildContext context) {
@@ -134,20 +135,17 @@ Widget build(BuildContext context) {
         ),
         if (avatarImagePath != null)
           Positioned(
-            bottom: 20,
-            right: 20,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: CustomButton(
-                onTap: () {
-                  setState(() {
-                    avatarImagePath = null;
-                  });
-                  widget.setImage(null);
-                },
-                icon: Icons.delete,
-                text: const Text('Delete'),
-              ),
+            bottom: 50,
+            right: 50,
+            child: CustomButton(
+              onTap: () {
+                setState(() {
+                  avatarImagePath = null;
+                });
+                widget.setImage(null);
+              },
+              icon: Icons.delete,
+              text: const Text('Delete'),
             ),
           ),
       ],

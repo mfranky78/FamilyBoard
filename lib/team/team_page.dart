@@ -24,7 +24,7 @@ class TeamPage extends StatelessWidget {
                 Navigator.pushNamed(context, "/teammemeber");
               }, icon: Icons.group, text: const Text('Team Memeber')),
               CustomButton(onTap: (){
-                Navigator.pushNamed(context, "/imagepicker_profile");
+                Navigator.pushNamed(context, "/teamprofile");
               }, icon: Icons.groups_2, text: const Text('Team Profile')),
               CustomButton(onTap: (){
                 Navigator.pushNamed(context, "/memberinvitation");

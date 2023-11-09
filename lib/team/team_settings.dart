@@ -32,21 +32,25 @@ class _TeamSettingsPageState extends State<TeamSettingsPage> {
                   ),
                   CustomButton(
                       onTap: () {
-                       
+                       Navigator.pushNamed(context, "/teamprofile");
                       },
-                      icon: Icons.abc,
+                      icon: Icons.groups_3,
                       text: const Text('Team Profile')),
                   CustomButton(
-                      onTap: () {},
-                      icon: Icons.abc,
+                      onTap: () {
+                        
+                      },
+                      icon: Icons.groups_2,
                       text: const Text('Team Member')),
                   CustomButton(
-                      onTap: () {},
-                      icon: Icons.abc,
-                      text: const Text('Admin rights')),
+                      onTap: () {
+                        Navigator.pushNamed(context, "/teamadmin");
+                      },
+                      icon: Icons.admin_panel_settings,
+                      text: const Text(' Team Admin rights')),
                   CustomButton(
                       onTap: () {},
-                      icon: Icons.abc,
+                      icon: Icons.cancel,
                       text: const Text('Team Delete')),
                       const SizedBox(height: 50),
                   Center(

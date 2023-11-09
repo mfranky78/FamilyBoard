@@ -1,78 +1,91 @@
-import 'package:famibo/core/backround_screen.dart';
-import 'package:famibo/core/custom_text_button.dart';
-import 'package:famibo/core/textfield_email.dart';
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-class MyProfileSettings extends StatelessWidget {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _verifyController = TextEditingController();
-  final TextEditingController _textController = TextEditingController();
-  final TextEditingController _dateTimeController = TextEditingController();
-   MyProfileSettings({super.key});
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+class MyProfileSettings extends StatefulWidget {
+  const MyProfileSettings({super.key});
+
+  @override
+  _MyProfileSettingsState createState() => _MyProfileSettingsState();
+}
+
+class _MyProfileSettingsState extends State<MyProfileSettings> {
+  final List<File> _selectedImages = []; // Liste zum Speichern der ausgewählten Bilder
+  final picker = ImagePicker();
+  XFile? image;
+
+  Future<void> pickImageGallery() async {
+    final returnedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (returnedImage == null) return;
+    setState(() {
+     
+      _selectedImages.add(File(image!.path)); // Bild zur Liste hinzufügen
+    });
+  }
+    Future<String> uploadUserImageToStorage(File imageFile, String userId)async{
+    try {
+      Reference storageReference = FirebaseStorage.instance.ref().child("userProfiles/$userId/userImage");
+      TaskSnapshot uploadTask = await storageReference.putFile(imageFile);
+
+      String downloadUrl = await uploadTask.ref.getDownloadURL();
+
+      return downloadUrl;
+      
+    } catch (e) {
+      debugPrint(e.toString());
+      return "";
+    }
+  }
+
+  Future pickImageCamera() async {
+    final returnedImage = await picker.pickImage(source: ImageSource.camera);
+    if (returnedImage == null) return;
+    setState(() {
+      _selectedImages.add(File(returnedImage.path)); // Bild zur Liste hinzufügen
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Settings'),
-        ),
-        body:  Stack(children: [
-          BackroundScreen(
-            Column(children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Center(
-                  child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 220,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
-                              image: AssetImage("assets/images/foto1.jpg"),
-                              fit: BoxFit.cover),
-                          color: Colors.white,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 2,
-                              offset: const Offset(5, 5),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                       TextfieldEmail(
-                          hintText: 'Konto ID Verifizieren', textController: _verifyController,),
-                       TextfieldEmail(
-                          hintText: 'E-Mail Adresse eingeben', textController: _emailController,),
-                            TextfieldEmail(
-                          hintText: 'Name eingeben', textController: _textController,),
-                            TextfieldEmail(
-                          hintText: 'Geburtsdatum eingeben', textController: _dateTimeController,),
-                          const SizedBox(height: 40,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomTextButton(text: const Text('Bestätigen'), onTap: (){}),
-                          ],
-                        ),
-                    ],
-                  ),
+      appBar: AppBar(title: const Text('Profile Settings')),
+      body: Stack(
+        children: [
+          ListView.builder(
+            itemCount: _selectedImages.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Image.file(_selectedImages[index]),
+              );
+            },
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 200,
+              color: Colors.blue, // Hintergrundfarbe
+              child: Center(
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: pickImageCamera,
+                      child: const Text('Bild aufnehmen'),
+                    ),
+                    ElevatedButton(
+                      onPressed: pickImageGallery,
+                      child: const Text('Bild auswählen'),
+                    ),
+                  ],
                 ),
               ),
-            ]),
-          )
-        ]));
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
