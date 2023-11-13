@@ -19,6 +19,7 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: 
        Stack(children: [
          BackroundScreen(
@@ -59,7 +60,7 @@ class RegistrationPage extends StatelessWidget {
                               _controllerPassword.text,
                               context,
                             );
-                           Navigator.pushNamed(context, "/homescreen"); 
+                           Navigator.pushNamed(context, "/loginpage"); 
 
                       }, 
                       icon: Icons.app_registration, 

@@ -168,7 +168,9 @@ class HomeScreen extends StatelessWidget {
                           height: 10,
                         ),
                         CustomButton(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, "/settings");
+                          },
                           icon: Icons.settings_applications,
                           text: const Text('Settings'),
                         ),
@@ -176,9 +178,11 @@ class HomeScreen extends StatelessWidget {
                           height: 10,
                         ),
                         CustomButton(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, "/aboutpage");
+                          },
                           icon: Icons.account_box,
-                          text: const Text('Delete Account'),
+                          text: const Text('About'),
                         ),
                         const SizedBox(
                           height: 10,

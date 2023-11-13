@@ -15,6 +15,6 @@ class LogoPage extends StatelessWidget {
             splash: "assets/images/logotext5.png",
             nextScreen: const OnboardingPage(),
             splashTransition: SplashTransition.scaleTransition,
-            backgroundColor: Colors.black87));
+            backgroundColor: Colors.black));
   }
 }

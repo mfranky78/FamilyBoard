@@ -1,8 +1,14 @@
+import 'package:famibo/about/terms_of_business.dart';
+import 'package:famibo/settingsallgemein/allgemeine_settings.dart';
+import 'package:famibo/settingsallgemein/dark_mode.dart';
+import 'package:famibo/settingsallgemein/delete_account.dart';
+import 'package:famibo/about/privat_police.dart';
 import 'package:famibo/home_screen/home_screen_page.dart';
 import 'package:famibo/list_todo/list_page.dart';
 import 'package:famibo/login/login_page.dart';
 import 'package:famibo/login/password_forget_page.dart';
 import 'package:famibo/main.dart';
+import 'package:famibo/about/about_app.dart';
 import 'package:famibo/my_profile/my_profile_page.dart';
 import 'package:famibo/my_profile/my_profile_settings_page.dart';
 import 'package:famibo/onboarding/logo_page.dart';
@@ -23,6 +29,7 @@ import 'package:famibo/widgets/calendar.dart';
 import 'package:famibo/widgets/stundenplan.dart';
 import 'package:flutter/material.dart';
 
+
 class RoutePage extends StatelessWidget {
   const RoutePage({super.key});
 
@@ -30,7 +37,7 @@ class RoutePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       
-      initialRoute: "/loginpage", routes: {
+      initialRoute: "/logopage", routes: {
       
       "/loginpage": (context) =>  LogInPage(),
       "/MyApp": (context) => MyApp(),
@@ -38,7 +45,7 @@ class RoutePage extends StatelessWidget {
       "/onboarding": (context) => const OnboardingPage(),
       "/homescreen": (context) =>  const HomeScreen(),
       "/myprofile": (context) =>  MyProfilePage(),
-      "/myprofilesetting": (context) => MyProfileSettings(),
+      "/myprofilesetting": (context) => const MyProfileSettings(),
       "/calculator": (context) => const Calculator(),
       "/passwordforget": (context) => PasswordForgetPage(),
       "/targetpoint": (context) => const TargetPointPage(),
@@ -55,6 +62,12 @@ class RoutePage extends StatelessWidget {
       "/timetable": (context) => const Timetable(),
       "/listpage": (context) => const ListPage(),
       "/targetpage": (context) => const TargetPage(),
+      "/aboutpage": (context) => const AboutPage(),
+      "/deleteaccount": (context) =>  DeleteAccount(),
+      "/privatpolice": (context) => const PrivatPolicePage(),
+      "/settings": (context) => const SettingsPage(),
+      "/termsofbusiness": (context) => const TermsOfBusiness(),
+      "/darkmode": (context) => const DarkModePage(),
           });
   }
 }

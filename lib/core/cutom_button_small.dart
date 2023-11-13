@@ -21,7 +21,7 @@ class CustomButtonSmall extends StatelessWidget {
         child: Row(
           children: [
             GlassmorphicContainer(
-              width: 150,
+              width: 100,
               height: 50,
               borderRadius: 20,
               blur: 10,

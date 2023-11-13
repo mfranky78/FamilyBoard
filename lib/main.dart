@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           AuthCubit(FirebaseAuth.instance, authRepository, AuthInitial()),
+  
       child: MaterialApp(
         themeMode: ThemeMode.system,
         theme : ThemeData.light(
@@ -37,9 +38,7 @@ class MyApp extends StatelessWidget {
         darkTheme: ThemeData.dark(
           useMaterial3: true
         ),
-        home: const RoutePage(),
-        debugShowCheckedModeBanner: false,
-        
+        home: const RoutePage(),  
       ),
     );
   }
