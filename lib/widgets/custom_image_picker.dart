@@ -1,10 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CustomImagePicker extends StatefulWidget {
-  final Function(String?) setImage;
+ final Function(String?) setImage;
   final String? imagePath;
 
   const CustomImagePicker({super.key, required this.setImage, this.imagePath});
@@ -22,9 +21,19 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
     imagePath = widget.imagePath;
   }
 
-  void selectImage() async {
-    XFile? tempFilePath =
+  void selectImageGallery() async {
+    XFile? tempFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
+    String? tempImagePath = tempFile?.path;
+    setState(() {
+      imagePath = tempImagePath;
+    });
+    widget.setImage(imagePath);
+  }
+
+   void selectImageCamera() async {
+    XFile? tempFilePath =
+        await ImagePicker().pickImage(source: ImageSource.camera);
     String? tempImagePath = tempFilePath?.path;
     setState(() {
       imagePath = tempImagePath;
@@ -34,9 +43,10 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
 
   @override
   Widget build(BuildContext context) {
+    var selectImage;
     return Container(
-      width: MediaQuery.of(context).size.width - 100,
-      height: MediaQuery.of(context).size.width - 100,
+      width: MediaQuery.of(context).size.width - 200,
+      height: MediaQuery.of(context).size.width - 200,
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20))),
       clipBehavior: Clip.hardEdge,

@@ -3,16 +3,25 @@ import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/textfield_email.dart';
 import 'package:famibo/core/textfield_password.dart';
+import 'package:famibo/core/textfield_text.dart';
 import 'package:famibo/login/bloc_cubit/auth_cubit.dart';
+import 'package:famibo/user/user_firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RegistrationPage extends StatelessWidget {
- RegistrationPage({super.key});
+class RegistrationPage extends StatefulWidget {
+ const RegistrationPage({super.key});
 
+  @override
+  State<RegistrationPage> createState() => _RegistrationPageState();
+}
+
+class _RegistrationPageState extends State<RegistrationPage> {
   String? errorMessage = '';
 
   final TextEditingController _controllerEmail = TextEditingController();
+
+final TextEditingController _controllerName = TextEditingController();
 
   final TextEditingController _controllerPassword = TextEditingController();
 
@@ -44,6 +53,9 @@ class RegistrationPage extends StatelessWidget {
                       child: Image.asset('assets/images/regestration_image.png'),
                     ),
                     const SizedBox(height: 40),
+                     TextfieldText(
+                      textController: _controllerName, 
+                      hintText: 'Name',),
                     TextfieldEmail(
                       textController: _controllerEmail, 
                       hintText: 'E-Mail',),
@@ -60,6 +72,7 @@ class RegistrationPage extends StatelessWidget {
                               _controllerPassword.text,
                               context,
                             );
+                            saveUserData(name: _controllerName.text, email:_controllerEmail.text);
                            Navigator.pushNamed(context, "/loginpage"); 
 
                       }, 

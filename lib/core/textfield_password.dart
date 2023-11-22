@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class TextfieldPassword extends StatefulWidget {
   final String hintText;
-  final TextEditingController textController;
+   final TextEditingController textController;
   final bool isPassword;
 
-  const TextfieldPassword({
+   TextfieldPassword({
     Key? key,
     required this.hintText,
     required this.textController,
@@ -26,9 +26,9 @@ class _TextfieldPasswordState extends State<TextfieldPassword> {
       child: SizedBox(
         height: 55,
         child: TextFormField(
-          keyboardType: TextInputType.text,
+          // keyboardType: TextInputType.text,
           controller: widget.textController,
-          obscureText: true,
+          obscureText: !_passwordVisible,
           decoration: InputDecoration(
             labelText: 'Password',
             hintText: widget.hintText,
@@ -38,7 +38,7 @@ class _TextfieldPasswordState extends State<TextfieldPassword> {
                       _passwordVisible
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: Theme.of(context).primaryColorDark,
+                      color: Colors.blueGrey,
                     ),
                     onPressed: () {
                       setState(() {

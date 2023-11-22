@@ -14,13 +14,13 @@ class Timetable extends StatefulWidget {
 class _TimetableState extends State<Timetable> {
   // Hier können Sie Daten für den Stundenplan speichern, z.B. den Stundenplan der Woche.
   List<List<String>> timetableData = [
-    ["Montag", "", "", "", "", ""],
-    ["Dienstag", "", "", "", "", ""],
-    ["Mittwoch", "", "", "", "", ""],
-    ["Donnerstag", "", "", "", "", ""],
-    ["Freitag", "", "", "", "", ""],
-    ["Samstag", "", "", "", "", ""],
-    ["Sonntag", "", "", "", "", ""],
+    ["Montag", "", "", "", "", "","",""],
+    ["Dienstag", "", "", "", "", "","",""],
+    ["Mittwoch", "", "", "", "", "","",""],
+    ["Donnerstag","", "", "", "", "", "",""],
+    ["Freitag", "", "", "", "", "","",""],
+    ["Samstag", "", "", "", "", "","",""],
+    ["Sonntag", "", "", "", "", "","",""],
   ];
 
   void updateEntry(int dayIndex, int hourIndex, String entry) {

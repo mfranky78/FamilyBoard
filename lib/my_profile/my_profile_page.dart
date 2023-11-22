@@ -1,15 +1,51 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
-import 'package:famibo/core/custom_text_button.dart';
-import 'package:famibo/core/textfield_email.dart';
+import 'package:famibo/core/custom_glasscontainer_text.dart';
+import 'package:famibo/core/text_style_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class MyProfilePage extends StatelessWidget {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _verifyController = TextEditingController();
-  final TextEditingController _textController = TextEditingController();
-  final TextEditingController _dateTimeController = TextEditingController();
-   MyProfilePage({super.key});
+class MyProfilePage extends StatefulWidget {
+  @override
+  State<MyProfilePage> createState() => _MyProfilePageState();
+}
+
+class _MyProfilePageState extends State<MyProfilePage> {
+  String? imageUrl;
+  String? name;
+  String? email;
+  String? team;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        DocumentSnapshot userSnapshot =
+            await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+
+        if (userSnapshot.exists) {
+          Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+
+          setState(() {
+            imageUrl = userData['url'];
+            name = userData['name'];
+            email = userData['email'];
+            team = userData['member'];
+          });
+        }
+      }
+    } catch (e) {
+      debugPrint("Fehler beim Abrufen der Benutzerdaten: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,49 +73,18 @@ class MyProfilePage extends StatelessWidget {
                     child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          height: 220,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
-                                image: AssetImage("assets/images/foto1.jpg"),
-                                fit: BoxFit.cover),
-                            color: Colors.white,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 2,
-                                offset: const Offset(5, 5),
-                              ),
-                            ],
+                        SizedBox(
+                            height: 200,
+                            width: 200,
+                            child: imageUrl != null
+                                ? Image.network(imageUrl!)
+                                : Image.asset('assets/images/dogchild.png'),
                           ),
-                        ),
-                        Text('data'),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                         TextfieldEmail(
-                            hintText: 'Konto ID Verifizieren', textController: _verifyController,),
-                         TextfieldEmail(
-                            hintText: 'E-Mail Adresse eingeben', textController: _emailController,),
-                              TextfieldEmail(
-                            hintText: 'Name eingeben', textController: _textController,),
-                              TextfieldEmail(
-                            hintText: 'Geburtsdatum eingeben', textController: _dateTimeController,),
-                            const SizedBox(height: 40,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomTextButton(text: const Text('Bestätigen'), onTap: (){}),
-                            ],
-                          ),
+                        const Text('Persönliche Daten', style: kTextHeadLine6),
+                        const SizedBox(height: 40,),
+                         GlassContainerFixText(child: Text('Name: $name')),
+                          GlassContainerFixText(child: Text('E-Mail: $email')),
+                          GlassContainerFixText(child: Text('Team: $team')),
                       ],
                     ),
                   ),

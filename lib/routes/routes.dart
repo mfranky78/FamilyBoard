@@ -1,6 +1,7 @@
 import 'package:famibo/about/terms_of_business.dart';
+import 'package:famibo/login/regestration_page.dart';
 import 'package:famibo/settingsallgemein/allgemeine_settings.dart';
-import 'package:famibo/settingsallgemein/dark_mode.dart';
+import 'package:famibo/settingsallgemein/darkmode_notifire_riverpod.dart';
 import 'package:famibo/settingsallgemein/delete_account.dart';
 import 'package:famibo/about/privat_police.dart';
 import 'package:famibo/home_screen/home_screen_page.dart';
@@ -22,28 +23,31 @@ import 'package:famibo/team/memeber_invitaion_page.dart';
 import 'package:famibo/team/team_administration.dart';
 import 'package:famibo/team/team_member_page.dart';
 import 'package:famibo/team/team_page.dart';
-import 'package:famibo/team/team_profile.dart';
+import 'package:famibo/team/team_creation.dart';
 import 'package:famibo/team/team_settings.dart';
 import 'package:famibo/widgets/calculator.dart';
 import 'package:famibo/widgets/calendar.dart';
 import 'package:famibo/widgets/stundenplan.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 
-class RoutePage extends StatelessWidget {
+class RoutePage extends ConsumerWidget {
   const RoutePage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
+    @override
+  Widget build(BuildContext context, WidgetRef ref) {
+     final isDarkMode = ref.watch(darkModeProvider);
+
     return MaterialApp(
-      
-      initialRoute: "/logopage", routes: {
+      theme: isDarkMode ? ThemeData.dark(): ThemeData.light(),
+      initialRoute: "/loginpage", routes: {
       
       "/loginpage": (context) =>  LogInPage(),
       "/MyApp": (context) => MyApp(),
       "/logopage": (context) => const LogoPage(),
       "/onboarding": (context) => const OnboardingPage(),
-      "/homescreen": (context) =>  const HomeScreen(),
+      "/homescreen": (context) =>   HomeScreen(),
       "/myprofile": (context) =>  MyProfilePage(),
       "/myprofilesetting": (context) => const MyProfileSettings(),
       "/calculator": (context) => const Calculator(),
@@ -52,11 +56,11 @@ class RoutePage extends StatelessWidget {
       "/addtarget": (context) => const WishPage(),
       "/targetsettings": (context) => TargetSettingsPage(),
       "/targetoverview": (context) => const TargetOverviewPage(),
-      "/teampage": (context) => const TeamPage(),
+      "/teampage": (context) =>  TeamPage(),
       "/teammemeber": (context) => const TeamMemberPage(),
       "/memberinvitation": (context) => const MemberInvitationPage(),
       "/teamsettings": (context) =>  TeamSettingsPage(),
-      "/teamprofile": (context) => TeamProfile(setImage: (String) {},),
+      "/teamcreation": (context) => TeamCreation(setImage: (String) {},),
       "/teamadmin": (context) => const TeamAdminPage(),
       "/mycalendar": (context) => const MyCalendar(),
       "/timetable": (context) => const Timetable(),
@@ -65,9 +69,9 @@ class RoutePage extends StatelessWidget {
       "/aboutpage": (context) => const AboutPage(),
       "/deleteaccount": (context) =>  DeleteAccount(),
       "/privatpolice": (context) => const PrivatPolicePage(),
-      "/settings": (context) => const SettingsPage(),
+      "/settings": (context) =>  const SettingsPage(),
       "/termsofbusiness": (context) => const TermsOfBusiness(),
-      "/darkmode": (context) => const DarkModePage(),
+      "/regestration": (context) => const RegistrationPage(),
           });
   }
 }

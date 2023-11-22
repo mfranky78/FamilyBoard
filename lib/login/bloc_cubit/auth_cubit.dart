@@ -1,5 +1,7 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:famibo/user/user_firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +21,13 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(AuthLoading("Lädt"));
       await _authRepository.loginWithGoogle();
-
+      User? user = FirebaseAuth.instance.currentUser; 
+    if( ! await FirebaseFirestore.instance.collection('users').doc
+    (user!.uid ).get().then((value) => value.exists)) {
+          saveUserData(
+            name: user.displayName ?? 'Noch keinen Namen vergeben', 
+           email: user.email ?? 'E-mail muss noch vergeben werden');
+    }
       emit(Authenticated(
         _authRepository.getCurrentUser()!.email.toString(),
       ));

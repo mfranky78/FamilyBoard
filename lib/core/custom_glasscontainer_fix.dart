@@ -8,9 +8,9 @@ class GlassContainerFix extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassmorphicContainer(
-  width: 350,
-  height: 350,
-  borderRadius: 20,
+  width: 150,
+  height: 50,
+  borderRadius: 10,
   blur: 20,
   alignment: Alignment.bottomCenter,
   border: 2,

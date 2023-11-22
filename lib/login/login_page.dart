@@ -4,9 +4,7 @@ import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/cutom_button_asset_image.dart';
 import 'package:famibo/core/textfield_email.dart';
 import 'package:famibo/core/textfield_password.dart';
-import 'package:famibo/home_screen/home_screen_page.dart';
 import 'package:famibo/login/bloc_cubit/auth_cubit.dart';
-import 'package:famibo/login/regestration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -86,6 +84,7 @@ class LogInPage extends StatelessWidget {
                                 context,
                               );
                           Navigator.pushNamed(context, "/homescreen");
+                          
                         },
                         text: const Text('LogIn'),
                         icon: Icons.login,
@@ -127,11 +126,8 @@ class LogInPage extends StatelessWidget {
                   CustomImageButton(
                     image: const AssetImage('assets/images/google.png'),
                     onTap: () {
-                      context.read<AuthCubit>().signInWithGoogle(context);
-                                  
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
-                      ));
+                      context.read<AuthCubit>().signInWithGoogle(context);         
+                      Navigator.pushNamed(context, "/homescreen");
                     },
                     text: const Text('Sign in with Google'),
                   ),
@@ -144,11 +140,7 @@ class LogInPage extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        RegistrationPage()));
+                            Navigator.pushNamed(context, "/regestration");
                           },
                           child: const Text(
                             'Not register yet ? Create Account',

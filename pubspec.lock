@@ -510,6 +510,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  flutter_hooks:
+    dependency: transitive
+    description:
+      name: flutter_hooks
+      sha256: "7c8db779c2d1010aa7f9ea3fbefe8f86524fcb87b69e8b0af31e1a4b55422dec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.20.3"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -539,6 +547,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.17"
+  flutter_riverpod:
+    dependency: transitive
+    description:
+      name: flutter_riverpod
+      sha256: "49b55e8a467229eedb801bd0864baa7f891c39cc00f790189ba8479e9ad0fa06"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.6"
   flutter_simple_calculator:
     dependency: "direct main"
     description:
@@ -565,6 +581,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  geolocator:
+    dependency: "direct main"
+    description:
+      name: geolocator
+      sha256: e946395fc608842bb2f6c914807e9183f86f3cb787f6b8f832753e5251036f02
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.1.0"
+  geolocator_android:
+    dependency: transitive
+    description:
+      name: geolocator_android
+      sha256: "741579fa6c9e412984d2bdb2fbaa54e3c3f7587c60aeacfe6e058358a11f40f8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.4.0"
+  geolocator_apple:
+    dependency: transitive
+    description:
+      name: geolocator_apple
+      sha256: ab90ae811c42ec2f6021e01eca71df00dee6ff1e69d2c2dafd4daeb0b793f73d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
+  geolocator_platform_interface:
+    dependency: transitive
+    description:
+      name: geolocator_platform_interface
+      sha256: "6c8d494d6948757c56720b778af742f6973f31fca1f702a7539b8917e4a2468a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.0"
+  geolocator_web:
+    dependency: transitive
+    description:
+      name: geolocator_web
+      sha256: "59083f7e0871b78299918d92bf930a14377f711d2d1156c558cd5ebae6c20d58"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
+  geolocator_windows:
+    dependency: transitive
+    description:
+      name: geolocator_windows
+      sha256: a92fae29779d5c6dc60e8411302f5221ade464968fe80a36d330e80a71f087af
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   glassmorphism:
     dependency: "direct main"
     description:
@@ -669,6 +733,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  hooks_riverpod:
+    dependency: "direct main"
+    description:
+      name: hooks_riverpod
+      sha256: "4fee3c75360e353128149df23ed93414477082bb130f9e23723b1a79a54bc6d0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.6"
   html:
     dependency: "direct main"
     description:
@@ -1045,6 +1117,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  riverpod:
+    dependency: "direct main"
+    description:
+      name: riverpod
+      sha256: "01fa385aa5d6db42fd602d8c400c28ae1c83d1fd6fbae1cbf0f4c78bac58d4b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.6"
   rxdart:
     dependency: transitive
     description:
@@ -1146,6 +1226,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
+  state_notifier:
+    dependency: transitive
+    description:
+      name: state_notifier
+      sha256: b8677376aa54f2d7c58280d5a007f9e8774f1968d1fb1c096adcb4792fba29bb
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   stream_channel:
     dependency: transitive
     description:

@@ -2,6 +2,7 @@ import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/custom_glasscontainer_text.dart';
+import 'package:famibo/team/team_firebase_service.dart';
 import 'package:flutter/material.dart';
 
 class TeamSettingsPage extends StatefulWidget {
@@ -49,7 +50,10 @@ class _TeamSettingsPageState extends State<TeamSettingsPage> {
                       icon: Icons.admin_panel_settings,
                       text: const Text(' Team Admin rights')),
                   CustomButton(
-                      onTap: () {},
+                      onTap: () async {
+                   await deleteTeam;
+                      Navigator.of(context).pop();
+                      },
                       icon: Icons.cancel,
                       text: const Text('Team Delete')),
                       const SizedBox(height: 50),

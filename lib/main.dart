@@ -1,5 +1,3 @@
-
-
 import 'package:famibo/login/bloc_cubit/auth_cubit.dart';
 import 'package:famibo/login/bloc_cubit/auth_state.dart';
 import 'package:famibo/login/repo/auth_repo.dart';
@@ -8,16 +6,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'routes/routes.dart';
-
-
 
 void main() async { 
    WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
 );
-  runApp( MyApp());
+  runApp(ProviderScope(child: MyApp(),));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,20 +23,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+        //Bloc Cubit
     return BlocProvider(
       create: (context) =>
           AuthCubit(FirebaseAuth.instance, authRepository, AuthInitial()),
-  
-      child: MaterialApp(
-        themeMode: ThemeMode.system,
-        theme : ThemeData.light(
-          useMaterial3: true,
-        ),
-        darkTheme: ThemeData.dark(
-          useMaterial3: true
-        ),
-        home: const RoutePage(),  
-      ),
+     child:const RoutePage(),    
     );
   }
 }

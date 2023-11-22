@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatefulWidget {
-  String label;
+class TextfieldText extends StatefulWidget {
+  final String hintText;
  final TextEditingController textController;
-   CustomTextField({super.key, 
-  required  this.textController, required this.label,
-  required InputDecoration decoration});
+  const TextfieldText({super.key, required this.hintText, required  this.textController});
 
   @override
-  State<CustomTextField> createState() => _TextfieldButtonState();
+  State<TextfieldText> createState() => _TextfieldTextState();
 }
 
-class _TextfieldButtonState extends State<CustomTextField> {
+class _TextfieldTextState extends State<TextfieldText> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      child: SizedBox(height: 50, width: 250,
+      child: SizedBox(height: 55,
         child: TextField(
           controller: widget.textController,
           decoration: InputDecoration(
-           labelText: widget.label,labelStyle: const TextStyle(fontSize: 14),
-          
+            hintText: widget.hintText, 
            
             filled: true,
             fillColor: const Color.fromARGB(100, 255, 255, 255),

@@ -27,11 +27,13 @@ class AuthRepository {
     if (null == googleUser) throw Exception("Kein Google-Benutzer");
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
-    final OAuthCredential credential = GoogleAuthProvider.credential(
+    final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    return _firebaseAuth.signInWithCredential(credential);
+
+     return _firebaseAuth.signInWithCredential(credential);
+
   }
 
   // Methode zum Abmelden des Benutzers von [Firebase] und [GoogleSignIn]
