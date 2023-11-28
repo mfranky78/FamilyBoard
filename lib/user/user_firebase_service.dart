@@ -8,9 +8,10 @@ import 'package:flutter/material.dart';
 Future<CustomUser?> saveUserData({
   required String name, 
   required String email, 
-  String teamId = '', 
-  String url = '', 
-  String member = '', 
+  String? teamId, 
+  String? url, 
+  String? member,
+  String? uid, 
   }) async {
   try {
     User? user = FirebaseAuth.instance.currentUser;
@@ -27,6 +28,7 @@ Future<CustomUser?> saveUserData({
   } catch (e) {
     debugPrint("Fehler beim Speichern der Benutzerdaten: $e");
   }
+  return null;
 }
 
 Future<void> upDateUserDataUrl({required String url}) async {
@@ -67,3 +69,24 @@ Future<void> upDateUserDataUrl({required String url}) async {
       return null;
     }
   }
+ Future<CustomUser?> getUserDataFromFirebase(String userId) async {
+  print(userId);
+  try {
+    DocumentSnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    print('test1');
+    if (userSnapshot.exists) {
+      
+      Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+      debugPrint('Empfangene Benutzerdaten: $userData');
+      print('testtttt');
+      return CustomUser.fromJson(userData);
+    } else {
+      debugPrint('Der Benutzer wurde nicht in Firestore gefunden');
+      return null; 
+    }
+  } catch (e) {
+    debugPrint("Fehler beim Abrufen der Benutzerdaten: $e");
+    return null;
+  }
+}

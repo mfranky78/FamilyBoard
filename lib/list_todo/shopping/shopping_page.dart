@@ -2,6 +2,7 @@ import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button_icon.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/textfield_email.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,18 +20,33 @@ class _ShoppingPageState extends State<ShoppingPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _textEditingController = TextEditingController();
 
-  Future<void> _addShopping() async {
-    String todoText = _textEditingController.text;
+ Future<void> _addShopping(String uid) async {
+  String todoText = _textEditingController.text;
+
+  try {
     if (todoText.isNotEmpty) {
-      // hinzufügen zur collection
-      await _firestore.collection('shoppings').add({'text': todoText});
+      DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection('users').doc(uid);
+      await userDocRef.collection('shopping').add({
+        'text': todoText,
+      });
       _textEditingController.clear();
+      print('Subcollection "shopping" erfolgreich erstellt.');
+    } else {
+      print('Eingabe ist leer.');
     }
+  } catch (e) {
+    print('Fehler beim Erstellen der Subcollection "shopping": $e');
+  }
+}
+ 
+  String getCurrentUserId() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user?.uid ?? '';
   }
 
   Future<void> _deleteShopping(String docId) async {
-    final todoCollection = _firestore.collection('shoppings');
-    // Hier nutzen wir das Dokument-ID anstelle des Index.
+    final todoCollection = _firestore.collection('users').doc(getCurrentUserId()).collection('shopping');
     await todoCollection.doc(docId).delete();
   }
 
@@ -66,9 +82,12 @@ class _ShoppingPageState extends State<ShoppingPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Row(mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    CustomButtonIcon(
-                      onTap: _addShopping,
-                      icon: Icons.add,
+                  CustomButtonIcon(
+                        onTap: () {
+                          String uid = getCurrentUserId(); 
+                          _addShopping(uid);
+                        },
+                        icon: Icons.add,
                     ),
                   ],
                 ),
@@ -88,7 +107,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
               Expanded(
                 child: StreamBuilder(
                   // daten aus der DB holen
-                  stream: _firestore.collection('shoppings').snapshots(),
+                  stream: _firestore.collection('users').doc(getCurrentUserId()).collection('shopping').snapshots(),
                   builder: ((context, snapshot) {
                     if (!snapshot.hasData) {
                       return const CircularProgressIndicator();
@@ -97,8 +116,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                     var shoppings = snapshot.data?.docs;
                     return ListView.builder(
                       itemCount: shoppings!.length,
-                      itemBuilder: ((context, index) {
-                        // einzelnes todo anlegen
+                      itemBuilder: ((context, index) { 
                         var shopping = shoppings[index];
                         
                         return Padding(
@@ -125,3 +143,4 @@ class _ShoppingPageState extends State<ShoppingPage> {
         ]));
   }
 }
+

@@ -1,14 +1,10 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/textfield_email.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-// class ActivityModel {
-//   String activity;
-//   int points;
-
-//   ActivityModel({required this.activity, required this.points});
-// }
 
 
 class TargetSettingsPage extends StatefulWidget {
@@ -17,7 +13,7 @@ class TargetSettingsPage extends StatefulWidget {
  final String? targetTodo;
  final int? targetSettingPoint;
 
- TargetSettingsPage({super.key, this.targetTodo, this.targetSettingPoint, this.docId});
+ const TargetSettingsPage({super.key, this.targetTodo, this.targetSettingPoint, this.docId});
 
   @override
   _TargetSettingsPageState createState() => _TargetSettingsPageState();
@@ -35,22 +31,38 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
 Future<void> _addTargetTodo() async {
   String targetTodoText = _targetTodoController.text;
   String targetSettingPointText = _pointsController.text;
-  
+  try{
   if (targetTodoText.isNotEmpty && targetSettingPointText.isNotEmpty) {
     int targetSettingPoint = int.parse(targetSettingPointText);
     // Prüfen, ob die Umwandlung erfolgreich war
     if (targetSettingPoint != null) {
       // Hinzufügen zur Collection
-      await _firestore.collection('targetTodo').add({
+       DocumentReference userDocRef =
+       FirebaseFirestore.instance.collection('users').doc(getCurrentUserId());
+      await userDocRef.collection('targetTodo').add({
         'text': targetTodoText,
         'points': targetSettingPoint,
       });
       _targetTodoController.clear();
       _pointsController.clear();
+      debugPrint('Subcollection "targetTodo" erfolgreich erstellt.');
+    } else {
+      debugPrint('Eingabe ist leer.');
     }
+    }
+  } catch (e) {
+    debugPrint('Fehler beim Erstellen der Subcollection "targetTodo": $e');
   }
-}
+  }
+  String getCurrentUserId() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user?.uid ?? '';
+  }
 
+  Future<void> _deleteTask(String docId) async {
+    final todoCollection = _firestore.collection('users').doc(getCurrentUserId()).collection('tasks');
+    await todoCollection.doc(docId).delete();
+  }
 
   @override
   Widget build(BuildContext context) {

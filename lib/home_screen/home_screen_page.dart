@@ -2,19 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
-import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/login/bloc_cubit/auth_cubit.dart';
 import 'package:famibo/login/bloc_cubit/auth_state.dart';
+import 'package:famibo/user/user_firebase_service.dart';
+import 'package:famibo/user/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   final String? imageUrl;
-  final bool? isAdmin;
 
-
-  const HomeScreen({super.key, this.imageUrl, this.isAdmin});
+  HomeScreen({super.key, this.imageUrl});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -31,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
     var url = documentSnapshot['url'];
     return url;
   }
- 
 
   @override
   Widget build(BuildContext context) {
@@ -71,14 +69,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
                                   return const CircularProgressIndicator();
-                                } else if (snapshot.hasError) {
-                                  return Text('Error: ${snapshot.error}');
-                                } else {
+                                }  else {
                                   String? imageUrl = snapshot.data;
-                                  return Image.network(imageUrl!, height: 200, width: 300,fit: BoxFit.cover,);
+                                  return imageUrl != null ? Image.network(
+                                    imageUrl,
+                                    height: 200,
+                                    width: 300,
+                                    fit: BoxFit.cover,
+                                  ) : Image.asset('assets/images/dogchild.png');
                                 }
                               }),
-                              
                         ),
                         Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -86,7 +86,37 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: const TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold)),
                         ),
-                         Text("Teammember is ${widget.isAdmin ?? false ? 'Admin' : 'User'}", style: kTextHeadLine2),
+
+                        FutureBuilder(
+                          future: getUserData(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text(
+                                  'Fehler beim Laden der Benutzerdaten: ${snapshot.error}');
+                            } else {
+                              try {
+                                CustomUser? user = snapshot.data;
+                                if (user != null) {
+                                  return Column(
+                                    children: [
+                                      Text('Benutzer: ${user.name}'),
+                                      // Weitere Anzeigen für andere Benutzerdaten
+                                    ],
+                                  );
+                                } else {
+                                  return const Text('Benutzer nicht gefunden');
+                                }
+                              } catch (error) {
+                                return Text(
+                                    'Fehler beim Verarbeiten der Benutzerdaten: $error');
+                              }
+                            }
+                          },
+                        ),
+
                         const SizedBox(
                           height: 20,
                         ),

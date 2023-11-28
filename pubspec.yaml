@@ -49,6 +49,7 @@ dependencies:
   riverpod: ^2.4.6
   hooks_riverpod: ^2.4.6
   geolocator: ^10.1.0
+  url_launcher: ^6.2.1
   
 
 dev_dependencies:

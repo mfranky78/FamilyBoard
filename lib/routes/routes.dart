@@ -63,7 +63,7 @@ class RoutePage extends ConsumerWidget {
       "/teamcreation": (context) => TeamCreation(setImage: (String) {},),
       "/teamadmin": (context) => const TeamAdminPage(),
       "/mycalendar": (context) => const MyCalendar(),
-      "/timetable": (context) => const Timetable(),
+      "/timetable": (context) =>  const MultipleTimetables(),
       "/listpage": (context) => const ListPage(),
       "/targetpage": (context) => const TargetPage(),
       "/aboutpage": (context) => const AboutPage(),

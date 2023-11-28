@@ -1,70 +1,242 @@
-import 'package:famibo/core/backround_screen.dart';
-import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
-
-class Timetable extends StatefulWidget {
-  const Timetable({super.key});
+class MultipleTimetables extends StatefulWidget {
+  const MultipleTimetables({Key? key}) : super(key: key);
 
   @override
-  _TimetableState createState() => _TimetableState();
+  _MultipleTimetablesState createState() => _MultipleTimetablesState();
 }
 
-class _TimetableState extends State<Timetable> {
-  // Hier können Sie Daten für den Stundenplan speichern, z.B. den Stundenplan der Woche.
-  List<List<String>> timetableData = [
-    ["Montag", "", "", "", "", "","",""],
-    ["Dienstag", "", "", "", "", "","",""],
-    ["Mittwoch", "", "", "", "", "","",""],
-    ["Donnerstag","", "", "", "", "", "",""],
-    ["Freitag", "", "", "", "", "","",""],
-    ["Samstag", "", "", "", "", "","",""],
-    ["Sonntag", "", "", "", "", "","",""],
-  ];
-
-  void updateEntry(int dayIndex, int hourIndex, String entry) {
-    setState(() {
-      timetableData[dayIndex][hourIndex] = entry;
-    });
-  }
+class _MultipleTimetablesState extends State<MultipleTimetables> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  List<String> personNames = [];
+  String currentPerson = "";
+  Map<String, List<List<String>>> timetableData = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Stundenplan'),
+        title: const Text('Multiple Timetables'),
       ),
-      body: BackroundScreen(
-        ContainerGlassFlex(
-          child: Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ListView.builder(
-                itemCount: timetableData.length,
-                itemBuilder: (context, index) {
-                  final dayData = timetableData[index];
-                  return DayTimetable(
-                    dayData: dayData,
-                    onEntryUpdate: (entry, hourIndex) {
-                      updateEntry(index, hourIndex, entry);
-                    },
-                  );
-                },
-              ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _addPerson(context);
+                  },
+                  child: const Text('Person hinzufügen'),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Wrap(
+                    children: [
+                      for (String personName in personNames)
+                        ElevatedButton(
+                          onPressed: () async {
+                            await _loadTimetableData(personName);
+                            setState(() {
+                              currentPerson = personName;
+                            });
+
+                            // Hier die Funktion aufrufen, um die Daten an Firebase zu senden
+                            await _savePersonData(personName, timetableData[personName] ?? []);
+                          },
+                          child: Text(personName),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ),
+            const SizedBox(height: 16),
+            if (currentPerson.isNotEmpty)
+              Expanded(
+                child: Timetable(
+                  personName: currentPerson,
+                  timetableData: timetableData[currentPerson] ?? [],
+                  onUpdate: (day, hour, text) {
+                   
+                  },
+                ),
+              ),
+          ],
         ),
-   ) );
+      ),
+    );
+  }
+
+  Future<void> _addPerson(BuildContext context) async {
+    TextEditingController controller = TextEditingController();
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Neue Person hinzufügen'),
+          content: TextField(
+            controller: controller,
+            decoration: const InputDecoration(labelText: 'Name der Person'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Abbrechen'),
+            ),
+            TextButton(
+              onPressed: () async {
+                final newPersonName = controller.text;
+                if (newPersonName.isNotEmpty) {
+                  setState(() {
+                    personNames.add(newPersonName);
+                    currentPerson = newPersonName;
+                    timetableData[currentPerson] = [];
+                  });
+
+                  await _savePersonData(newPersonName, timetableData[currentPerson] ?? []);
+                }
+
+                Navigator.of(context).pop();
+              },
+              child: const Text('Hinzufügen'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _addTimetableEntry(String personName, String day, int hour, String text) async {
+    final entry = [day, hour.toString(), text];
+
+    setState(() {
+      timetableData[personName]?.add(entry);
+    });
+
+    await _savePersonData(personName, timetableData[personName] ?? []);
+  }
+
+  Future<void> _savePersonData(String personName, List<List<String>> timetableEntries) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(getCurrentUserId())
+          .collection('persons')
+          .doc(personName)
+          .set({
+        'timetableData': timetableEntries.map((entry) {
+          return {
+            'day': entry[0],
+            'hour': entry[1],
+            'text': entry[2],
+          };
+        }).toList(),
+      });
+    } catch (e) {
+      debugPrint("Fehler beim Speichern der Personendaten: $e");
+    }
+  }
+
+  String getCurrentUserId() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user?.uid ?? '';
+  }
+
+  Future<void> _deletePerson(String personName) async {
+    await _firestore
+        .collection('users')
+        .doc(getCurrentUserId())
+        .collection('persons')
+        .doc(personName)
+        .delete();
+    setState(() {
+      personNames.remove(personName);
+      timetableData.remove(personName);
+    });
+  }
+
+  Future<void> _loadTimetableData(String personName) async {
+    try {
+      DocumentSnapshot snapshot = await _firestore
+          .collection('users')
+          .doc(getCurrentUserId())
+          .collection('persons')
+          .doc(personName)
+          .get();
+      if (snapshot.exists) {
+        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+
+        if (data != null && data.containsKey('timetableData')) {
+          List<List<String>> loadedTimetableData =
+              List<List<String>>.from(data['timetableData']
+                  .map((entry) => [
+                        entry['day'].toString(),
+                        entry['hour'].toString(),
+                        entry['text'].toString(),
+                      ]));
+          print('Loaded Timetable Data: $loadedTimetableData');
+
+          // Hier können Sie die geladenen Daten für die Anzeige verwenden.
+          setState(() {
+            timetableData[personName] = loadedTimetableData;
+          });
+        }
+      }
+    } catch (e) {
+      debugPrint("Fehler beim Laden der Personendaten: $e");
+    }
+  }
+}
+
+class Timetable extends StatelessWidget {
+  final String personName;
+  final List<List<String>> timetableData;
+  final Function(String, int, String) onUpdate;
+
+  const Timetable({
+    Key? key,
+    required this.personName,
+    required this.timetableData,
+    required this.onUpdate,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        for (int i = 1; i <= 7; i++)
+          DayTimetable(
+            day: 'Tag $i',
+            personName: personName,
+            timetableData: timetableData,
+            onUpdate: onUpdate,
+          ),
+      ],
+    );
   }
 }
 
 class DayTimetable extends StatelessWidget {
-  final List<String> dayData;
-  final Function(String, int) onEntryUpdate;
+  final String day;
+  final String personName;
+  final List<List<String>> timetableData;
+  final Function(String, int, String) onUpdate;
 
-  const DayTimetable({super.key, required this.dayData, required this.onEntryUpdate});
+  const DayTimetable({
+    Key? key,
+    required this.day,
+    required this.personName,
+    required this.timetableData,
+    required this.onUpdate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,32 +244,45 @@ class DayTimetable extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          dayData[0], // Wochentag
+          day,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        for (int i = 1; i < dayData.length; i++) ...[
+        for (int i = 1; i <= 8; i++)
           Row(
             children: [
               Expanded(
                 child: Text(
-                  'Stunde ${i}',
+                  'Stunde $i',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               Expanded(
-                flex: 1,
+                flex: 2,
                 child: TextFormField(
-                  initialValue: dayData[i],
+                  initialValue: _getTimetableEntry(personName, day, i),
                   onChanged: (entry) {
-                    onEntryUpdate(entry, i);
+                    onUpdate(day, i, entry);
                   },
                 ),
-           ), ],
-     ), ],
-                  ],
-    
-       // Trennlinie zwischen den Tagen
-      
+              ),
+            ],
+          ),
+      ],
     );
   }
+
+  String _getTimetableEntry(String personName, String day, int hour) {
+    // Überprüfen, ob timetableData nicht null ist und personName enthält
+    if (timetableData != null && timetableData.isNotEmpty) {
+      // Überprüfen, ob ein Eintrag für den Tag und die Stunde vorhanden ist
+      final entry = timetableData.firstWhere(
+        (entry) => entry[0] == day && entry[1] == hour.toString(),
+        orElse: () => ['', '', ''],
+      );
+      // Wenn ein Eintrag vorhanden ist, gib den Text zurück
+      return entry[2];
+    }
+    return '';
+  }
+  
 }

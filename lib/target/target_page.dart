@@ -18,7 +18,10 @@ class TargetPage extends StatelessWidget {
               child: 
               ContainerGlassFlex(
                 child: Column(children: [
-                Image.asset('assets/images/mytarget2.png'), 
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Image.asset('assets/images/mytarget2.png'),
+                ), 
                 const SizedBox(height: 50,),                       
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -34,7 +37,7 @@ class TargetPage extends StatelessWidget {
                     Navigator.pushNamed(context, "/addtarget");
                    }, 
                    icon: Icons.account_balance_rounded, 
-                   text: const Text('Add Target / Ziele hinzufügen')),
+                   text: const Text('Add Wishes')),
                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

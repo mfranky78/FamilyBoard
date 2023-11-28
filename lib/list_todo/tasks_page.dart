@@ -2,6 +2,7 @@ import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button_icon.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/textfield_email.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,19 +20,32 @@ class _TaskPageState extends State<TaskPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _textEditingController = TextEditingController();
 
-  Future<void> _addTask() async {
-  
-    String todoText = _textEditingController.text;
+Future<void> _addTask(String uid) async {
+  String todoText = _textEditingController.text;
+   try {
     if (todoText.isNotEmpty) {
-      // hinzufügen zur collection
-      await _firestore.collection('tasks').add({'text': todoText});
+      DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection('users').doc(uid);
+      await userDocRef.collection('tasks').add({
+        'text': todoText,
+      });
       _textEditingController.clear();
+      debugPrint('Subcollection "tasks" erfolgreich erstellt.');
+    } else {
+      debugPrint('Eingabe ist leer.');
     }
+  } catch (e) {
+    debugPrint('Fehler beim Erstellen der Subcollection "tasks": $e');
+  }
+}
+
+  String getCurrentUserId() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user?.uid ?? '';
   }
 
   Future<void> _deleteTask(String docId) async {
-    final todoCollection = _firestore.collection('tasks');
-    // Hier nutzen wir das Dokument-ID anstelle des Index.
+    final todoCollection = _firestore.collection('users').doc(getCurrentUserId()).collection('tasks');
     await todoCollection.doc(docId).delete();
   }
 
@@ -67,9 +81,12 @@ class _TaskPageState extends State<TaskPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Row(mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    CustomButtonIcon(
-                      onTap: _addTask,
-                      icon: Icons.add,
+                   CustomButtonIcon(
+                        onTap: () {
+                          String uid = getCurrentUserId(); 
+                          _addTask(uid);
+                        },
+                        icon: Icons.add,
                     ),
                   ],
                 ),
@@ -89,19 +106,17 @@ class _TaskPageState extends State<TaskPage> {
               Expanded(
                 child: StreamBuilder(
                   // daten aus der DB holen
-                  stream: _firestore.collection('tasks').snapshots(),
+                  stream: _firestore.collection('users').doc(getCurrentUserId()).collection('tasks').snapshots(),
                   builder: ((context, snapshot) {
                     if (!snapshot.hasData) {
                       return const CircularProgressIndicator();
                     }
-                    // liste der todos zwischenspeichern
                     var tasks = snapshot.data?.docs;
                     return ListView.builder(
                       itemCount: tasks!.length,
                       itemBuilder: ((context, index) {
                         // einzelnes todo anlegen
-                        var task = tasks[index];
-                        
+                        var task = tasks[index];  
                         return ListTile(
                           trailing: IconButton(
                             onPressed: () {

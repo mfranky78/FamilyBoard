@@ -71,12 +71,13 @@ Future<void> upDateTeamDataUrl({required String url, required String teamName}) 
   }
 }
 
-  Future<CustomTeam?> getTeamData(String s) async {
+  Future<CustomTeam?> getTeamData() async {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   try {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
+      
       DocumentSnapshot userSnapshot =
           await _firestore.collection('users').doc(user.uid).get();
 
@@ -90,7 +91,7 @@ Future<void> upDateTeamDataUrl({required String url, required String teamName}) 
 
           if (teamSnapshot.exists) {
             Map<String, dynamic> teamData = teamSnapshot.data() as Map<String, dynamic>;
-            return CustomTeam.fromJson(teamData);
+            return CustomTeam.fromJson(teamData, teamId);
           } else {
             debugPrint('Das Team wurde nicht in Firestore gefunden');
             return null; 
@@ -151,10 +152,28 @@ Future<String?> getTeamIdForUser(String uid) async {
     if (teamSnapshot.docs.isNotEmpty) {
       return teamSnapshot.docs.first.id;
     } else {
-      return null; // Der Benutzer gehört zu keinem Team
+      return 'Benutzer hat noch kein Team'; 
     }
   } catch (e) {
     debugPrint("Fehler beim Abrufen der Team-ID für den Benutzer: $e");
+    return 'Fehler TeamId';
+  }
+}
+
+Future<CustomTeam?> getTeamDataFromFirebase(String teamId) async {
+  try {
+    DocumentSnapshot teamSnapshot =
+        await FirebaseFirestore.instance.collection('teams').doc(teamId).get();
+
+    if (teamSnapshot.exists) {
+      Map<String, dynamic> teamData = teamSnapshot.data() as Map<String, dynamic>;
+      return CustomTeam.fromJson(teamData, teamId);
+    } else {
+      debugPrint('Das Team wurde nicht in Firestore gefunden');
+      return null; 
+    }
+  } catch (e) {
+    debugPrint("Fehler beim Abrufen der Teamdaten: $e");
     return null;
   }
 }

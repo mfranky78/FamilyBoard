@@ -3,6 +3,7 @@ import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button_icon.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/textfield_email.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class WishPage extends StatefulWidget {
@@ -13,25 +14,38 @@ class WishPage extends StatefulWidget {
 }
 
 class _WishPageState extends State<WishPage> {
-  
   String docId = '';
   String wishes = '';
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _textEditingController = TextEditingController();
 
-  Future<void> _addWish() async {
-    String wishText = _textEditingController.text;
+ Future<void> _addWish(String uid) async {
+  String wishText = _textEditingController.text;
+   try {
     if (wishText.isNotEmpty) {
-      // hinzufügen zur collection
-      await _firestore.collection('wishes').add({'text': wishText});
+      DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection('users').doc(uid);
+      await userDocRef.collection('wishes').add({
+        'text': wishText,
+      });
       _textEditingController.clear();
+      debugPrint('Subcollection "wishes" erfolgreich erstellt.');
+    } else {
+      debugPrint('Eingabe ist leer.');
     }
+  } catch (e) {
+    debugPrint('Fehler beim Erstellen der Subcollection "wishes": $e');
+  }
+}
+
+  String getCurrentUserId() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user?.uid ?? '';
   }
 
   Future<void> _deleteWish(String docId) async {
-    final wishCollection = _firestore.collection('wishes');
-    // Hier nutzen wir das Dokument-ID anstelle des Index.
+    final wishCollection = _firestore.collection('users').doc(getCurrentUserId()).collection('wishes');
     await wishCollection.doc(docId).delete();
   }
 
@@ -51,7 +65,7 @@ class _WishPageState extends State<WishPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(18.0),
-                      child: Container(height: 200, 
+                      child: SizedBox(height: 200, 
                       child: Image.asset('assets/images/child3.png')),
                     ),
                     const SizedBox(
@@ -65,9 +79,12 @@ class _WishPageState extends State<WishPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Row(mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    CustomButtonIcon(
-                      onTap: _addWish,
-                      icon: Icons.add,
+                   CustomButtonIcon(
+                        onTap: () {
+                          String uid = getCurrentUserId(); 
+                          _addWish(uid);
+                        },
+                        icon: Icons.add,
                     ),
                   ],
                 ),
@@ -76,7 +93,7 @@ class _WishPageState extends State<WishPage> {
                     Expanded(
                       child: StreamBuilder(
                         // daten aus der DB holen
-                        stream: _firestore.collection('wishes').snapshots(),
+                         stream: _firestore.collection('users').doc(getCurrentUserId()).collection('wishes').snapshots(),
                         builder: ((context, snapshot) {
                           if (!snapshot.hasData) {
                             return const CircularProgressIndicator();
