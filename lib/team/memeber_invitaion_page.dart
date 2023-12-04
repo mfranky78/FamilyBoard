@@ -2,10 +2,9 @@ import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/team/team_firebase_service.dart';
 import 'package:famibo/team/team_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-// ... (deine anderen Import-Anweisungen)
 
 class MemberInvitationPage extends StatefulWidget {
   const MemberInvitationPage({super.key});
@@ -15,14 +14,56 @@ class MemberInvitationPage extends StatefulWidget {
 }
 
 class _MemberInvitationPageState extends State<MemberInvitationPage> {
-  String teamId = '';
+  String? teamId = '';
   TextEditingController emailController = TextEditingController();
+  TextEditingController teamIdController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     fetchTeamId();
   }
+ Future<void> _showJoinTeamDialog() async {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Einem Team beitreten'),
+        content: TextField(
+          controller: teamIdController,
+          decoration: const InputDecoration(
+            labelText: 'Team-ID',
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Abbrechen'),
+          ),
+          TextButton(
+            onPressed: () async {
+              String teamId = teamIdController.text ?? '';
+
+              if (teamId.isNotEmpty) {
+                // Direkt die Funktion aufrufen, um dem Team beizutreten
+                await joinTeamManually(FirebaseAuth.instance.currentUser!.uid, teamId);
+              } else {
+                debugPrint('Ungültige Team-ID');
+              }
+              Navigator.of(context).pop();
+            },
+            child: const Text('Beitreten'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
+
 
   Future<void> fetchTeamId() async {
     try {
@@ -40,33 +81,26 @@ class _MemberInvitationPageState extends State<MemberInvitationPage> {
     }
   }
 
- void sendEmail() async {
-  final String email = emailController.text;
-
-  if (email.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Bitte geben Sie eine E-Mail-Adresse ein.'),
-      ),
+  Future<void> sendEmailInvitation(String? email, String? teamId) async {
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: email,
+      queryParameters: {
+        'subject': 'Einladung zum Team',
+        'body': 'Du wurdest zu unserem Team eingeladen! Team-ID: $teamId',
+      },
     );
-    return;
-  }
 
-  final Uri emailLaunchUri = Uri(
-    scheme: 'mailto',
-    path: email,
-    queryParameters: {
-      'subject': 'Einladung zum Team',
-      'body': 'Du wurdest zu unserem Team eingeladen! Team-ID: $teamId',
-    },
-  );
-
-  if (await canLaunch(emailLaunchUri.toString())) {
-    await launch(emailLaunchUri.toString());
-  } else {
-    debugPrint('Fehler beim Öffnen der E-Mail-Anwendung');
+    try {
+      if (await canLaunch(emailLaunchUri.toString())) {
+        await launch(emailLaunchUri.toString());
+      } else {
+        debugPrint('Fehler beim Öffnen der E-Mail-Anwendung');
+      }
+    } catch (e) {
+      debugPrint('Fehler beim Starten der E-Mail-Anwendung: $e');
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -93,18 +127,16 @@ class _MemberInvitationPageState extends State<MemberInvitationPage> {
                   ),
                 ),
                 CustomButton(
-                  onTap: sendEmail,
+                  onTap: () => sendEmailInvitation(emailController.text, teamId),
                   icon: Icons.email,
                   text: const Text('Invitation with E-mail'),
-                  
                 ),
-                
                 CustomButton(
-                  onTap: () {
-                    // Logik für Link-Einladung hier einfügen
-                  },
+                  onTap: () => _showJoinTeamDialog(),
+                    
+                  
                   icon: Icons.link,
-                  text: const Text('Invitation about Link'),
+                  text: const Text('Join about TeamId'),
                 ),
               ],
             ),

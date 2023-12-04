@@ -10,7 +10,7 @@ Future<CustomUser?> saveUserData({
   required String email, 
   String? teamId, 
   String? url, 
-  String? member,
+  String? members,
   String? uid, 
   }) async {
   try {
@@ -21,7 +21,7 @@ Future<CustomUser?> saveUserData({
     'name': name,
     'email': email,
     'url' : url,
-    'member' : member,
+    'members' : members,
     'teamId': teamId,
       });
     }
@@ -79,7 +79,7 @@ Future<void> upDateUserDataUrl({required String url}) async {
       
       Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
       debugPrint('Empfangene Benutzerdaten: $userData');
-      print('testtttt');
+     
       return CustomUser.fromJson(userData);
     } else {
       debugPrint('Der Benutzer wurde nicht in Firestore gefunden');

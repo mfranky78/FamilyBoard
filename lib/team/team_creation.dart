@@ -122,7 +122,7 @@ class _TeamCreationState extends State<TeamCreation> {
                                           image!,
                                           FirebaseAuth
                                               .instance.currentUser!.uid);
-                                  await upDateTeamDataUrl(url: imageStorageUrl, teamName: teamName); 
+                                  await updateTeamData(url: imageStorageUrl, teamName: teamName); 
                                   await createTeam(
                                     FirebaseAuth.instance.currentUser!.uid,
                                     teamName, 
