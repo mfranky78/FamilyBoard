@@ -13,14 +13,12 @@ Future<void> joinTeamManually(String uid, String teamId) async {
 
     if (teamSnapshot.exists) {
           print('Team Snapshot: ${teamSnapshot.data()}');
-
       // Teammitgliedschaft überprüfen und Benutzer hinzufügen
       CustomTeam team = CustomTeam.fromJson(
         teamSnapshot.data() as Map<String, dynamic>,
         teamId,
       );
       team.addMember(uid);
-
       // Konvertiere das aktualisierte Team in ein Map-Objekt
       Map<String, dynamic> updatedTeamData = team.customTeamToJson();
 
@@ -28,7 +26,6 @@ Future<void> joinTeamManually(String uid, String teamId) async {
       await FirebaseFirestore.instance.collection('teams').doc(teamId).update(
         updatedTeamData,
       );
-
       // Benutzerdokument aktualisieren, um die Team-ID zu speichern
       await FirebaseFirestore.instance.collection('users').doc(uid).update({
         'teamId': teamId,
@@ -156,29 +153,15 @@ Future<void> updateTeamData({String? teamName, String members = '', bool? admin,
   }
 }
 
-// Future<void> upDateTeamDataUrl({required String url, required String teamName}) async {
-//   try {
-//     User? user = FirebaseAuth.instance.currentUser;
-//     if (FirebaseAuth.instance.currentUser != null) {
-//       await FirebaseFirestore.instance.collection('teams').doc(user!.uid).update({
-//     'url' : url,
-//     'teamName': teamName,
-//       });
-//     }
-//   } catch (e) {
-//     debugPrint("Fehler beim Speichern der Benutzerdaten: $e");
-//   }
-// }
 
-   Future<CustomTeam?> getTeamData() async {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<CustomTeam?> getTeamData() async {
   try {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      
       DocumentSnapshot userSnapshot =
-          await _firestore.collection('users').doc(user.uid).get();
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
 
       if (userSnapshot.exists) {
         Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
@@ -186,11 +169,14 @@ Future<void> updateTeamData({String? teamName, String members = '', bool? admin,
 
         if (teamId != null) {
           DocumentSnapshot teamSnapshot =
-              await _firestore.collection('teams').doc(teamId).get();
+              await FirebaseFirestore.instance.collection('teams').doc(teamId).get();
 
           if (teamSnapshot.exists) {
-            Map<String, dynamic> teamData = teamSnapshot.data() as Map<String, dynamic>;
-            return CustomTeam.fromJson(teamData, teamId);
+            // Nutze die Daten aus dem JSON-Snapshot direkt, um das CustomTeam zu erstellen
+            return CustomTeam.fromJson(
+              teamSnapshot.data() as Map<String, dynamic>,
+              teamSnapshot.id,
+            );
           } else {
             debugPrint('Das Team wurde nicht in Firestore gefunden');
             return null; 
@@ -212,6 +198,8 @@ Future<void> updateTeamData({String? teamName, String members = '', bool? admin,
     return null;
   }
 }
+
+
 
 Future<void> deleteTeam(String teamId, String uid) async {
   try {
@@ -240,6 +228,37 @@ Future<void> deleteTeam(String teamId, String uid) async {
     debugPrint("Fehler beim Löschen des Teams: $e");
   }
 }
+
+Future<void> deleteMemberFromTeam(String teamId, String memberId) async {
+  try {
+    // Holen Sie sich das aktuelle 'members'-Dokument aus dem Team
+    DocumentSnapshot teamSnapshot =
+        await FirebaseFirestore.instance.collection('teams').doc(teamId).get();
+
+    if (teamSnapshot.exists) {
+      // Aktualisiere das 'members'-Dokument durch Entfernen des Mitglieds
+      List<String> members = List<String>.from(teamSnapshot['members']);
+      members.remove(memberId);
+
+      // Führe die Aktualisierung in Firestore durch
+      await FirebaseFirestore.instance.collection('teams').doc(teamId).update({
+        'members': members,
+      });
+
+      // Aktualisiere das Benutzerdokument, um die Team-ID zu entfernen
+      await FirebaseFirestore.instance.collection('users').doc(memberId).update({
+        'teamId': FieldValue.delete(),
+      });
+    } else {
+      debugPrint('Das Team wurde nicht in Firestore gefunden. Team-ID: $teamId');
+      // Füge hier ggf. weitere Fehlerbehandlung hinzu
+    }
+  } catch (e) {
+    debugPrint('Fehler beim Entfernen des Mitglieds aus dem Team: $e');
+    // Füge hier ggf. weitere Fehlerbehandlung hinzu
+  }
+}
+
 
 Future<String?> getTeamIdForUser(String uid) async {
   try {
@@ -276,3 +295,31 @@ Future<CustomTeam?> getTeamDataFromFirebase(String teamId) async {
     return null;
   }
 }
+
+  removeMemberFromTeam(String teamId, String memberId) async {
+    try {
+      // Holen Sie sich das aktuelle Team-Dokument aus der teams-Sammlung
+      DocumentSnapshot teamSnapshot = await FirebaseFirestore.instance
+          .collection('teams')
+          .doc(teamId)
+          .get();
+
+      if (teamSnapshot.exists) {
+        // Aktualisieren Sie das Team-Dokument mit der neuen Mitgliedschaft
+        List<String> members = List<String>.from(teamSnapshot['members']);
+        members.remove(memberId);
+
+        // Führen Sie die Aktualisierung in Firestore durch
+        await FirebaseFirestore.instance
+            .collection('teams')
+            .doc(teamId)
+            .update({
+          'members': members,
+        });
+      } else {
+        debugPrint('Team mit der angegebenen Team-ID nicht gefunden.');
+      }
+    } catch (e) {
+      debugPrint("Fehler beim Entfernen des Mitglieds: $e");
+    }
+  }
