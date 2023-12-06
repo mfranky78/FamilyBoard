@@ -1,17 +1,20 @@
+import 'package:famibo/common/providers.dart';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_fix.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
-import 'package:famibo/settingsallgemein/darkmode_notifire_riverpod.dart';
+import 'package:famibo/settings/darkmode_notifire_riverpod.dart';
+import 'package:famibo/settings/settings_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SettingsPage extends ConsumerWidget {
-  const SettingsPage({super.key});
+class SettingsView extends ConsumerWidget {
+  const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(darkModeProvider);
+    final controller = ref.watch(providers.settingsProvider.notifier);
+    final model = ref.watch(providers.settingsProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -53,9 +56,9 @@ class SettingsPage extends ConsumerWidget {
                     ),
                     const SizedBox(width: 40,),
                     Switch(
-                      value: isDarkMode,
+                      value: model.isDarkMode,
                       onChanged: (value) {
-                        ref.read(darkModeProvider.notifier).toggleDarkMode();
+                        controller.updateDarkMode(isDarkMode: value);
                       },
                     ),
                   ],
@@ -68,3 +71,11 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 }
+
+abstract class SettingsController extends StateNotifier<SettingsModel>{
+  SettingsController(super.state);
+ void updateDarkMode({
+    required bool isDarkMode,
+  }); 
+}
+

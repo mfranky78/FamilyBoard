@@ -1,8 +1,9 @@
 import 'package:famibo/about/terms_of_business.dart';
+import 'package:famibo/common/providers.dart';
 import 'package:famibo/login/regestration_page.dart';
-import 'package:famibo/settingsallgemein/allgemeine_settings.dart';
-import 'package:famibo/settingsallgemein/darkmode_notifire_riverpod.dart';
-import 'package:famibo/settingsallgemein/delete_account.dart';
+import 'package:famibo/settings/settings_view.dart';
+import 'package:famibo/settings/darkmode_notifire_riverpod.dart';
+import 'package:famibo/settings/delete_account.dart';
 import 'package:famibo/about/privat_police.dart';
 import 'package:famibo/home_screen/home_screen_page.dart';
 import 'package:famibo/list_todo/list_page.dart';
@@ -29,19 +30,20 @@ import 'package:famibo/widgets/calculator.dart';
 import 'package:famibo/widgets/calendar.dart';
 import 'package:famibo/widgets/stundenplan.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 
-class RoutePage extends StatelessWidget {
+class RoutePage extends ConsumerWidget {
   const RoutePage({super.key});
 
     @override
-  Widget build(BuildContext context) {
-     const isDarkMode = false;
+  Widget build(BuildContext context, WidgetRef ref) {
+     bool isDarkMode = ref.watch(providers.settingsProvider.select((model) => model.isDarkMode));
 
     return MaterialApp(
       theme: isDarkMode ? ThemeData.dark(): ThemeData.light(),
-      initialRoute: "/loginpage", routes: {
+      initialRoute: "/settings", routes: {
       
       "/loginpage": (context) =>  LogInPage(),
       "/MyApp": (context) => MyApp(),
@@ -69,7 +71,7 @@ class RoutePage extends StatelessWidget {
       "/aboutpage": (context) => const AboutPage(),
       "/deleteaccount": (context) =>  DeleteAccount(),
       "/privatpolice": (context) => const PrivatPolicePage(),
-      // "/settings": (context) =>  const SettingsPage(),
+      "/settings": (context) =>  const SettingsView(),
       "/termsofbusiness": (context) => const TermsOfBusiness(),
       "/regestration": (context) => const RegistrationPage(),
           });
