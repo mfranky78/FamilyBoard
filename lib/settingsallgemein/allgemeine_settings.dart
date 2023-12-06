@@ -4,7 +4,7 @@ import 'package:famibo/core/custom_glasscontainer_fix.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/settingsallgemein/darkmode_notifire_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});

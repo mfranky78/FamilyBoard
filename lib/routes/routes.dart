@@ -29,15 +29,15 @@ import 'package:famibo/widgets/calculator.dart';
 import 'package:famibo/widgets/calendar.dart';
 import 'package:famibo/widgets/stundenplan.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 
-class RoutePage extends ConsumerWidget {
+
+class RoutePage extends StatelessWidget {
   const RoutePage({super.key});
 
     @override
-  Widget build(BuildContext context, WidgetRef ref) {
-     final isDarkMode = ref.watch(darkModeProvider);
+  Widget build(BuildContext context) {
+     const isDarkMode = false;
 
     return MaterialApp(
       theme: isDarkMode ? ThemeData.dark(): ThemeData.light(),
@@ -69,7 +69,7 @@ class RoutePage extends ConsumerWidget {
       "/aboutpage": (context) => const AboutPage(),
       "/deleteaccount": (context) =>  DeleteAccount(),
       "/privatpolice": (context) => const PrivatPolicePage(),
-      "/settings": (context) =>  const SettingsPage(),
+      // "/settings": (context) =>  const SettingsPage(),
       "/termsofbusiness": (context) => const TermsOfBusiness(),
       "/regestration": (context) => const RegistrationPage(),
           });

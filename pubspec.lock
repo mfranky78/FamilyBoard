@@ -502,14 +502,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  flutter_hooks:
-    dependency: transitive
-    description:
-      name: flutter_hooks
-      sha256: "7c8db779c2d1010aa7f9ea3fbefe8f86524fcb87b69e8b0af31e1a4b55422dec"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.20.3"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -540,7 +532,7 @@ packages:
     source: hosted
     version: "2.0.17"
   flutter_riverpod:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_riverpod
       sha256: da9591d1f8d5881628ccd5c25c40e74fc3eef50ba45e40c3905a06e1712412d5
@@ -565,6 +557,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed:
+    dependency: "direct main"
+    description:
+      name: freezed
+      sha256: "21bf2825311de65501d22e563e3d7605dff57fb5e6da982db785ae5372ff018a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.5"
+  freezed_annotation:
+    dependency: "direct main"
+    description:
+      name: freezed_annotation
+      sha256: c3fd9336eb55a38cc1bbd79ab17573113a8deccd0ecbbf926cca3c62803b5c2d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.1"
   frontend_server_client:
     dependency: transitive
     description:
@@ -669,14 +677,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  hooks_riverpod:
-    dependency: "direct main"
-    description:
-      name: hooks_riverpod
-      sha256: c12a456e03ef9be65b0be66963596650ad7a3220e96c7e7b0a048562ea32d6ae
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.9"
   html:
     dependency: "direct main"
     description:
@@ -1054,7 +1054,7 @@ packages:
     source: hosted
     version: "3.2.1"
   riverpod:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: riverpod
       sha256: "942999ee48b899f8a46a860f1e13cee36f2f77609eb54c5b7a669bb20d550b11"

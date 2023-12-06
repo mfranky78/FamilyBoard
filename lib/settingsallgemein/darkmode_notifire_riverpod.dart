@@ -1,5 +1,4 @@
-// dark_mode_notifier.dart
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final darkModeProvider = StateNotifierProvider<DarkModeNotifier, bool>((ref) {
   return DarkModeNotifier();
