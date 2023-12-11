@@ -127,7 +127,7 @@ class LogInPage extends StatelessWidget {
                     image: const AssetImage('assets/images/google.png'),
                     onTap: () {
                       context.read<AuthCubit>().signInWithGoogle(context);         
-                      Navigator.pushNamed(context, "/homescreen");
+                      Navigator.pushReplacementNamed(context, "/homescreen");
                     },
                     text: const Text('Sign in with Google'),
                   ),
