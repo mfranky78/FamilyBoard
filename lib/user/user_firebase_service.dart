@@ -10,7 +10,6 @@ Future<CustomUser?> saveUserData({
   required String email, 
   String? teamId, 
   String? url, 
-  String? members,
   String? uid, 
   }) async {
   try {
@@ -21,7 +20,6 @@ Future<CustomUser?> saveUserData({
     'name': name,
     'email': email,
     'url' : url,
-    'members' : members,
     'teamId': teamId,
       });
     }
