@@ -3,14 +3,14 @@ class CustomTeam {
   String teamId;
   List<dynamic> members;
   List<dynamic> admins;
-  String uid;
+  String name;
 
   CustomTeam({
     required this.teamName,
     required this.admins,
     required this.members,
     required this.teamId,
-    required this.uid,
+    required this.name,
   });
 
   // Factory-Methode zum Erstellen einer Instanz aus einer JSON-Map
@@ -20,7 +20,7 @@ class CustomTeam {
       teamId: teamId,
       members: List<String>.from(json['members'] ?? []),
       admins: List<String>.from(json['admins'] ?? []),
-      uid: json['userid'] ?? '',
+      name: json['name'] ?? '',
     );
   }
 
@@ -36,7 +36,7 @@ class CustomTeam {
       'teamId': teamId,
       'members': members,
       'admins': admins,
-      'userid': uid,
+      'name': name,
     };
   }
 }
