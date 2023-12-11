@@ -41,7 +41,7 @@ class RoutePage extends ConsumerWidget {
 
     return MaterialApp(
       theme: isDarkMode ? ThemeData.dark(): ThemeData.light(),
-      initialRoute: "/loginpage", routes: {
+      initialRoute: "/logopage", routes: {
       
       "/loginpage": (context) =>  LogInPage(),
       "/MyApp": (context) => MyApp(),
@@ -57,7 +57,7 @@ class RoutePage extends ConsumerWidget {
       "/targetsettings": (context) => const TargetSettingsPage(),
       "/targetoverview": (context) => const TargetOverviewPage(),
       "/teampage": (context) =>  const TeamPage(),
-      "/teammemeber": (context) =>  TeamMemberPage(),
+      "/teammemeber": (context) =>  const TeamMemberPage(),
       "/memberinvitation": (context) => const MemberInvitationPage(),
       "/teamsettings": (context) =>  TeamSettingsPage(),
       "/teamcreation": (context) => TeamCreation(setImage: (String) {},),
