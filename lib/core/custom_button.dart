@@ -27,7 +27,7 @@ class _CustomButtonState extends State<CustomButton> {
       onTapDown: (_) {
         setState(() {
           _isPressed = true;
-          _shadowColor = Colors.white.withOpacity(0.3); // Ändern der Schattenfarbe
+          _shadowColor = Colors.white.withOpacity(0.5); // Ändern der Schattenfarbe
         });
       },
       onTapUp: (_) {
@@ -40,7 +40,7 @@ class _CustomButtonState extends State<CustomButton> {
       onTapCancel: () {
         setState(() {
           _isPressed = false;
-          _shadowColor = Colors.black.withOpacity(0.5); // Zurücksetzen der Schattenfarbe
+          _shadowColor = Colors.black.withOpacity(0.3); // Zurücksetzen der Schattenfarbe
         });
       },
       child: Padding(
@@ -53,7 +53,7 @@ class _CustomButtonState extends State<CustomButton> {
               BoxShadow(
                 color: _shadowColor,
                 blurRadius: 3,
-                offset: const Offset(5, 5),
+                offset: const Offset(3, 3),
               ),
             ],
             color: Colors.transparent,
@@ -69,8 +69,8 @@ class _CustomButtonState extends State<CustomButton> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFFffffff).withOpacity(0.6),
-                const Color(0xFFFFFFFF).withOpacity(0.6),
+                const Color(0xFFffffff).withOpacity(0.5),
+                const Color(0xFFFFFFFF).withOpacity(0.5),
               ],
               stops: const [0.1, 1],
             ),
@@ -78,8 +78,8 @@ class _CustomButtonState extends State<CustomButton> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFFffffff).withOpacity(0.9),
-                const Color(0xFFFFFFFF).withOpacity(0.9),
+                const Color(0xFFffffff).withOpacity(1.0),
+                const Color(0xFFFFFFFF).withOpacity(1.0),
               ],
             ),
             borderRadius: 10,
