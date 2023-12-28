@@ -9,9 +9,9 @@ class LogoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: AnimatedSplashScreen(
-          animationDuration: const Duration(seconds: 4),
+          animationDuration: const Duration(seconds: 3),
           splashIconSize: 200,
-            duration: 5000,
+            duration: 3000,
             splash: "assets/images/logotext5.png",
             nextScreen: const OnboardingPage(),
             splashTransition: SplashTransition.scaleTransition,

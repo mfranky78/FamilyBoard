@@ -2,6 +2,7 @@ import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_fix.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/settingsallgemein/darkmode_notifire_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,7 +19,7 @@ class SettingsPage extends ConsumerWidget {
       ),
       body: Stack(
         children: [
-          BackroundScreen(ContainerGlassFlex(
+          BackgroundScreen(ContainerGlassFlex(
             child: Column(
               children: [
                 Padding(
@@ -28,7 +29,16 @@ class SettingsPage extends ConsumerWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                const Text('Hier kannst du Allgemeine Einstellung machen'),
+                 Text('Hier kannst du Allgemeine Einstellung machen', style: kTextHeadLine2),
+                SizedBox(
+                  height: 50,
+                ),
+                CustomButton(
+                    onTap: () {
+                      Navigator.pushNamed(context, "/language");
+                    },
+                    icon: Icons.language,
+                    text: const Text('Language')),
                 CustomButton(
                     onTap: () {
                       Navigator.pushNamed(context, "/deleteaccount");

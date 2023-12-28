@@ -1,5 +1,7 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
+import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/list_todo/shopping/shopping_page.dart';
 import 'package:famibo/list_todo/tasks_page.dart';
 import 'package:flutter/material.dart';
@@ -10,65 +12,66 @@ class ListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('List'),
-        ),
         body: Stack(
           children: [
-            BackroundScreen(Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Container(
-                    height: 200,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage('assets/images/foto1.jpg'),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 2,
-                            offset: const Offset(5, 5),
-
-                            // changes position of shadow
+            BackgroundScreen(Padding(
+              padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
+              child: ContainerGlassFlex(
+                child: Column(
+                  children: [
+                    Row(children: [IconButton(onPressed: (){
+                      Navigator.of(context).pop();
+                    }, icon: const Icon(Icons.arrow_back_sharp, size: 30,)),
+                    const SizedBox(width: 95,),
+                      Text('List',style: kTextHeadLine5),],),
+                    Container(
+                      height: 250,
+                      width: 300,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/list1.png'),
+                            fit: BoxFit.contain,
                           ),
-                        ]),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomButton(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>  const ShoppingPage()));
-                    },
-                    icon: Icons.shop,
-                    text: const Text('Shopping'),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomButton(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(20)),
+                          ),
+                    ),
+                    const SizedBox(
+                      height: 20,),
+                     Padding(
+                       padding: const EdgeInsets.all(16.0),
+                       child: Text('Here you can view your shopping list and tasks that are still pending. ',style: kTextHeadLine2,),
+                     ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    CustomButton(
                       onTap: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const TaskPage()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>  const ShoppingPage()));
                       },
-                      icon: Icons.task,
-                      text: const Text('Tasks')),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
+                      icon: Icons.shop,
+                      text:  Text('Shopping',style: kTextHeadLine2),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CustomButton(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const TaskPage()));
+                        },
+                        icon: Icons.task,
+                        text:  Text('Tasks',style: kTextHeadLine2)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
               ),
             ))
           ],

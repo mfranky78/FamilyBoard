@@ -43,36 +43,44 @@ class PasswordForgetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Forget Password'),
       ),
       body: Stack(
         children: [
-          BackroundScreen(
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  height: 200,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/password_forget.png"),
-                      fit: BoxFit.fitWidth,
+          BackgroundScreen(
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 200,
+                    width: 350,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      border: Border.fromBorderSide(
+                          BorderSide(color: Colors.white, width: 2)),
+                      image: DecorationImage(  
+                        image: AssetImage("assets/images/password_forget.png"),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 40),
-                 TextfieldEmail(hintText: 'E-Mail Adresse', textController: _emailController,),
-                const SizedBox(height: 160),
-                CustomButton(
-                  onTap: () {
-                    // Hier wird das Popup aufgerufen
-                    _showResetPasswordDialog(context);
-                  },
-                  icon: Icons.password_outlined,
-                  text: const Text('Passwort zurücksetzen'),
-                ),
-              ],
+                  const SizedBox(height: 40),
+                   TextfieldEmail(lableText: 'E-Mail Adresse', textController: _emailController,),
+                  const SizedBox(height: 160),
+                  CustomButton(
+                    onTap: () {
+                      // Hier wird das Popup aufgerufen
+                      _showResetPasswordDialog(context);
+                    },
+                    icon: Icons.password_outlined,
+                    text: const Text('Passwort zurücksetzen'),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

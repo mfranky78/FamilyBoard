@@ -12,7 +12,7 @@ class AboutPage extends StatelessWidget {
       appBar: AppBar(title: const Text('About'),),
        body: Stack(
         children: [
-          BackroundScreen(
+          BackgroundScreen(
             ContainerGlassFlex(
               child: Column(children: [
               Padding(

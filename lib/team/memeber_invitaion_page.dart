@@ -1,5 +1,9 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
+import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/custom_glasscontainer_text.dart';
+import 'package:famibo/core/text_style_page.dart';
+import 'package:famibo/core/textfield_email.dart';
 import 'package:famibo/team/team_firebase_service.dart';
 import 'package:famibo/team/team_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,6 +36,7 @@ class _MemberInvitationPageState extends State<MemberInvitationPage> {
         content: TextField(
           controller: teamIdController,
           decoration: const InputDecoration(
+            labelStyle: TextStyle(color: Colors.black54),
             labelText: 'Team-ID',
           ),
         ),
@@ -40,7 +45,7 @@ class _MemberInvitationPageState extends State<MemberInvitationPage> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('Abbrechen'),
+            child: Text('Abbrechen', style: kTextHeadLine2,),
           ),
           TextButton(
             onPressed: () async {
@@ -54,7 +59,7 @@ class _MemberInvitationPageState extends State<MemberInvitationPage> {
               }
               Navigator.of(context).pop();
             },
-            child: const Text('Beitreten'),
+            child: Text('Beitreten', style: kTextHeadLine2,),
           ),
         ],
       );
@@ -81,26 +86,43 @@ class _MemberInvitationPageState extends State<MemberInvitationPage> {
     }
   }
 
-  Future<void> sendEmailInvitation(String? email, String? teamId) async {
-    final Uri emailLaunchUri = Uri(
-      scheme: 'mailto',
-      path: email,
-      queryParameters: {
-        'subject': 'Einladung zum Team',
-        'body': 'Du wurdest zu unserem Team eingeladen! Team-ID: $teamId',
-      },
+ Future<void> sendEmailInvitation(String? email, String? teamId) async {
+  if (email == null || email.isEmpty || !email.contains('@')) {
+    // Zeige eine Benachrichtigung an, dass die E-Mail ungültig ist.
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Bitte eine gültige E-Mail-Adresse eingeben.'))
     );
-
-    try {
-      if (await canLaunch(emailLaunchUri.toString())) {
-        await launch(emailLaunchUri.toString());
-      } else {
-        debugPrint('Fehler beim Öffnen der E-Mail-Anwendung');
-      }
-    } catch (e) {
-      debugPrint('Fehler beim Starten der E-Mail-Anwendung: $e');
-    }
+    return;
   }
+
+  final Uri emailLaunchUri = Uri(
+    scheme: 'mailto',
+    path: email,
+    queryParameters: {
+      'subject': 'Einladung zum Team',
+      'body': 'Du wurdest zu unserem Team eingeladen! Team-ID: $teamId',
+    },
+  );
+
+  try {
+    final bool canLaunchEmail = await canLaunch(emailLaunchUri.toString());
+    if (canLaunchEmail) {
+      await launch(emailLaunchUri.toString());
+    } else {
+      // Zeige eine Benachrichtigung an, dass die E-Mail-Anwendung nicht geöffnet werden kann.
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('E-Mail-Anwendung kann nicht geöffnet werden.'))
+      );
+    }
+  } catch (e) {
+    // Logge den Fehler und zeige eine Benachrichtigung an.
+    debugPrint('Fehler beim Starten der E-Mail-Anwendung: $e');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Fehler beim Senden der E-Mail.'))
+    );
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,37 +130,52 @@ class _MemberInvitationPageState extends State<MemberInvitationPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(title: const Text(appBarTitle)),
       body: Stack(
         children: [
-          BackroundScreen(
-            Column(
-              children: [
-                Image.asset('assets/images/invite.png'),
-                Text('Team ID: $teamId'),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      labelText: 'E-Mail-Adresse',
+          BackgroundScreen(
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0,32,0,32),
+              child: ContainerGlassFlex(
+                child: Column(
+                  children: [
+                    Row(children: [
+                      IconButton(onPressed: (){
+                        Navigator.of(context).pop();  
+                      }, icon: const Icon(Icons.arrow_back_sharp, size: 30,)),
+                      const SizedBox(width: 40,),
+                      Text(appBarTitle, style: kTextHeadLine5,)],),
+                    SizedBox(height: 250,
+                      child: Image.asset('assets/images/invite.png')),
+                    Text('Team-ID:', style: kTextHeadLine4,),
+                    GlassContainerFixText(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                        child: Text('$teamId', style: kTextHeadLine4,),
+                      ),),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                      child: TextfieldEmail(
+                        textController: emailController,
+                       // keyboardType: TextInputType.emailAddress,
+                          lableText: 'E-Mail-Adresse',
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 20,),
+                    CustomButton(
+                      onTap: () => sendEmailInvitation(emailController.text, teamId),
+                      icon: Icons.email,
+                      text:  Text('Invitation with E-mail',style: kTextHeadLine2,),
+                    ),
+                    CustomButton(
+                      onTap: () => _showJoinTeamDialog(),
+                        
+                      
+                      icon: Icons.link,
+                      text:  Text('Join about TeamId',style: kTextHeadLine2,),
+                    ),
+                  ],
                 ),
-                CustomButton(
-                  onTap: () => sendEmailInvitation(emailController.text, teamId),
-                  icon: Icons.email,
-                  text: const Text('Invitation with E-mail'),
-                ),
-                CustomButton(
-                  onTap: () => _showJoinTeamDialog(),
-                    
-                  
-                  icon: Icons.link,
-                  text: const Text('Join about TeamId'),
-                ),
-              ],
+              ),
             ),
           ),
         ],

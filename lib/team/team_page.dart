@@ -30,78 +30,88 @@ class _TeamPageState extends State<TeamPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Team')),
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          BackroundScreen(
-            ContainerGlassFlex(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: image != null
-                        ? Image.file(image!)
-                        : Image.asset('assets/images/teamgroup.png'),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  // if (team != null)
-                  FutureBuilder(
-                      future: getTeamData(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text(
-                              'Fehler beim Laden der Benutzerdaten: ${snapshot.error}');
-                        } else {
-                          CustomTeam? team = snapshot.data;
-                          if (team != null) {
-                            return Column(
-                              children: [
-                                Text(style: kTextHeadLine2,'Teamname: ${team.teamName}')
-                                
-                              ],
-                            );
+          BackgroundScreen(
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+              child: ContainerGlassFlex(
+                child: Column(
+                  children: [
+                     Row(children: [
+                      IconButton(onPressed: (){
+                        Navigator.of(context).pop();
+                      }, icon: const Icon(Icons.arrow_back_sharp, size: 30,)),
+                      const SizedBox(width: 100,),
+                       Text('Team', style: kTextHeadLine5,)],),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: image != null
+                          ? Image.file(image!)
+                          : SizedBox(height: 150,
+                            child: Image.asset('assets/images/teamgroup.png')),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    // if (team != null)
+                    FutureBuilder(
+                        future: getTeamData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text(
+                                'Fehler beim Laden der Benutzerdaten: ${snapshot.error}');
                           } else {
-                            return const Text('Benutzer nicht gefunden');
+                            CustomTeam? team = snapshot.data;
+                            if (team != null) {
+                              return Column(
+                                children: [
+                                  Text(style: kTextHeadLine2,'Teamname: ${team.teamName}')
+                                  
+                                ],
+                              );
+                            } else {
+                              return const Text('Benutzer nicht gefunden');
+                            }
                           }
-                        }
-                      }),
-                  CustomButton(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/teamcreation");
-                    },
-                    icon: Icons.groups_2,
-                    text: const Text('Team Creation'),
-                  ),
-                  CustomButton(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/teammemeber",
-                          arguments: teamId);
-                    },
-                    icon: Icons.group,
-                    text: const Text('Team Member'),
-                  ),
-                  CustomButton(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/memberinvitation",
-                          arguments: teamId);
-                    },
-                    icon: Icons.group_add,
-                    text: const Text('Team Invitation'),
-                  ),
-                  CustomButton(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/teamsettings",
-                          arguments: teamId);
-                    },
-                    icon: Icons.group_work,
-                    text: const Text('Team Settings'),
-                  ),
-                ],
+                        }),
+                    CustomButton(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/teamcreation");
+                      },
+                      icon: Icons.groups_2,
+                      text:  Text('Team Creation',style: kTextHeadLine9),
+                    ),
+                    CustomButton(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/teammemeber",
+                            arguments: teamId);
+                      },
+                      icon: Icons.group,
+                      text:  Text('Team Member',style: kTextHeadLine9),
+                    ),
+                    CustomButton(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/memberinvitation",
+                            arguments: teamId);
+                      },
+                      icon: Icons.group_add,
+                      text:  Text('Team Invitation',style: kTextHeadLine9),
+                    ),
+                    CustomButton(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/teamsettings",
+                            arguments: teamId);
+                      },
+                      icon: Icons.group_work,
+                      text:  Text('Team Settings',style: kTextHeadLine9),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

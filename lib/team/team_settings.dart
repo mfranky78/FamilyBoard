@@ -1,87 +1,77 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
-import 'package:famibo/core/custom_glasscontainer_text.dart';
-import 'package:famibo/team/team_firebase_service.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:flutter/material.dart';
 
 class TeamSettingsPage extends StatefulWidget {
-   TeamSettingsPage({super.key});
+  const TeamSettingsPage({super.key});
 
   @override
   State<TeamSettingsPage> createState() => _TeamSettingsPageState();
 }
 
+
 class _TeamSettingsPageState extends State<TeamSettingsPage> {
-  bool switchValue = false;
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Team Settings'),
-        ),
         body: Stack(
-          children: [
-            BackroundScreen(
-              ContainerGlassFlex(
-                child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Image.asset('assets/images/team-settings.png'),
-                  ),
-                  CustomButton(
-                      onTap: () {
-                       Navigator.pushNamed(context, "/teamprofile");
-                      },
-                      icon: Icons.groups_3,
-                      text: const Text('Team Profile')),
-                  CustomButton(
-                      onTap: () {
-                        
-                      },
-                      icon: Icons.groups_2,
-                      text: const Text('Team Member')),
-                  CustomButton(
-                      onTap: () {
-                        Navigator.pushNamed(context, "/teamadmin");
-                      },
-                      icon: Icons.admin_panel_settings,
-                      text: const Text(' Team Admin rights')),
-                  CustomButton(
-                      onTap: () async {
-                   await deleteTeam;
-                      Navigator.of(context).pop();
-                      },
-                      icon: Icons.cancel,
-                      text: const Text('Team Delete')),
-                      const SizedBox(height: 50),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const GlassContainerFixText(
-                            child: Text('Location permit')),
-                        Switch(
-                          value: switchValue,
-                          onChanged: (newValue) {
-                            setState(() {
-                              switchValue = newValue;
-                            });
-                          },
-                          activeTrackColor: Colors.green, 
-                           activeColor: Colors.white,
-                           inactiveTrackColor: Colors.grey,
-                            inactiveThumbColor: Colors.black,
-                        )
-                      ],
+      children: [
+        BackgroundScreen(Padding(
+          padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
+          child: ContainerGlassFlex(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: const Icon(Icons.arrow_back_sharp, size: 30)),
+                    const SizedBox(
+                      width: 40,
                     ),
-                  ),
-                ],
-                            ),
-              ))
-          ],
-        ));
+                    Text(
+                      'Team Settings',
+                      style: kTextHeadLine5,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Image.asset('assets/images/team-settings.png'),
+                ),
+                const SizedBox(height: 50),
+                CustomButton(
+                    onTap: () {
+                      Navigator.pushNamed(context, "/teamprofile");
+                    },
+                    icon: Icons.groups_3,
+                    text: Text('Team Profile', style: kTextHeadLine2)),
+                CustomButton(
+                    onTap: () {
+                      Navigator.pushNamed(context, "/teamadmin");
+                    },
+                    icon: Icons.admin_panel_settings,
+                    text: Text(' Team Admin rights', style: kTextHeadLine2)),
+                CustomButton(
+                  onTap: () {
+                   Navigator.pushNamed(context, "/teamoverview");
+                  },
+                  icon: Icons.cancel,
+                  text: Text('Team Delete', style: kTextHeadLine2),
+                ),
+              ],
+            ),
+          ),
+        ))
+      ],
+    ));
   }
 }
+
+

@@ -2,6 +2,7 @@ import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/cutom_button_asset_image.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/core/textfield_email.dart';
 import 'package:famibo/core/textfield_password.dart';
 import 'package:famibo/login/bloc_cubit/auth_cubit.dart';
@@ -19,21 +20,17 @@ class LogInPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
         body: Stack(children: [
-      BackroundScreen(Padding(
+      BackgroundScreen(Padding(
           padding: const EdgeInsets.fromLTRB(0,30,0,30),
           child: ContainerGlassFlex(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
+                 Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(
                     'WELCOME',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 26,
-                        letterSpacing: 0.5,
-                        fontWeight: FontWeight.bold),
+                    style: kTextHeadLine1,
                   ),
                 ),
               
@@ -42,7 +39,7 @@ class LogInPage extends StatelessWidget {
                   child: Column(
                     children: [
                       TextfieldEmail(
-                        hintText: 'E-Mail',
+                        lableText: 'E-Mail',
                         textController: _controllerEmail,
                       ),
                       TextfieldPassword(
@@ -61,12 +58,9 @@ class LogInPage extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(context, "/passwordforget");
                         },
-                        child: const Text(
+                        child:  Text(
                           'Forgot Password ?',
-                          style: TextStyle(
-                            fontSize: 14,
-                            decoration: TextDecoration.underline,
-                          ),
+                          style: kTextHeadLine7,
                         ),
                       )),
                 ),
@@ -86,7 +80,7 @@ class LogInPage extends StatelessWidget {
                           Navigator.pushNamed(context, "/homescreen");
                           
                         },
-                        text: const Text('LogIn'),
+                        text:  Text('LogIn',style: kTextHeadLine2,),
                         icon: Icons.login,
                       ),
                     
@@ -94,8 +88,8 @@ class LogInPage extends StatelessWidget {
                   const SizedBox(
                     height: 50,
                   ),
-                  const Row(children: <Widget>[
-            Expanded(
+                   Row(children: <Widget>[
+            const Expanded(
               child: Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Divider(
@@ -107,9 +101,9 @@ class LogInPage extends StatelessWidget {
             ),
             Text(
               "Log In with Google ",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: kTextHeadLine8,
             ),
-            Expanded(
+            const Expanded(
               child: Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Divider(
@@ -129,7 +123,7 @@ class LogInPage extends StatelessWidget {
                       context.read<AuthCubit>().signInWithGoogle(context);         
                       Navigator.pushReplacementNamed(context, "/homescreen");
                     },
-                    text: const Text('Sign in with Google'),
+                    text: Text('Sign in with Google',style: kTextHeadLine2,),
                   ),
                   const SizedBox(
                     height: 10,
@@ -142,15 +136,13 @@ class LogInPage extends StatelessWidget {
                           onTap: () {
                             Navigator.pushNamed(context, "/regestration");
                           },
-                          child: const Text(
+                          child:  Text(
                             'Not register yet ? Create Account',
-                            style: TextStyle(
-                              fontSize: 14,
-                              decoration: TextDecoration.underline,
+                            style: kTextHeadLine7,
                             ),
                           ),
                         )),
-                  ),
+                  
                            ] 
                            ),
                 ), 

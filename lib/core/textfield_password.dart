@@ -26,7 +26,6 @@ class _TextfieldPasswordState extends State<TextfieldPassword> {
       child: SizedBox(
         height: 55,
         child: TextFormField(
-          // keyboardType: TextInputType.text,
           controller: widget.textController,
           obscureText: !_passwordVisible,
           decoration: InputDecoration(

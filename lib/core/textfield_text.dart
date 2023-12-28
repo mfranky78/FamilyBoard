@@ -21,7 +21,7 @@ class _TextfieldTextState extends State<TextfieldText> {
             hintText: widget.hintText, 
            
             filled: true,
-            fillColor: const Color.fromARGB(100, 255, 255, 255),
+            fillColor: const Color.fromARGB(80, 255, 255, 255),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10), 
             ),
@@ -29,7 +29,7 @@ class _TextfieldTextState extends State<TextfieldText> {
               borderRadius: BorderRadius.circular(10),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white),
+              borderSide: const BorderSide(color: Colors.white38, width: 2),
               borderRadius: BorderRadius.circular(10),
             ),
           ),

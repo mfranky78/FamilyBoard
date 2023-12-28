@@ -26,7 +26,7 @@ class CustomButtonIcon extends StatelessWidget {
             blur: 1,
             alignment: Alignment.bottomCenter,
             border: 1,
-            linearGradient: LinearGradient(
+           linearGradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
@@ -39,7 +39,7 @@ class CustomButtonIcon extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFFffffff).withOpacity(0.9),
+                const Color.fromARGB(255, 255, 255, 255).withOpacity(0.9),
                 const Color(0xFFFFFFFF).withOpacity(0.5),
               ],
             ),

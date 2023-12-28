@@ -16,7 +16,7 @@ class NewPasswordPage extends StatelessWidget {
         ),
         body: Stack(
           children: [
-            BackroundScreen(Column(
+            BackgroundScreen(Column(
               children: [
                 Container(
                     height: 200,
@@ -25,7 +25,7 @@ class NewPasswordPage extends StatelessWidget {
                             image: AssetImage("assets/images/new_password.png"),
                             fit: BoxFit.fitWidth))),
                             const SizedBox(height: 40,),
-                 TextfieldEmail(hintText: 'E-Mail Adresse', textController: _emailController,),
+                 TextfieldEmail(lableText: 'E-Mail Adresse', textController: _emailController,),
                
                 const Padding(
                   padding: EdgeInsets.fromLTRB(20,0,0,0),

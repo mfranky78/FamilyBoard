@@ -1,9 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:famibo/core/backround_screen.dart';
+import 'package:famibo/core/custom_button.dart';
+import 'package:famibo/core/custom_button_icon.dart';
+import 'package:famibo/core/custom_button_text.dart';
+import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MultipleTimetables extends StatefulWidget {
-  const MultipleTimetables({Key? key}) : super(key: key);
+  const MultipleTimetables({super.key});
 
   @override
   _MultipleTimetablesState createState() => _MultipleTimetablesState();
@@ -16,61 +22,199 @@ class _MultipleTimetablesState extends State<MultipleTimetables> {
   Map<String, List<List<String>>> timetableData = {};
 
   @override
+  void initState() {
+    super.initState();
+    _loadPersonNames();
+  }
+
+  String getWeekdayName(int dayNumber) {
+    List<String> weekdays = [
+      'Montag',
+      'Dienstag',
+      'Mittwoch',
+      'Donnerstag',
+      'Freitag',
+      'Samstag',
+      'Sonntag'
+    ];
+    return weekdays[dayNumber - 1];
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Multiple Timetables'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _addPerson(context);
-                  },
-                  child: const Text('Person hinzufügen'),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Wrap(
-                    children: [
-                      for (String personName in personNames)
-                        ElevatedButton(
-                          onPressed: () async {
-                            await _loadTimetableData(personName);
-                            setState(() {
-                              currentPerson = personName;
-                            });
-
-                            // Hier die Funktion aufrufen, um die Daten an Firebase zu senden
-                            await _savePersonData(personName, timetableData[personName] ?? []);
-                          },
-                          child: Text(personName),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            if (currentPerson.isNotEmpty)
-              Expanded(
-                child: Timetable(
-                  personName: currentPerson,
-                  timetableData: timetableData[currentPerson] ?? [],
-                  onUpdate: (day, hour, text) {
-                   
-                  },
+      resizeToAvoidBottomInset: false,
+      body: Stack(children: [
+        BackgroundScreen(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.arrow_back_sharp, size: 30),
+                    ),
+                    const SizedBox(width: 80),
+                    Text('Stundenplan', style: kTextHeadLine5),
+                  ],
                 ),
               ),
-          ],
+              CustomButton(
+                onTap: () => _addPerson(context),
+                icon: Icons.person_add,
+                text: Text(
+                  'Person hinzufügen',
+                  style: kTextHeadLine4,
+                ),
+              ),
+              const SizedBox(width: 16),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Wrap(
+                  children: personNames
+                      .map((personName) => Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                            child: Row(
+                              children: [
+                                CustomButtonText(
+                                  onPressed: () async {
+                                    await _loadTimetableData(personName);
+                                    setState(() {
+                                      debugPrint(
+                                          "Person $personName ausgewählt");
+                                      currentPerson = personName;
+                                    });
+                                  },
+                                  text: Text(
+                                    personName,
+                                    style: kTextHeadLine2,
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                CustomButtonIcon(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Person löschen', style: kTextHeadLine4,),
+                                          content: Text(
+                                              'Möchtest du $personName wirklich löschen?'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('Abbrechen', style: kTextHeadLine2,),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: Text('Löschen', style: kTextHeadLine2,),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                _deletePerson(personName);
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: 
+                                    Icons.delete,
+                                  ),
+                                
+                              ],
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              if (currentPerson.isNotEmpty)
+                Expanded(
+                  child: Timetable(
+                    key: ValueKey(
+                        currentPerson), // Verwende currentPerson als Key
+                    personName: currentPerson,
+                    timetableData: timetableData[currentPerson] ?? [],
+                    onUpdate: (day, hour, text) {
+                      final state = context
+                          .findAncestorStateOfType<_MultipleTimetablesState>();
+                      state?._addTimetableEntry(currentPerson, day, hour, text);
+                    },
+                  ),
+                ),
+            ],
+          ),
         ),
-      ),
+      ]),
     );
+  }
+
+  Future<void> _loadPersonNames() async {
+    try {
+      var collection = _firestore
+          .collection('users')
+          .doc(getCurrentUserId())
+          .collection('persons');
+      var snapshot = await collection.get();
+      var loadedPersonNames = snapshot.docs.map((doc) => doc.id).toList();
+
+      setState(() {
+        personNames = loadedPersonNames;
+        currentPerson =
+            loadedPersonNames.isNotEmpty ? loadedPersonNames.first : '';
+      });
+
+      if (currentPerson.isNotEmpty) {
+        await _loadTimetableData(currentPerson);
+      }
+    } catch (e) {
+      debugPrint("Fehler beim Laden der Personenliste: $e");
+    }
+  }
+
+  Future<void> _loadTimetableData(String personName) async {
+    try {
+      DocumentSnapshot snapshot = await _firestore
+          .collection('users')
+          .doc(getCurrentUserId())
+          .collection('persons')
+          .doc(personName)
+          .get();
+
+      if (snapshot.exists) {
+        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+        if (data != null && data.containsKey('timetableData')) {
+          List<List<String>> loadedTimetableData =
+              (data['timetableData'] as List).map((entry) {
+            return [
+              entry['day'] as String,
+              entry['hour'] as String,
+              entry['text'] as String,
+            ];
+          }).toList();
+
+          debugPrint(
+              "Geladene Stundenplandaten: $loadedTimetableData"); // Debug-Ausgabe
+
+          setState(() {
+            timetableData[personName] = loadedTimetableData;
+          });
+        } else {
+          debugPrint("Keine Stundenplandaten gefunden für $personName");
+        }
+      } else {
+        debugPrint("Snapshot existiert nicht für $personName");
+      }
+    } catch (e) {
+      debugPrint("Fehler beim Laden der Personendaten: $e");
+    }
   }
 
   Future<void> _addPerson(BuildContext context) async {
@@ -79,17 +223,23 @@ class _MultipleTimetablesState extends State<MultipleTimetables> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Neue Person hinzufügen'),
+          title: Text(
+            'Neue Person hinzufügen',
+            style: kTextHeadLine5,
+          ),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(labelText: 'Name der Person'),
+            decoration: InputDecoration(
+              labelText: 'Name der Person',
+              labelStyle: kTextHeadLine2,
+            ),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Abbrechen'),
+              child: Text('Abbrechen', style: kTextHeadLine4),
             ),
             TextButton(
               onPressed: () async {
@@ -101,12 +251,16 @@ class _MultipleTimetablesState extends State<MultipleTimetables> {
                     timetableData[currentPerson] = [];
                   });
 
-                  await _savePersonData(newPersonName, timetableData[currentPerson] ?? []);
+                  await _savePersonData(
+                      newPersonName, timetableData[currentPerson] ?? []);
                 }
 
                 Navigator.of(context).pop();
               },
-              child: const Text('Hinzufügen'),
+              child: Text(
+                'Hinzufügen',
+                style: kTextHeadLine4,
+              ),
             ),
           ],
         );
@@ -114,17 +268,24 @@ class _MultipleTimetablesState extends State<MultipleTimetables> {
     );
   }
 
-  Future<void> _addTimetableEntry(String personName, String day, int hour, String text) async {
+  Future<void> _addTimetableEntry(
+      String personName, String day, int hour, String text) async {
     final entry = [day, hour.toString(), text];
-
     setState(() {
-      timetableData[personName]?.add(entry);
+      final existingEntryIndex = timetableData[personName]
+          ?.indexWhere((e) => e[0] == day && e[1] == hour.toString());
+      if (existingEntryIndex != null && existingEntryIndex >= 0) {
+        timetableData[personName]?[existingEntryIndex] = entry;
+      } else {
+        timetableData[personName] = (timetableData[personName] ?? [])
+          ..add(entry);
+      }
     });
-
     await _savePersonData(personName, timetableData[personName] ?? []);
   }
 
-  Future<void> _savePersonData(String personName, List<List<String>> timetableEntries) async {
+  Future<void> _savePersonData(
+      String personName, List<List<String>> timetableEntries) async {
     try {
       await _firestore
           .collection('users')
@@ -132,13 +293,13 @@ class _MultipleTimetablesState extends State<MultipleTimetables> {
           .collection('persons')
           .doc(personName)
           .set({
-        'timetableData': timetableEntries.map((entry) {
-          return {
-            'day': entry[0],
-            'hour': entry[1],
-            'text': entry[2],
-          };
-        }).toList(),
+        'timetableData': timetableEntries
+            .map((entry) => {
+                  'day': entry[0],
+                  'hour': entry[1],
+                  'text': entry[2],
+                })
+            .toList(),
       });
     } catch (e) {
       debugPrint("Fehler beim Speichern der Personendaten: $e");
@@ -151,138 +312,156 @@ class _MultipleTimetablesState extends State<MultipleTimetables> {
   }
 
   Future<void> _deletePerson(String personName) async {
-    await _firestore
-        .collection('users')
-        .doc(getCurrentUserId())
-        .collection('persons')
-        .doc(personName)
-        .delete();
-    setState(() {
-      personNames.remove(personName);
-      timetableData.remove(personName);
-    });
-  }
-
-  Future<void> _loadTimetableData(String personName) async {
     try {
-      DocumentSnapshot snapshot = await _firestore
+      await _firestore
           .collection('users')
           .doc(getCurrentUserId())
           .collection('persons')
           .doc(personName)
-          .get();
-      if (snapshot.exists) {
-        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+          .delete();
 
-        if (data != null && data.containsKey('timetableData')) {
-          List<List<String>> loadedTimetableData =
-              List<List<String>>.from(data['timetableData']
-                  .map((entry) => [
-                        entry['day'].toString(),
-                        entry['hour'].toString(),
-                        entry['text'].toString(),
-                      ]));
-          print('Loaded Timetable Data: $loadedTimetableData');
-
-          // Hier können Sie die geladenen Daten für die Anzeige verwenden.
-          setState(() {
-            timetableData[personName] = loadedTimetableData;
-          });
+      setState(() async {
+        personNames.remove(personName);
+        if (currentPerson == personName) {
+          currentPerson = personNames.isNotEmpty ? personNames.first : '';
+          if (currentPerson.isNotEmpty) {
+            await _loadTimetableData(currentPerson);
+          }
         }
-      }
+      });
     } catch (e) {
-      debugPrint("Fehler beim Laden der Personendaten: $e");
+      debugPrint("Fehler beim Löschen der Person: $e");
     }
   }
 }
 
-class Timetable extends StatelessWidget {
+class Timetable extends StatefulWidget {
   final String personName;
   final List<List<String>> timetableData;
   final Function(String, int, String) onUpdate;
 
   const Timetable({
-    Key? key,
+    super.key,
     required this.personName,
     required this.timetableData,
     required this.onUpdate,
-  }) : super(key: key);
+  });
 
   @override
+  State<Timetable> createState() => _TimetableState();
+}
+
+class _TimetableState extends State<Timetable> {
+  @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        for (int i = 1; i <= 7; i++)
-          DayTimetable(
-            day: 'Tag $i',
-            personName: personName,
-            timetableData: timetableData,
-            onUpdate: onUpdate,
-          ),
-      ],
+    return ContainerGlassFlex(
+      child: ListView(
+        children: [
+          for (int i = 1; i <= 7; i++)
+            DayTimetable(
+              day: 'Tag $i',
+              personName: widget.personName,
+              timetableData: widget.timetableData,
+              onUpdate: (day, hour, text) {
+                final state =
+                    context.findAncestorStateOfType<_MultipleTimetablesState>();
+                state?._addTimetableEntry(widget.personName, day, hour, text);
+              },
+            ),
+        ],
+      ),
     );
   }
 }
 
-class DayTimetable extends StatelessWidget {
+class DayTimetable extends StatefulWidget {
   final String day;
   final String personName;
   final List<List<String>> timetableData;
   final Function(String, int, String) onUpdate;
 
   const DayTimetable({
-    Key? key,
+    super.key,
     required this.day,
     required this.personName,
     required this.timetableData,
     required this.onUpdate,
-  }) : super(key: key);
+  });
 
   @override
+  State<DayTimetable> createState() => _DayTimetableState();
+}
+
+String getWeekdayName(String dayNumber) {
+  List<String> weekdays = [
+    'Montag',
+    'Dienstag',
+    'Mittwoch',
+    'Donnerstag',
+    'Freitag',
+    'Samstag',
+    'Sonntag'
+  ];
+  return weekdays[int.parse(dayNumber) -
+      1]; // Beachte, dass wir dayNumber - 1 verwenden, da die Liste bei 0 anfängt
+}
+
+int extractDayNumber(String dayString) {
+  final match = RegExp(r'\d+').firstMatch(dayString);
+  if (match != null) {
+    return int.tryParse(match.group(0) ?? '') ??
+        1; // Standardmäßig auf 1 setzen, wenn keine Zahl gefunden wird
+  }
+  return 1; // Standardmäßig auf 1 setzen, wenn keine Übereinstimmung gefunden wird
+}
+
+class _DayTimetableState extends State<DayTimetable> {
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          day,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        for (int i = 1; i <= 8; i++)
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'Stunde $i',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: TextFormField(
-                  initialValue: _getTimetableEntry(personName, day, i),
-                  onChanged: (entry) {
-                    onUpdate(day, i, entry);
-                  },
-                ),
-              ),
-            ],
+    int dayNumber = extractDayNumber(widget.day);
+    String weekdayName = getWeekdayName(dayNumber.toString());
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            weekdayName,
+            style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 19, 75, 9)),
           ),
-      ],
+          for (int i = 1; i <= 8; i++)
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Stunde $i',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    initialValue: _getTimetableEntry(widget.day, i),
+                    onChanged: (entry) {
+                      widget.onUpdate(widget.day, i, entry);
+                    },
+                  ),
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
 
-  String _getTimetableEntry(String personName, String day, int hour) {
-    // Überprüfen, ob timetableData nicht null ist und personName enthält
-    if (timetableData != null && timetableData.isNotEmpty) {
-      // Überprüfen, ob ein Eintrag für den Tag und die Stunde vorhanden ist
-      final entry = timetableData.firstWhere(
-        (entry) => entry[0] == day && entry[1] == hour.toString(),
-        orElse: () => ['', '', ''],
-      );
-      // Wenn ein Eintrag vorhanden ist, gib den Text zurück
-      return entry[2];
-    }
-    return '';
+  String _getTimetableEntry(String day, int hour) {
+    final entry = widget.timetableData.firstWhere(
+      (e) => e[0] == day && e[1] == hour.toString(),
+      orElse: () => ['', '', ''],
+    );
+    return entry[2];
   }
-  
 }

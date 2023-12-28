@@ -1,6 +1,7 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:flutter/material.dart';
 
 class TargetPage extends StatelessWidget {
@@ -9,52 +10,57 @@ class TargetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    return  Scaffold(
-      appBar: AppBar(title: const Text('Target'),),
+    resizeToAvoidBottomInset: false,
        body:  Stack(
         children: [
-          BackroundScreen(
+          BackgroundScreen(
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: 
-              ContainerGlassFlex(
-                child: Column(children: [
+              padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
+              child: ContainerGlassFlex( 
+                child: Column(
+                  children: [
+                  Row(
+                    children: [
+                      IconButton(onPressed: (){
+                        Navigator.of(context).pop(); 
+                      }, icon: const Icon(Icons.arrow_back_sharp)),
+                      const SizedBox(width: 90,),
+                      Text('Target',style: kTextHeadLine5)],),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Image.asset('assets/images/mytarget2.png'),
+                  child: Container(
+                    height: 180,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(20),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/images/mytarget2.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    ),
                 ), 
                 const SizedBox(height: 50,),                       
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomButton(onTap: (){
-                    Navigator.pushNamed(context, "/targetoverview");
+                CustomButton(onTap: (){
+                  Navigator.pushNamed(context, "/targetoverview");
+                }, 
+                icon: Icons.tornado_rounded, 
+                text:  Text('Target / Overview',style: kTextHeadLine9)),
+                 CustomButton(onTap: (){
+                  Navigator.pushNamed(context, "/addtarget");
+                 }, 
+                 icon: Icons.account_balance_rounded, 
+                 text:  Text('Add Wishes',style: kTextHeadLine9)),
+                  CustomButton(onTap: (){
+                    Navigator.pushNamed(context, "/targetpoint");
                   }, 
-                  icon: Icons.tornado_rounded, 
-                  text: const Text('Target / Overview')),
-                ),
-                 Padding(
-                   padding: const EdgeInsets.all(8.0),
-                   child: CustomButton(onTap: (){
-                    Navigator.pushNamed(context, "/addtarget");
-                   }, 
-                   icon: Icons.account_balance_rounded, 
-                   text: const Text('Add Wishes')),
-                 ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomButton(onTap: (){
-                      Navigator.pushNamed(context, "/targetpoint");
-                    }, 
-                    icon: Icons.tornado_outlined, 
-                    text: const Text('Score / erreichte Punkte')),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomButton(onTap: (){
-                      Navigator.pushNamed(context, "/targetsettings");
-                    }, 
-                    icon: Icons.settings,
-                    text: const Text('Target Settings')),
-                  ),
+                  icon: Icons.tornado_outlined, 
+                  text:  Text('Score / Points',style: kTextHeadLine9)),
+                  CustomButton(onTap: (){
+                    Navigator.pushNamed(context, "/targetsettings");
+                  }, 
+                  icon: Icons.settings,
+                  text:  Text('Target Settings',style: kTextHeadLine9)),
                           ],),
               ),
             ))

@@ -16,12 +16,12 @@ Future<void> joinTeamManually(String uid, String teamId) async {
       // Teammitgliedschaft überprüfen und Benutzer hinzufügen
       CustomTeam team = CustomTeam.fromJson(
         teamSnapshot.data() as Map<String, dynamic>,
-        teamId,
+        teamId, '',
       );
       team.addMember(uid);
       // Konvertiere das aktualisierte Team in ein Map-Objekt
-      Map<String, dynamic> updatedTeamData = team.customTeamToJson();
-
+     // Map<String, dynamic> updatedTeamData = team.customTeamToJson();
+        Map<String, dynamic> updatedTeamData = team.toJson();
       // Team in Firestore aktualisieren
       await FirebaseFirestore.instance.collection('teams').doc(teamId).update(
         updatedTeamData,
@@ -175,8 +175,9 @@ Future<void> updateTeamData({String? teamName, String members = '', bool? admin,
             // Nutze die Daten aus dem JSON-Snapshot direkt, um das CustomTeam zu erstellen
             return CustomTeam.fromJson(
               teamSnapshot.data() as Map<String, dynamic>,
-              teamSnapshot.id,
+              teamId, '',
             );
+              
           } else {
             debugPrint('Das Team wurde nicht in Firestore gefunden');
             return null; 
@@ -285,7 +286,7 @@ Future<CustomTeam?> getTeamDataFromFirebase(String teamId) async {
 
     if (teamSnapshot.exists) {
       Map<String, dynamic> teamData = teamSnapshot.data() as Map<String, dynamic>;
-      return CustomTeam.fromJson(teamData, teamId);
+      return CustomTeam.fromJson(teamData, teamId, '');
     } else {
       debugPrint('Das Team wurde nicht in Firestore gefunden');
       return null; 
@@ -323,3 +324,5 @@ Future<CustomTeam?> getTeamDataFromFirebase(String teamId) async {
       debugPrint("Fehler beim Entfernen des Mitglieds: $e");
     }
   }
+
+  

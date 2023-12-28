@@ -10,7 +10,7 @@ class ChangePasswordPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Change Password'),),
        body: const Stack(
         children: [
-          BackroundScreen(Column())
+          BackgroundScreen(Column())
          ],
      ) );
   }

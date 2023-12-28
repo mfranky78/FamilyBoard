@@ -31,7 +31,7 @@ final TextEditingController _controllerName = TextEditingController();
       resizeToAvoidBottomInset: false,
       body: 
        Stack(children: [
-         BackroundScreen(
+         BackgroundScreen(
            Padding(
              padding: const EdgeInsets.fromLTRB(10,80,10,20),
              child: Center(
@@ -58,7 +58,7 @@ final TextEditingController _controllerName = TextEditingController();
                       hintText: 'Name',),
                     TextfieldEmail(
                       textController: _controllerEmail, 
-                      hintText: 'E-Mail',),
+                      lableText: 'E-Mail',),
                     TextfieldPassword(
                       hintText: 'Password', 
                       textController: _controllerPassword, 

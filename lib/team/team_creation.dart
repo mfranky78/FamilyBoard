@@ -3,6 +3,7 @@ import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/custom_textfield.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/team/team_firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -67,50 +68,57 @@ class _TeamCreationState extends State<TeamCreation> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('Teamprofil erstellen'),
-      ),
       body: Stack(
         children: [
-          BackroundScreen(
-            ContainerGlassFlex(
-              child: Column(
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(40.0),
+          BackgroundScreen(
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0,16,0,0),
+              child: ContainerGlassFlex(
+                child: Column(
+                  children: [
+                    Row(children: [
+                      IconButton(onPressed: (){
+                        Navigator.of(context).pop();
+                      }, icon: const Icon(Icons.arrow_back_sharp, size: 30,)),
+                      const SizedBox(width: 60),  
+                      Text('Team Creation', style: kTextHeadLine5),],),
+                    Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
+                          SizedBox(
                             height: 200,
                             width: 250,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.black, width: 1.0),
-                                borderRadius: BorderRadius.circular(20)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: image != null
                                   ? Image.file(image!)
-                                  : Image.asset('assets/images/child1.png'),
+                                  : SizedBox(height: 100,
+                                    child: Image.asset('assets/images/teamcreation.png')),
                             ),
                           ),
-                          const SizedBox(height: 40),
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: Divider(
+                              color: Colors.black,),
+                          ),
+                          const SizedBox(height: 10),
+                          Text('Erstelle dein Team:', style: kTextHeadLine10),
+                          const SizedBox(height: 20),
                           CustomTextField(
                             textController: _textController,
                             decoration: const InputDecoration(),
-                            label: 'Team Name',
+                            label: 'Team Name hinzufügen',
                           ),
                           CustomButton(
                             onTap: pickImageGallery,
                             icon: Icons.image,
-                            text: const Text('Bild auswählen'),
+                            text:  Text('Bild auswählen',style: kTextHeadLine2),
                           ),
                           CustomButton(
                             onTap: pickImageCamera,
                             icon: Icons.add_a_photo_rounded,
-                            text: const Text('Bild aufnehmen'),
+                            text:  Text('Bild aufnehmen',style: kTextHeadLine2),
                           ),
                           CustomButton(
                               onTap: () async {
@@ -131,12 +139,12 @@ class _TeamCreationState extends State<TeamCreation> {
                                 }
                               },
                               icon: Icons.save,
-                              text: const Text('Bestätigen')),
+                              text:  Text('Bestätigen',style: kTextHeadLine2)),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

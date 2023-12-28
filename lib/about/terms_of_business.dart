@@ -13,7 +13,7 @@ class TermsOfBusiness extends StatelessWidget {
       ),
       body: const Stack(
         children: [
-          BackroundScreen(
+          BackgroundScreen(
             ContainerGlassFlex(
               child: Padding(
                 padding: EdgeInsets.all(32.0),

@@ -41,7 +41,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Keep your files in closed safe so you can\'t lose them. Consider TrueNAS.',
+                    'Mit dieser App können Sie ihren Alltag Organisieren und Planen.'
+                    'Setzen Sie sich Ziele und erreichen Sie diese mit ihrem Team.',
                     style: TextStyle(fontSize: 18),
                     textAlign: TextAlign.left,
                   ),
@@ -67,7 +68,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Give others access to any file or folders you choose',
+                  'Erstellen Sie ihr eigens Team und laden Sie Freunde und Familie ein.'
+                  ,
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.left,
                 ),
@@ -92,7 +94,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Reach your files anytime from any devices anywhere',
+                  'Setzen Sie sich ihre eigenen Ziele um ihre Wünsche und Träume zu erreichen.',
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.left,
                 ),
@@ -149,7 +151,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   void initState() {
     super.initState();
-    // materialButton = _skipButton();
     index = 0;
   }
 
@@ -257,19 +258,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               )
                             ],
                           ),
-                          Row(
+                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 0, 200, 0),
-                                  child: CustomIndicator(
-                                    netDragPercent: dragDistance,
-                                    pagesLength: pagesLength,
-                                    indicator: Indicator(
-                                      indicatorDesign: IndicatorDesign.polygon(
-                                        polygonDesign: PolygonDesign(
-                                          polygon: DesignType.polygon_circle,
-                                        ),
+                                CustomIndicator(
+                                  netDragPercent: dragDistance,
+                                  pagesLength: pagesLength,
+                                  indicator: Indicator(
+                                    indicatorDesign: IndicatorDesign.polygon(
+                                      polygonDesign: PolygonDesign(
+                                        polygon: DesignType.polygon_circle,
                                       ),
                                     ),
                                   ),

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/user/user_firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -62,51 +63,60 @@ class _MyProfileSettingsState extends State<MyProfileSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile Settings')),
       body: Stack(
-        children: [BackroundScreen(
-          ContainerGlassFlex(
-            child: Column(
-              children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-                child: Container(height: 200,width: 200,
-                
-                  child: image != null ? Image.file(image!) : Image.asset('assets/images/dogchild.png')),
-              ),
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Column(
-                  children: [
-                    CustomButton(
-                      onTap: pickImageCamera,
-                      icon: Icons.add_a_photo_rounded,
-                      text: const Text('Bild aufnehmen'),
-                      
-                    ),
-                    CustomButton(
-                      onTap: pickImageGallery, 
-                      icon: Icons.image, 
-                      text: const Text('Bild auswählen'),
-                      
-                    ),
-                    CustomButton(onTap: () async {
-                     if (  image != null && FirebaseAuth.instance.currentUser != null) { 
-                      String imageStorageUrl = await uploadUserImageToStorage(image!, FirebaseAuth.instance.currentUser!.uid);
-                       await upDateUserDataUrl(url: imageStorageUrl);
-                       Navigator.of(context).pop();
-                     }
-                    }, icon: Icons.save,
-                    text: const Text('Bestätigen')),
-                  ],
+        children: [BackgroundScreen(
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 32.0, 0, 32.0),
+            child: ContainerGlassFlex(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                    IconButton(onPressed: (){
+                      Navigator.of(context).pop();
+                    }, 
+                    icon: const Icon(Icons.arrow_back_rounded, size: 30,)), 
+                    const SizedBox(width: 20,),
+                     Text('Profile Settings',style: kTextHeadLine1)],),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(height: 200,width: 200,
+                    child: image != null ? Image.file(image!) : Image.asset('assets/images/dogchild.png')),
                 ),
-              ),
-            ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Column(
+                    children: [
+                      CustomButton(
+                        onTap: pickImageCamera,
+                        icon: Icons.add_a_photo_rounded,
+                        text:  Text('Bild aufnehmen',style: kTextHeadLine2),
+                        
+                      ),
+                      CustomButton(
+                        onTap: pickImageGallery, 
+                        icon: Icons.image, 
+                        text:  Text('Bild auswählen',style: kTextHeadLine2),
+                        
+                      ),
+                      CustomButton(onTap: () async {
+                       if (  image != null && FirebaseAuth.instance.currentUser != null) { 
+                        String imageStorageUrl = await uploadUserImageToStorage(image!, FirebaseAuth.instance.currentUser!.uid);
+                         await upDateUserDataUrl(url: imageStorageUrl);
+                         Navigator.of(context).pop();
+                       }
+                      }, icon: Icons.save,
+                      text:  Text('Bestätigen',style: kTextHeadLine2)),
                     ],
                   ),
+                ),
+              ),
+                      ],
+                    ),
+            ),
           ),
    )],)); 
   }

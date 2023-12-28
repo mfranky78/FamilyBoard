@@ -16,7 +16,7 @@ class _TextfieldButtonState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      child: SizedBox(height: 50, width: 250,
+      child: SizedBox(height: 55,
         child: TextField(
           controller: widget.textController,
           decoration: InputDecoration(

@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 
-class BackroundScreen extends StatelessWidget {
+class BackgroundScreen extends StatelessWidget {
  final Widget column;
-   const BackroundScreen(this.column,  {super.key});
+   const BackgroundScreen(this.column,  {super.key});
 
   @override
   Widget build(BuildContext context) {

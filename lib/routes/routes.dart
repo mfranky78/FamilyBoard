@@ -22,8 +22,10 @@ import 'package:famibo/target/targets_overview_page.dart';
 import 'package:famibo/team/memeber_invitaion_page.dart';
 import 'package:famibo/team/team_administration.dart';
 import 'package:famibo/team/team_member_page.dart';
+import 'package:famibo/team/team_overview.dart';
 import 'package:famibo/team/team_page.dart';
 import 'package:famibo/team/team_creation.dart';
+import 'package:famibo/team/team_profile.dart';
 import 'package:famibo/team/team_settings.dart';
 import 'package:famibo/widgets/calculator.dart';
 import 'package:famibo/widgets/calendar.dart';
@@ -59,9 +61,9 @@ class RoutePage extends ConsumerWidget {
       "/teampage": (context) =>  const TeamPage(),
       "/teammemeber": (context) =>  const TeamMemberPage(),
       "/memberinvitation": (context) => const MemberInvitationPage(),
-      "/teamsettings": (context) =>  TeamSettingsPage(),
+      "/teamsettings": (context) =>  const TeamSettingsPage(),
       "/teamcreation": (context) => TeamCreation(setImage: (String) {},),
-      "/teamadmin": (context) => const TeamAdminPage(),
+      "/teamadmin": (context) =>  const TeamAdminPage(),
       "/mycalendar": (context) => const MyCalendar(),
       "/timetable": (context) =>  const MultipleTimetables(),
       "/listpage": (context) => const ListPage(),
@@ -72,6 +74,8 @@ class RoutePage extends ConsumerWidget {
       "/settings": (context) =>  const SettingsPage(),
       "/termsofbusiness": (context) => const TermsOfBusiness(),
       "/regestration": (context) => const RegistrationPage(),
+      "/teamprofile": (context) => TeamProfile(setImage: (String) {},),
+      "/teamoverview": (context) => const TeamOverview(),
           });
   }
 }

@@ -10,7 +10,7 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Settings'),),
        body: const Stack(
         children: [
-          BackroundScreen(Column())
+          BackgroundScreen(Column())
          ],
      ) );
   }

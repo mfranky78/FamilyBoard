@@ -60,7 +60,7 @@ Future<void> _deleteAccount() async {
     return  Scaffold(
       appBar: AppBar(title: const Text('Delete Account')),
       body: Stack(children: [
-        BackroundScreen(
+        BackgroundScreen(
           ContainerGlassFlex(
             child: Column(children: [
               Padding(

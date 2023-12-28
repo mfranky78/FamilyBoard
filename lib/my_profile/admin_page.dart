@@ -10,7 +10,7 @@ class AdminPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Administration'),),
        body: const Stack(
         children: [
-          BackroundScreen(Column())
+          BackgroundScreen(Column())
          ],
      ) );
   }

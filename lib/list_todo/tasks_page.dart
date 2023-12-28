@@ -1,7 +1,6 @@
 import 'package:famibo/core/backround_screen.dart';
-import 'package:famibo/core/custom_button_icon.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
-import 'package:famibo/core/textfield_email.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,47 +17,62 @@ class _TaskPageState extends State<TaskPage> {
   String todos = '';
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final TextEditingController _textEditingController = TextEditingController();
 
-Future<void> _addTask(String uid) async {
-  String todoText = _textEditingController.text;
-   try {
-    if (todoText.isNotEmpty) {
-      DocumentReference userDocRef =
-          FirebaseFirestore.instance.collection('users').doc(uid);
-      await userDocRef.collection('tasks').add({
-        'text': todoText,
-      });
-      _textEditingController.clear();
-      debugPrint('Subcollection "tasks" erfolgreich erstellt.');
-    } else {
-      debugPrint('Eingabe ist leer.');
-    }
-  } catch (e) {
-    debugPrint('Fehler beim Erstellen der Subcollection "tasks": $e');
-  }
-}
-
+  
+  
   String getCurrentUserId() {
     User? user = FirebaseAuth.instance.currentUser;
     return user?.uid ?? '';
   }
 
   Future<void> _deleteTask(String docId) async {
-    final todoCollection = _firestore.collection('users').doc(getCurrentUserId()).collection('tasks');
+    final todoCollection = _firestore
+        .collection('users')
+        .doc(getCurrentUserId())
+        .collection('tasks');
     await todoCollection.doc(docId).delete();
+  }
+
+  Future<void> _updateTaskStatus(
+      String userId, String targetTodoId, bool isDone) async {
+    try {
+      DocumentReference targetTodoRef = _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('targetTodo')
+          .doc(targetTodoId);
+      await targetTodoRef.update({'isDone': isDone});
+    } catch (e) {
+      debugPrint('Fehler beim Aktualisieren des Status: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: const Text('Task List'),
-        ),
+        resizeToAvoidBottomInset: false,
         body: Stack(children: [
-          BackroundScreen(
-            Column(children: [
+          BackgroundScreen(Padding(
+            padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
+            child: ContainerGlassFlex(
+                child: Column(children: [
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_sharp,
+                      size: 30,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 90,
+                  ),
+                  Text('Task List', style: kTextHeadLine5),
+                ],
+              ),
               SizedBox(
                 height: 250,
                 child: ContainerGlassFlex(
@@ -72,69 +86,65 @@ Future<void> _addTask(String uid) async {
                   ),
                 )),
               ),
-              const Text('Füge Aufgaben hinzu'),
-              TextfieldEmail(
-                hintText: 'Posten hinzufügen',
-                textController: _textEditingController,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                   CustomButtonIcon(
-                        onTap: () {
-                          String uid = getCurrentUserId(); 
-                          _addTask(uid);
-                        },
-                        icon: Icons.add,
-                    ),
-                  ],
-                ),
-              ),
+              Text('Add your tasks', style: kTextHeadLine2),
               const SizedBox(
-                width: 20,
+                height: 20,
               ),
-              const Text('Liste',style: TextStyle(fontSize: 22),),
+              Text('Liste', style: kTextHeadLine5),
               const Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Divider(
-                  color: Colors.black,
-                  height: 3,
-                  thickness: 2,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  child: Divider(
+                    color: Colors.black,
+                    height: 1,
+                    thickness: 1,
+                  ),
                 ),
               ),
               Expanded(
-                child: StreamBuilder(
-                  // daten aus der DB holen
-                  stream: _firestore.collection('users').doc(getCurrentUserId()).collection('tasks').snapshots(),
-                  builder: ((context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const CircularProgressIndicator();
-                    }
-                    var tasks = snapshot.data?.docs;
-                    return ListView.builder(
-                      itemCount: tasks!.length,
-                      itemBuilder: ((context, index) {
-                        // einzelnes todo anlegen
-                        var task = tasks[index];  
-                        return ListTile(
-                          trailing: IconButton(
-                            onPressed: () {
-                              _deleteTask(task.id);
-                            },
-                            icon: const Icon(Icons.delete, size: 30,),
-                          ),
-                          title: Text(
-                            task['text'],style: const TextStyle(fontSize: 20)
-                          ),
-                        );
-                      }),
-                    );
-                  }),
-                ),
-              ),
-            ]),
-          )
+                  child: StreamBuilder<QuerySnapshot>(
+                stream: _firestore
+                    .collection('users')
+                    .doc(getCurrentUserId())
+                    .collection(
+                        'targetTodo') // Geändert von 'tasks' zu 'targetTodo'
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Text(
+                        'Keine zielorientierten Aufgaben gefunden.');
+                  }
+
+                  var tasks = snapshot.data!.docs;
+                  return ContainerGlassFlex(
+                      child: ListView.builder(
+                    itemCount: tasks.length,
+                    itemBuilder: (context, index) {
+                      var task = tasks[index].data() as Map<String, dynamic>;
+
+                      return ListTile(
+                        title: Text(task['text'], style: kTextHeadLine6),
+                        subtitle: Text('Punkte: ${task['points']}'),
+                        trailing: Checkbox(
+                          value: task['isDone'] ?? false,
+                          onChanged: (bool? newValue) {
+                            _updateTaskStatus(getCurrentUserId(),
+                                tasks[index].id, newValue ?? false);
+                          },
+                        ),
+                          
+                      );
+                    },
+                  ));
+                },
+              ))
+            ])),
+          ))
         ]));
   }
 }
