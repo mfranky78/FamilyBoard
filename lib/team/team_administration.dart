@@ -8,7 +8,7 @@ import 'package:famibo/team/team_model.dart';
 import 'package:famibo/user/user_model.dart';
 
 class TeamAdminPage extends StatefulWidget {
-  const TeamAdminPage({Key? key}) : super(key: key);
+  const TeamAdminPage({super.key});
 
   @override
   State<TeamAdminPage> createState() => _TeamAdminPageState();
