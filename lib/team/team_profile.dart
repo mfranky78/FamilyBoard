@@ -1,5 +1,6 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
+import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/widgets/custom_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -43,47 +44,70 @@ class _TeamProfileState extends State<TeamProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( 
-        title: const Text('Teamprofil bearbeiten'),       
-      ),
       body: Stack(
         children: [
           BackgroundScreen(
-            Column(
-              children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0,32,0,0),
+              child: ContainerGlassFlex(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        CustomImagePicker(
-                          setImage: setAvatarImagePath,
-                        
-                        ),
-                        const SizedBox(height: 40,),
-                        CustomButton(
-                          onTap: () {
-                            pickImageGallery(ImageSource.gallery);
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
                           },
-                          text: const Text('Bild aus Galerie auswählen'),
-                          icon: Icons.image,
+                          icon: const Icon(Icons.arrow_back),
                         ),
                         const SizedBox(
-                          height: 30,
+                          width: 20,
                         ),
-                        CustomButton(
-                          onTap: () {
-                            pickImageCamera(ImageSource.camera);
-                          },
-                          text: const Text('Foto mit Kamera aufnehmen'),
-                          icon: Icons.camera,
+                        const Text(
+                          'Teamprofil bearbeiten',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
-                  ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CustomImagePicker(
+                              setImage: setAvatarImagePath,
+                            
+                            ),
+                            const SizedBox(height: 40,),
+                            CustomButton(
+                              onTap: () {
+                                pickImageGallery(ImageSource.gallery);
+                              },
+                              text: const Text('Bild aus Galerie auswählen'),
+                              icon: Icons.image,
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            CustomButton(
+                              onTap: () {
+                                pickImageCamera(ImageSource.camera);
+                              },
+                              text: const Text('Foto mit Kamera aufnehmen'),
+                              icon: Icons.camera,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
           if (avatarImagePath != null)
