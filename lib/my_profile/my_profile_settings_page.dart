@@ -81,7 +81,7 @@ class _MyProfileSettingsState extends State<MyProfileSettings> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                   child: SizedBox(height: 200,width: 200,
-                    child: image != null ? Image.file(image!) : Image.asset('assets/images/dogchild.png')),
+                    child: Image.asset('assets/images/kamera.png')),
                 ),
               Positioned(
                 top: 0,

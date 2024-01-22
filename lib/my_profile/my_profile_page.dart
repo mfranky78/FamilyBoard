@@ -52,7 +52,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
         body: Stack(children: [
       BackgroundScreen(
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 32, 0, 32),
+          padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
           child: ContainerGlassFlex(
             child: Column(children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,

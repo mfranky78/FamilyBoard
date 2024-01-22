@@ -35,7 +35,7 @@ class _TeamPageState extends State<TeamPage> {
         children: [
           BackgroundScreen(
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
               child: ContainerGlassFlex(
                 child: Column(
                   children: [

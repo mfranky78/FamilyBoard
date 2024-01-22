@@ -6,6 +6,7 @@ import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/core/textfield_email.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TargetSettingsPage extends StatefulWidget {
   final String? docId;
@@ -24,6 +25,7 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
   final TextEditingController _targetTodoController = TextEditingController();
   final TextEditingController _pointsController = TextEditingController();
   List<TargetSettingsPage> targetTodoList = [];
+  DateTime selectedDate = DateTime.now();
 
   Future<void> _addTargetTodo() async {
     String targetTodoText = _targetTodoController.text;
@@ -31,15 +33,14 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
     try {
       if (targetTodoText.isNotEmpty && targetSettingPointText.isNotEmpty) {
         int targetSettingPoint = int.parse(targetSettingPointText);
-        // Prüfen, ob die Umwandlung erfolgreich war
         if (targetSettingPoint != null) {
-          // Hinzufügen zur Collection
           DocumentReference userDocRef = FirebaseFirestore.instance
               .collection('users')
               .doc(getCurrentUserId());
           await userDocRef.collection('targetTodo').add({
             'text': targetTodoText,
             'points': targetSettingPoint,
+            'date': Timestamp.fromDate(DateTime.now()), // Datum hinzufügen
           });
           _targetTodoController.clear();
           _pointsController.clear();
@@ -58,13 +59,20 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
     return user?.uid ?? '';
   }
 
-  Future<void> _deleteTask(String docId) async {
-    final todoCollection = _firestore
+ Future<void> _deleteTask(String docId) async {
+  try {
+    await _firestore
         .collection('users')
         .doc(getCurrentUserId())
-        .collection('tasks');
-    await todoCollection.doc(docId).delete();
+        .collection('targetTodo')
+        .doc(docId)
+        .delete();
+    debugPrint('Aktivität erfolgreich gelöscht.');
+  } catch (e) {
+    debugPrint('Fehler beim Löschen der Aktivität: $e');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +112,7 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
                     Text('Give your activities points. Create a list:',
                         style: kTextHeadLine2),
                     TextfieldEmail(
-                      lableText: 'e.g. clean up',
+                      lableText: 'z.B. clean up',
                       textController: _targetTodoController,
                     ),
                     TextfieldEmail(
@@ -117,45 +125,53 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
                       text: Text('Insert', style: kTextHeadLine2),
                     ),
                     Expanded(
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: _firestore
-                            .collection('users')
-                            .doc(getCurrentUserId())
-                            .collection('targetTodo')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
-                          }
+  child: StreamBuilder<QuerySnapshot>(
+    stream: _firestore
+        .collection('users')
+        .doc(getCurrentUserId())
+        .collection('targetTodo')
+        .snapshots(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const CircularProgressIndicator();
+      }
+      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+        return const Text("Keine Aktivitäten gefunden.");
+      }
+      var targetTodos = snapshot.data!.docs;
+      return ListView.builder(
+        itemCount: targetTodos.length,
+        itemBuilder: (context, index) {
+          DocumentSnapshot documentSnapshot = targetTodos[index];
+          Map<String, dynamic> targetTodo = documentSnapshot.data() as Map<String, dynamic>? ?? {};
 
-                          if (!snapshot.hasData) {
-                            return const Text("Keine Aktivitäten gefunden.");
-                          }
+          String todoText = targetTodo['text'] ?? 'Kein Text';
+          int points = targetTodo['points'] ?? 0;
+          Timestamp? timestamp = targetTodo['date'] as Timestamp?;
+          String formattedDate = '';
+          if (timestamp != null) {
+            DateTime date = timestamp.toDate();
+            formattedDate = DateFormat('dd.MM.yyyy').format(date);
+          } else {
+            formattedDate = 'Kein Datum';
+          }
 
-                          var targetTodos = snapshot.data!.docs;
-                          return ListView.builder(
-                            itemCount: targetTodos.length,
-                            itemBuilder: (context, index) {
-                              var targetTodo = targetTodos[index];
-                              return ListTile(
-                                title: Text(targetTodo['text'],
-                                    style: kTextHeadLine6),
-                                subtitle:
-                                    Text('Punkte: ${targetTodo['points']}',
-                                        style: kTextHeadLine4),
-                                trailing: IconButton(
-                                  icon: const Icon(Icons.delete, size: 30),
-                                  onPressed: () {
-                                    targetTodo.reference.delete();
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
+          return ListTile(
+            title: Text(todoText),
+            subtitle: Text('Punkte: $points | Datum: $formattedDate'),
+            trailing: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                _deleteTask(documentSnapshot.id); // Löschfunktion aufrufen
+              },
+            ),
+          );
+        },
+      );
+    },
+  ),
+),
+
                   ],
                 ),
               ),

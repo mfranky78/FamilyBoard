@@ -14,65 +14,86 @@ class SettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(darkModeProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
       body: Stack(
         children: [
-          BackgroundScreen(ContainerGlassFlex(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Image.asset('assets/images/team-settings.png'),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                 Text('Hier kannst du Allgemeine Einstellung machen', style: kTextHeadLine2),
-                SizedBox(
-                  height: 50,
-                ),
-                CustomButton(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/language");
-                    },
-                    icon: Icons.language,
-                    text: const Text('Language')),
-                CustomButton(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/deleteaccount");
-                    },
-                    icon: Icons.delete_rounded,
-                    text: const Text('Account Löschen')),
-                Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const GlassContainerFix(
-                      child: Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Center(
-                          child: Row(
-                            children: [
-                              Icon(Icons.dark_mode),
-                              SizedBox(width: 10,),
-                              Text('Dark Mode'),
-                            ],
+          BackgroundScreen(
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0,32,0,0),
+              child: ContainerGlassFlex(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back_sharp,
+                          size: 30,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 90,
+                      ),
+                      Text('Settings', style: kTextHeadLine5),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Image.asset('assets/images/team-settings.png'),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                   Padding(
+                     padding: const EdgeInsets.fromLTRB(36,0,0,0),
+                     child: Text('Hier kannst du Allgemeine Einstellung machen', style: kTextHeadLine2),
+                   ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  CustomButton(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/language");
+                      },
+                      icon: Icons.language,
+                      text: const Text('Language')),
+                  CustomButton(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/deleteaccount");
+                      },
+                      icon: Icons.delete_rounded,
+                      text: const Text('Account Löschen')),
+                  Row(mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const GlassContainerFix(
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Row(
+                              children: [
+                                Icon(Icons.dark_mode),
+                                SizedBox(width: 10,),
+                                Text('Dark Mode'),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 40,),
-                    Switch(
-                      value: isDarkMode,
-                      onChanged: (value) {
-                        ref.read(darkModeProvider.notifier).toggleDarkMode();
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ))
+                      const SizedBox(width: 90,),
+                      Switch(
+                        value: isDarkMode,
+                        onChanged: (value) {
+                          ref.read(darkModeProvider.notifier).toggleDarkMode();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+                        ),
+            ))
         ],
       ),
     );

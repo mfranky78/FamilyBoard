@@ -20,17 +20,21 @@ class _WishPageState extends State<WishPage> {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _wishPointsController = TextEditingController();
 
   Future<void> _addWish(String uid) async {
-    String wishText = _textEditingController.text;
-    try {
-      if (wishText.isNotEmpty) {
-        DocumentReference userDocRef =
-            FirebaseFirestore.instance.collection('users').doc(uid);
-        await userDocRef.collection('wishes').add({
-          'text': wishText,
-        });
+  String wishText = _textEditingController.text;
+  String wishPointsText = _wishPointsController.text;
+  try {
+    if (wishText.isNotEmpty && wishPointsText.isNotEmpty) {
+      int wishPoints = int.parse(wishPointsText);
+      await FirebaseFirestore.instance.collection('wishes').add({
+        'text': wishText,
+        'points': wishPoints,
+        'userId': uid, // Benutzer-ID speichern
+      });
         _textEditingController.clear();
+        _wishPointsController.clear();
         debugPrint('Subcollection "wishes" erfolgreich erstellt.');
       } else {
         debugPrint('Eingabe ist leer.');
@@ -60,7 +64,7 @@ class _WishPageState extends State<WishPage> {
         body: Stack(
           children: [
             BackgroundScreen(Padding(
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
               child: ContainerGlassFlex(
                 child: Column(
                   children: [
@@ -71,7 +75,9 @@ class _WishPageState extends State<WishPage> {
                               Navigator.of(context).pop();
                             },
                             icon: const Icon(Icons.arrow_back_sharp, size: 30)),
-                            const SizedBox(width: 110,),
+                        const SizedBox(
+                          width: 110,
+                        ),
                         Text('Wish', style: kTextHeadLine5),
                       ],
                     ),
@@ -87,6 +93,10 @@ class _WishPageState extends State<WishPage> {
                     TextfieldEmail(
                       textController: _textEditingController,
                       lableText: 'Your Wish',
+                    ),
+                    TextfieldEmail(
+                      textController: _wishPointsController,
+                      lableText: 'Points for this Wish',
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -125,17 +135,16 @@ class _WishPageState extends State<WishPage> {
                               var wish = wishes[index];
 
                               return ListTile(
-                                  trailing: IconButton(
-                                    onPressed: () {
-                                      _deleteWish(wish.id);
-                                    },
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      size: 25,
-                                    ),
-                                  ),
-                                  title: Text(wish['text'],
-                                      style: kTextHeadLine2));
+                                trailing: IconButton(
+                                  onPressed: () {
+                                    _deleteWish(wish.id);
+                                  },
+                                  icon: const Icon(Icons.delete, size: 25),
+                                ),
+                                title:
+                                    Text(wish['text'], style: kTextHeadLine2),
+                                subtitle: Text('Punkte: ${wish['points']}'),
+                              );
                             }),
                           );
                         }),

@@ -11,6 +11,7 @@ Future<CustomUser?> saveUserData({
   String? teamId, 
   String? url, 
   String? uid, 
+  int? points,
   }) async {
   try {
     User? user = FirebaseAuth.instance.currentUser;
@@ -21,6 +22,7 @@ Future<CustomUser?> saveUserData({
     'email': email,
     'url' : url,
     'teamId': teamId,
+    'points': points,
       });
     }
   } catch (e) {

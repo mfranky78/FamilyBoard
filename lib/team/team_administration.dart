@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
@@ -18,10 +19,26 @@ class _TeamAdminPageState extends State<TeamAdminPage> {
   Map<String, CustomUser> allUsers = {};
   Map<String, bool> adminSwitchStates = {};
 
+
+  bool isCurrentUserAdmin(String teamId) {
+  String currentUserId = getCurrentUserId();
+  var teamIndex = teams.indexWhere((t) => t.teamId == teamId);
+  if (teamIndex != -1) {
+    return teams[teamIndex].admins.contains(currentUserId);
+  }
+  return false;
+}
+
+
   @override
   void initState() {
     super.initState();
     fetchAllUsers();
+  }
+
+  String getCurrentUserId() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user?.uid ?? '';
   }
 
   Future<void> fetchAllUsers() async {
@@ -55,6 +72,11 @@ class _TeamAdminPageState extends State<TeamAdminPage> {
     }
   }
 
+  bool isUserAdmin(String userId, List<CustomTeam> teams) {
+    return teams.any((team) => team.admins.contains(userId));
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +93,8 @@ class _TeamAdminPageState extends State<TeamAdminPage> {
                     icon: const Icon(Icons.arrow_back_sharp, size: 30),
                   ),
                   const SizedBox(
-                    width: 70,),
+                    width: 70,
+                  ),
                   Text('Team Rights', style: kTextHeadLine5),
                 ],
               ),
@@ -118,20 +141,23 @@ class _TeamAdminPageState extends State<TeamAdminPage> {
                     var teamDocs = snapshot.data?.docs;
                     teams = teamDocs!
                         .map((doc) => CustomTeam.fromJson(
-                            doc.data() as Map<String, dynamic>, doc.id, ''))
+                            doc.data(), doc.id, ''))
                         .toList();
 
                     return ListView.builder(
-                      itemCount: teams.length,
-                      itemBuilder: (context, index) {
-                        var team = teams[index];
-                        return TeamListItem(
-                          team: team,
-                          allUsers: allUsers,
-                          onAdminToggle: toggleAdminStatus,
-                        );
-                      },
-                    );
+  itemCount: teams.length,
+  itemBuilder: (context, index) {
+    CustomTeam team = teams[index];
+
+    return TeamListItem(
+      team: team,
+      allUsers: allUsers,
+      onAdminToggle: toggleAdminStatus,
+      isCurrentUserAdmin: isCurrentUserAdmin, // Übergeben der Methode als Parameter
+    );
+  },
+);
+
                   },
                 ),
               )
@@ -143,13 +169,15 @@ class TeamListItem extends StatefulWidget {
   final CustomTeam team;
   final Map<String, CustomUser> allUsers;
   final Function(String, String, bool) onAdminToggle;
+  final isCurrentUserAdmin;
 
-  const TeamListItem({
-    Key? key,
+   const TeamListItem({
+    super.key,
     required this.team,
     required this.allUsers,
     required this.onAdminToggle,
-  }) : super(key: key);
+    required this.isCurrentUserAdmin, // Fügen Sie die Methode als Parameter hinzu
+  });
 
   @override
   _TeamListItemState createState() => _TeamListItemState();
@@ -173,10 +201,14 @@ class _TeamListItemState extends State<TeamListItem> {
       String memberId = widget.team.members[i];
       String memberName = widget.allUsers[memberId]?.name ?? 'Unknown';
       bool isAdmin = adminStatuses[i];
+      bool showSwitch = widget.isCurrentUserAdmin(widget.team.teamId); // Übergeben Sie den aktuellen Benutzer als Parameter
 
       memberWidgets.add(ListTile(
-        title: Text(memberName, style: kTextHeadLine2,),
-        trailing: Switch(
+        title: Text(
+          memberName,
+          style: kTextHeadLine2,
+        ),
+        trailing: showSwitch ? Switch(
           value: isAdmin,
           onChanged: (value) {
             setState(() {
@@ -184,7 +216,7 @@ class _TeamListItemState extends State<TeamListItem> {
             });
             widget.onAdminToggle(widget.team.teamId, memberId, value);
           },
-        ),
+         ) : null,
       ));
     }
 

@@ -15,22 +15,46 @@ class TaskPage extends StatefulWidget {
 class _TaskPageState extends State<TaskPage> {
   String docId = '';
   String todos = '';
+  bool isAdmin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAdminStatus(); // Admin-Status beim Initialisieren der Seite prüfen
+  }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  
-  
   String getCurrentUserId() {
     User? user = FirebaseAuth.instance.currentUser;
     return user?.uid ?? '';
   }
 
+  Future<void> _checkAdminStatus() async {
+    String currentUserId = getCurrentUserId();
+    var teamSnapshot = await _firestore
+        .collection('teams')
+        .where('creatorId', isEqualTo: currentUserId)
+        .get();
+
+    setState(() {
+      isAdmin = teamSnapshot.docs
+          .isNotEmpty; // Der Benutzer ist Admin, wenn er mindestens ein Team erstellt hat
+    });
+  }
+
   Future<void> _deleteTask(String docId) async {
-    final todoCollection = _firestore
-        .collection('users')
-        .doc(getCurrentUserId())
-        .collection('tasks');
-    await todoCollection.doc(docId).delete();
+    try {
+      await _firestore
+          .collection('users')
+          .doc(getCurrentUserId())
+          .collection('targetTodo')
+          .doc(docId)
+          .delete();
+      debugPrint('Aufgabe erfolgreich gelöscht.');
+    } catch (e) {
+      debugPrint('Fehler beim Löschen der Aufgabe: $e');
+    }
   }
 
   Future<void> _updateTaskStatus(
@@ -41,6 +65,20 @@ class _TaskPageState extends State<TaskPage> {
           .doc(userId)
           .collection('targetTodo')
           .doc(targetTodoId);
+
+      DocumentSnapshot targetTodoDoc = await targetTodoRef.get();
+      Map<String, dynamic> targetTodoData =
+          targetTodoDoc.data() as Map<String, dynamic>;
+      int points = targetTodoData['points'] ?? 0;
+
+      DocumentReference userRef = _firestore.collection('users').doc(userId);
+      DocumentSnapshot userDoc = await userRef.get();
+      Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+      int currentPoints = userData['points'] ?? 0;
+      int updatedPoints =
+          isDone ? currentPoints + points : currentPoints - points;
+
+      await userRef.update({'points': updatedPoints});
       await targetTodoRef.update({'isDone': isDone});
     } catch (e) {
       debugPrint('Fehler beim Aktualisieren des Status: $e');
@@ -74,9 +112,8 @@ class _TaskPageState extends State<TaskPage> {
                 ],
               ),
               SizedBox(
-                height: 250,
-                child: ContainerGlassFlex(
-                    child: Center(
+                height: 200,
+                child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Image.asset(
@@ -84,7 +121,7 @@ class _TaskPageState extends State<TaskPage> {
                       fit: BoxFit.contain,
                     ),
                   ),
-                )),
+                ),
               ),
               Text('Add your tasks', style: kTextHeadLine2),
               const SizedBox(
@@ -121,26 +158,53 @@ class _TaskPageState extends State<TaskPage> {
                   }
 
                   var tasks = snapshot.data!.docs;
-                  return ContainerGlassFlex(
-                      child: ListView.builder(
-                    itemCount: tasks.length,
-                    itemBuilder: (context, index) {
-                      var task = tasks[index].data() as Map<String, dynamic>;
+                  return ListView.builder(
+  itemCount: tasks.length,
+  itemBuilder: (context, index) {
+    var task = tasks[index].data() as Map<String, dynamic>;
+    bool isTaskDone = task['isDone'] ?? false;
+    String docId = tasks[index].id;
 
-                      return ListTile(
-                        title: Text(task['text'], style: kTextHeadLine6),
-                        subtitle: Text('Punkte: ${task['points']}'),
-                        trailing: Checkbox(
-                          value: task['isDone'] ?? false,
-                          onChanged: (bool? newValue) {
-                            _updateTaskStatus(getCurrentUserId(),
-                                tasks[index].id, newValue ?? false);
-                          },
-                        ),
-                          
-                      );
-                    },
-                  ));
+    return ListTile(
+      title: Text(
+        task['text'],
+        style: TextStyle(
+          decoration: isTaskDone ? TextDecoration.lineThrough : null,
+        ),
+      ),
+      subtitle: Text('Punkte: ${task['points']}'),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Checkbox
+          Checkbox(
+            value: isTaskDone,
+            onChanged: (bool? newValue) {
+              _updateTaskStatus(getCurrentUserId(), docId, newValue ?? false);
+            },
+          ),
+
+          // Reaktivierungs-Button (nur wenn die Aufgabe erledigt ist)
+          if (isTaskDone) IconButton(
+            icon: Icon(Icons.undo),
+            onPressed: () {
+              _updateTaskStatus(getCurrentUserId(), docId, false);
+            },
+          ),
+
+          // Lösch-Button
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              _deleteTask(docId);
+            },
+          ),
+        ],
+      ),
+    );
+  },
+);
+
                 },
               ))
             ])),

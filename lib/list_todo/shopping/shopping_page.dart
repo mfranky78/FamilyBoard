@@ -58,7 +58,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
         body: Stack(children: [
           BackgroundScreen(
             Padding(
-              padding: const EdgeInsets.fromLTRB(0,16,0,0),
+              padding: const EdgeInsets.fromLTRB(0,32,0,0),
               child: ContainerGlassFlex(
                 child: Column(children: [
                   Row(children: [

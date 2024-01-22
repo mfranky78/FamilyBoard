@@ -46,24 +46,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ContainerGlassFlex(
                       child: Column(
                         children: [
-                          Row(mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                       Text(
-                        "Homescreen",
-                        style: kTextHeadLine5,
-                      ),
-                      const SizedBox(width: 60,),
-                      IconButton(
-                          onPressed: () {
-                            context.read<AuthCubit>().signOut(context);
-                          },
-                          icon: const Icon(
-                            Icons.logout,
-                            color: Colors.black,
-                          )),
-                     
-                    ],
-                                    ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Homescreen",
+                                style: kTextHeadLine5,
+                              ),
+                              const SizedBox(
+                                width: 60,
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    context.read<AuthCubit>().signOut(context);
+                                  },
+                                  icon: const Icon(
+                                    Icons.logout,
+                                    color: Colors.black,
+                                  )),
+                            ],
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -95,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.all(16.0),
                             child: Text(state.email, style: kTextHeadLine6),
                           ),
-                    
+
                           FutureBuilder(
                             future: getUserData(),
                             builder: (context, snapshot) {
@@ -119,7 +121,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ],
                                     );
                                   } else {
-                                    return const Text('Benutzer nicht gefunden');
+                                    return const Text(
+                                        'Benutzer nicht gefunden');
                                   }
                                 } catch (error) {
                                   return Text(
@@ -128,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                             },
                           ),
-                    
+
                           const SizedBox(
                             height: 20,
                           ),
@@ -140,7 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   CustomButton(
                                     onTap: () {
-                                      Navigator.pushNamed(context, "/myprofile");
+                                      Navigator.pushNamed(
+                                          context, "/myprofile");
                                     },
                                     icon: Icons.flag,
                                     text: Text(
@@ -150,7 +154,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   CustomButton(
                                     onTap: () {
-                                      Navigator.pushNamed(context, "/targetpage");
+                                      Navigator.pushNamed(
+                                          context, "/targetpage");
                                     },
                                     icon: Icons.flag,
                                     text: Text(
@@ -180,7 +185,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   CustomButton(
                                     onTap: () {
-                                      Navigator.pushNamed(context, "/mycalendar");
+                                      Navigator.pushNamed(
+                                          context, "/mycalendar");
                                     },
                                     icon: Icons.calendar_today,
                                     text: Text(
@@ -190,7 +196,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   CustomButton(
                                     onTap: () {
-                                      Navigator.pushNamed(context, "/timetable");
+                                      Navigator.pushNamed(
+                                          context, "/timetable");
                                     },
                                     icon: Icons.school,
                                     text: Text(
@@ -210,7 +217,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   CustomButton(
                                     onTap: () {
-                                      Navigator.pushNamed(context, "/aboutpage");
+                                      Navigator.pushNamed(
+                                          context, "/aboutpage");
                                     },
                                     icon: Icons.account_box,
                                     text: Text(

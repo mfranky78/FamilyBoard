@@ -23,19 +23,17 @@ class TargetPage extends StatelessWidget {
                     children: [
                       IconButton(onPressed: (){
                         Navigator.of(context).pop(); 
-                      }, icon: const Icon(Icons.arrow_back_sharp)),
+                      }, icon: const Icon(Icons.arrow_back_sharp, size: 32,)),
                       const SizedBox(width: 90,),
                       Text('Target',style: kTextHeadLine5)],),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Container(
-                    height: 180,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(20),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/mytarget2.png'),
-                        fit: BoxFit.cover,
+                    height: 250,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/statistic.png'),
+                        fit: BoxFit.contain,
                       ),
                     ),
                     ),
