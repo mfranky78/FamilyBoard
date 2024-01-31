@@ -59,20 +59,13 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
     return user?.uid ?? '';
   }
 
- Future<void> _deleteTask(String docId) async {
-  try {
-    await _firestore
+  Future<void> _deleteTask(String docId) async {
+    final todoCollection = _firestore
         .collection('users')
         .doc(getCurrentUserId())
-        .collection('targetTodo')
-        .doc(docId)
-        .delete();
-    debugPrint('Aktivität erfolgreich gelöscht.');
-  } catch (e) {
-    debugPrint('Fehler beim Löschen der Aktivität: $e');
+        .collection('tasks');
+    await todoCollection.doc(docId).delete();
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
