@@ -1,7 +1,6 @@
 import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
-import 'package:famibo/login/login_page.dart';
 import 'package:flutter/material.dart';
  import 'package:firebase_auth/firebase_auth.dart';
 
