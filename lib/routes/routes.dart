@@ -1,7 +1,7 @@
 import 'package:famibo/about/terms_of_business.dart';
+import 'package:famibo/features/settings/presentation/pages/settings_page.dart';
+import 'package:famibo/features/settings/state/dark_mode_provider.dart';
 import 'package:famibo/login/regestration_page.dart';
-import 'package:famibo/settingsallgemein/allgemeine_settings.dart';
-import 'package:famibo/settingsallgemein/darkmode_notifire_riverpod.dart';
 import 'package:famibo/settingsallgemein/delete_account.dart';
 import 'package:famibo/about/privat_police.dart';
 import 'package:famibo/home_screen/home_screen_page.dart';
@@ -10,8 +10,8 @@ import 'package:famibo/login/login_page.dart';
 import 'package:famibo/login/password_forget_page.dart';
 import 'package:famibo/main.dart';
 import 'package:famibo/about/about_app.dart';
-import 'package:famibo/my_profile/my_profile_page.dart';
-import 'package:famibo/my_profile/my_profile_settings_page.dart';
+import 'package:famibo/features_1/my_profile/views/my_profile_page.dart';
+import 'package:famibo/features_1/my_profile/my_profile_settings_page.dart';
 import 'package:famibo/onboarding/logo_page.dart';
 import 'package:famibo/onboarding/onboarding_page.dart';
 import 'package:famibo/target/target_page.dart';
@@ -50,7 +50,7 @@ class RoutePage extends ConsumerWidget {
       "/logopage": (context) => const LogoPage(),
       "/onboarding": (context) => const OnboardingPage(),
       "/homescreen": (context) =>   HomeScreen(),
-      "/myprofile": (context) =>  MyProfilePage(),
+      "/myprofile": (context) =>  const MyProfilePage(),
       "/myprofilesetting": (context) => const MyProfileSettings(),
       "/calculator": (context) => const Calculator(),
       "/passwordforget": (context) => PasswordForgetPage(),
