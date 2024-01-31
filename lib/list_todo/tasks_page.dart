@@ -43,6 +43,24 @@ class _TaskPageState extends State<TaskPage> {
     });
   }
 
+  Future<void> _assignTaskToTeamMembers(
+      Map<String, dynamic> taskData, List<String> memberIds) async {
+    try {
+      for (String memberId in memberIds) {
+        // Erstelle oder aktualisiere die Aufgabe in der targetTodo-Sammlung jedes Mitglieds
+        DocumentReference targetTodoRef = _firestore
+            .collection('users')
+            .doc(memberId)
+            .collection('targetTodo')
+            .doc();
+        await targetTodoRef.set(taskData);
+      }
+      debugPrint('Aufgabe erfolgreich an Teammitglieder zugewiesen.');
+    } catch (e) {
+      debugPrint('Fehler beim Zuweisen der Aufgabe an Teammitglieder: $e');
+    }
+  }
+
   Future<void> _deleteTask(String docId) async {
     try {
       await _firestore
@@ -144,8 +162,7 @@ class _TaskPageState extends State<TaskPage> {
                 stream: _firestore
                     .collection('users')
                     .doc(getCurrentUserId())
-                    .collection(
-                        'targetTodo') // Geändert von 'tasks' zu 'targetTodo'
+                    .collection('targetTodo')
                     .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -159,52 +176,55 @@ class _TaskPageState extends State<TaskPage> {
 
                   var tasks = snapshot.data!.docs;
                   return ListView.builder(
-  itemCount: tasks.length,
-  itemBuilder: (context, index) {
-    var task = tasks[index].data() as Map<String, dynamic>;
-    bool isTaskDone = task['isDone'] ?? false;
-    String docId = tasks[index].id;
+                    itemCount: tasks.length,
+                    itemBuilder: (context, index) {
+                      var task = tasks[index].data() as Map<String, dynamic>;
+                      bool isTaskDone = task['isDone'] ?? false;
+                      String docId = tasks[index].id;
 
-    return ListTile(
-      title: Text(
-        task['text'],
-        style: TextStyle(
-          decoration: isTaskDone ? TextDecoration.lineThrough : null,
-        ),
-      ),
-      subtitle: Text('Punkte: ${task['points']}'),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Checkbox
-          Checkbox(
-            value: isTaskDone,
-            onChanged: (bool? newValue) {
-              _updateTaskStatus(getCurrentUserId(), docId, newValue ?? false);
-            },
-          ),
+                      return ListTile(
+                        title: Text(
+                          task['text'],
+                          style: TextStyle(
+                            decoration:
+                                isTaskDone ? TextDecoration.lineThrough : null,
+                          ),
+                        ),
+                        subtitle: Text('Punkte: ${task['points']}'),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Checkbox
+                            Checkbox(
+                              value: isTaskDone,
+                              onChanged: (bool? newValue) {
+                                _updateTaskStatus(getCurrentUserId(), docId,
+                                    newValue ?? false);
+                              },
+                            ),
 
-          // Reaktivierungs-Button (nur wenn die Aufgabe erledigt ist)
-          if (isTaskDone) IconButton(
-            icon: Icon(Icons.undo),
-            onPressed: () {
-              _updateTaskStatus(getCurrentUserId(), docId, false);
-            },
-          ),
+                            // Reaktivierungs-Button (nur wenn die Aufgabe erledigt ist)
+                            if (isTaskDone)
+                              IconButton(
+                                icon: Icon(Icons.undo),
+                                onPressed: () {
+                                  _updateTaskStatus(
+                                      getCurrentUserId(), docId, false);
+                                },
+                              ),
 
-          // Lösch-Button
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              _deleteTask(docId);
-            },
-          ),
-        ],
-      ),
-    );
-  },
-);
-
+                            // Lösch-Button
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                _deleteTask(docId);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
               ))
             ])),
