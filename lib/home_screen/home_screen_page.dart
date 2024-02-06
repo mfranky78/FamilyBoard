@@ -14,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomeScreen extends StatefulWidget {
   final String? imageUrl;
 
-  HomeScreen({super.key, this.imageUrl});
+  const HomeScreen({super.key, this.imageUrl});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             fit: BoxFit.cover,
                                           )
                                         : SizedBox(
-                                            height: 200,
+                                            height: 150,
                                             child: Image.asset(
                                                 'assets/images/dogchild.png'));
                                   }
