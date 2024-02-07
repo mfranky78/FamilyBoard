@@ -22,10 +22,10 @@ class ListPage extends StatelessWidget {
                     Row(children: [IconButton(onPressed: (){
                       Navigator.of(context).pop();
                     }, icon: const Icon(Icons.arrow_back_sharp, size: 30,)),
-                    const SizedBox(width: 95,),
+                    const SizedBox(width: 110,),
                       Text('List',style: kTextHeadLine5),],),
                     Container(
-                      height: 250,
+                      height: 200,
                       width: 300,
                       decoration: const BoxDecoration(
                           image: DecorationImage(
@@ -39,8 +39,8 @@ class ListPage extends StatelessWidget {
                     const SizedBox(
                       height: 20,),
                      Padding(
-                       padding: const EdgeInsets.all(16.0),
-                       child: Text('Here you can view your shopping list and tasks that are still pending. ',style: kTextHeadLine2,),
+                       padding: const EdgeInsets.fromLTRB(32,0,0,0),
+                       child: Text('You can view your shopping list and tasks that are still pending. ',style: kTextHeadLine2,),
                      ),
                     const SizedBox(
                       height: 50,
