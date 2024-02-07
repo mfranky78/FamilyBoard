@@ -70,11 +70,11 @@ Future<void> upDateUserDataUrl({required String url}) async {
     }
   }
  Future<CustomUser?> getUserDataFromFirebase(String userId) async {
-  print(userId);
+  debugPrint(userId);
   try {
     DocumentSnapshot userSnapshot =
         await FirebaseFirestore.instance.collection('users').doc(userId).get();
-    print('test1');
+    debugPrint('test1');
     if (userSnapshot.exists) {
       
       Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
