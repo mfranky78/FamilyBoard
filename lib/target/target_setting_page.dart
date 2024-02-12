@@ -26,32 +26,49 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
   final TextEditingController _pointsController = TextEditingController();
   List<TargetSettingsPage> targetTodoList = [];
   DateTime selectedDate = DateTime.now();
+  String? _teamId; // Zustandsvariable für die Team-ID
 
-  Future<void> _addTargetTodo() async {
+  @override
+  void initState() {
+    super.initState();
+    _fetchTeamId();
+  }
+
+  Future<void> _fetchTeamId() async {
+    _teamId = await _getCurrentUserTeamId(); // Aktualisieren Sie den Zustand mit der abgerufenen Team-ID
+    setState(() {}); // Aktualisieren Sie den Zustand, um die Änderungen zu reflektieren
+  }
+
+
+   Future<void> _addTargetTodo() async {
     String targetTodoText = _targetTodoController.text;
     String targetSettingPointText = _pointsController.text;
-    try {
-      if (targetTodoText.isNotEmpty && targetSettingPointText.isNotEmpty) {
-        int targetSettingPoint = int.parse(targetSettingPointText);
-        if (targetSettingPoint != null) {
-          DocumentReference userDocRef = FirebaseFirestore.instance
-              .collection('users')
-              .doc(getCurrentUserId());
-          await userDocRef.collection('targetTodo').add({
-            'text': targetTodoText,
-            'points': targetSettingPoint,
-            'date': Timestamp.fromDate(DateTime.now()), // Datum hinzufügen
-          });
-          _targetTodoController.clear();
-          _pointsController.clear();
-          debugPrint('Subcollection "targetTodo" erfolgreich erstellt.');
-        } else {
-          debugPrint('Eingabe ist leer.');
-        }
-      }
-    } catch (e) {
-      debugPrint('Fehler beim Erstellen der Subcollection "targetTodo": $e');
+    String? teamId = await _getCurrentUserTeamId();
+
+    if (targetTodoText.isNotEmpty && targetSettingPointText.isNotEmpty && teamId != null) {
+      int targetSettingPoint = int.tryParse(targetSettingPointText) ?? 0;
+      
+      await _firestore.collection('teams').doc(teamId).collection('targetTodo').add({
+        'text': targetTodoText,
+        'points': targetSettingPoint,
+        'date': Timestamp.fromDate(DateTime.now()),
+      }).then((value) => {
+        _targetTodoController.clear(),
+        _pointsController.clear(),
+        debugPrint('TargetTodo erfolgreich zum Team hinzugefügt.')
+      }).catchError((error) => debugPrint('Fehler beim Hinzufügen der TargetTodo: $error'));
+    } else {
+      debugPrint('Eingabe ist leer oder Team-ID ist null.');
     }
+  }
+
+  Future<String?> _getCurrentUserTeamId() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+      return userDoc.get('teamId');
+    }
+    return null;
   }
 
   String getCurrentUserId() {
@@ -60,18 +77,21 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
   }
 
   Future<void> _deleteTask(String docId) async {
-    final todoCollection = _firestore
-        .collection('users')
+    await _firestore
+        .collection('teams')
         .doc(getCurrentUserId())
-        .collection('tasks');
-    await todoCollection.doc(docId).delete();
+        .collection('targetTodo')
+        .doc(docId)
+        .delete();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
+     body: _teamId == null
+          ? Center(child: CircularProgressIndicator())
+          : Stack(
         children: [
           BackgroundScreen(
             Padding(
@@ -118,51 +138,32 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
                       text: Text('Insert', style: kTextHeadLine2),
                     ),
                     Expanded(
-  child: StreamBuilder<QuerySnapshot>(
-    stream: _firestore
-        .collection('users')
-        .doc(getCurrentUserId())
-        .collection('targetTodo')
-        .snapshots(),
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return const CircularProgressIndicator();
-      }
-      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-        return const Text("Keine Aktivitäten gefunden.");
-      }
-      var targetTodos = snapshot.data!.docs;
-      return ListView.builder(
-        itemCount: targetTodos.length,
-        itemBuilder: (context, index) {
-          DocumentSnapshot documentSnapshot = targetTodos[index];
-          Map<String, dynamic> targetTodo = documentSnapshot.data() as Map<String, dynamic>? ?? {};
-
-          String todoText = targetTodo['text'] ?? 'Kein Text';
-          int points = targetTodo['points'] ?? 0;
-          Timestamp? timestamp = targetTodo['date'] as Timestamp?;
-          String formattedDate = '';
-          if (timestamp != null) {
-            DateTime date = timestamp.toDate();
-            formattedDate = DateFormat('dd.MM.yyyy').format(date);
-          } else {
-            formattedDate = 'Kein Datum';
-          }
-
-          return ListTile(
-            title: Text(todoText),
-            subtitle: Text('Punkte: $points | Datum: $formattedDate'),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                _deleteTask(documentSnapshot.id); // Löschfunktion aufrufen
-              },
-            ),
-          );
-        },
-      );
-    },
-  ),
+  child:  StreamBuilder<QuerySnapshot>(
+            stream: _firestore
+                .collection('teams')
+                .doc(_teamId) // Verwenden Sie _teamId hier
+                .collection('targetTodo')
+                .snapshots(),
+            builder: (context, snapshot) {
+    if (snapshot.hasError) {
+      return Text('Error: ${snapshot.error}');
+    }
+    switch (snapshot.connectionState) {
+      case ConnectionState.waiting: return Text('Loading...');
+      default:
+        return ListView(
+          children: snapshot.data!.docs.map((DocumentSnapshot document) {
+            Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+            return ListTile(
+              title: Text(data['text']),
+              subtitle: Text('Punkte: ${data['points']}'),
+              // Weitere Elemente oder Aktionen
+            );
+          }).toList(),
+        );
+    }
+  },
+)
 ),
 
                   ],
