@@ -66,7 +66,7 @@ class ListPage extends StatelessWidget {
                                 builder: (context) => const TaskPage()));
                         },
                         icon: Icons.task,
-                        text:  Text('Tasks',style: kTextHeadLine2)),
+                        text:  Text('ToDo',style: kTextHeadLine2)),
                     const SizedBox(
                       height: 10,
                     ),
