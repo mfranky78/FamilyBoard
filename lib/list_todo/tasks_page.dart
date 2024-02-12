@@ -16,11 +16,18 @@ class _TaskPageState extends State<TaskPage> {
   String docId = '';
   String todos = '';
   bool isAdmin = false;
+  String? _teamId; // Zustandsvariable für die Team-ID
 
   @override
   void initState() {
     super.initState();
+    _fetchTeamId();
     _checkAdminStatus(); // Admin-Status beim Initialisieren der Seite prüfen
+  }
+
+  Future<void> _fetchTeamId() async {
+    _teamId = await _getCurrentUserTeamId(); // Abrufen und Speichern der teamId
+    setState(() {}); // Zustand aktualisieren, um Änderungen zu reflektieren
   }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -28,6 +35,16 @@ class _TaskPageState extends State<TaskPage> {
   String getCurrentUserId() {
     User? user = FirebaseAuth.instance.currentUser;
     return user?.uid ?? '';
+  }
+
+  Future<String?> _getCurrentUserTeamId() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(user.uid).get();
+      return userDoc.get('teamId');
+    }
+    return null;
   }
 
   Future<void> _checkAdminStatus() async {
@@ -49,7 +66,7 @@ class _TaskPageState extends State<TaskPage> {
       for (String memberId in memberIds) {
         // Erstelle oder aktualisiere die Aufgabe in der targetTodo-Sammlung jedes Mitglieds
         DocumentReference targetTodoRef = _firestore
-            .collection('users')
+            .collection('teams')
             .doc(memberId)
             .collection('targetTodo')
             .doc();
@@ -61,45 +78,66 @@ class _TaskPageState extends State<TaskPage> {
     }
   }
 
-  Future<void> _deleteTask(String docId) async {
+  Future<void> _deleteTask(String targetTodoId) async {
     try {
-      await _firestore
-          .collection('users')
-          .doc(getCurrentUserId())
-          .collection('targetTodo')
-          .doc(docId)
-          .delete();
-      debugPrint('Aufgabe erfolgreich gelöscht.');
+      // Zuerst die Team-ID des aktuellen Benutzers abrufen
+      String? teamId = await _getCurrentUserTeamId();
+      if (teamId != null) {
+        // Verwenden Sie die abgerufene Team-ID, um auf die richtige Sammlung zuzugreifen
+        await _firestore
+            .collection('teams')
+            .doc(teamId) // Verwenden Sie teamId hier
+            .collection('targetTodo')
+            .doc(targetTodoId)
+            .delete();
+        debugPrint('Aufgabe erfolgreich gelöscht.');
+      } else {
+        debugPrint('Fehler beim Löschen der Aufgabe: Team-ID ist null.');
+      }
     } catch (e) {
       debugPrint('Fehler beim Löschen der Aufgabe: $e');
     }
   }
 
   Future<void> _updateTaskStatus(
-      String userId, String targetTodoId, bool isDone) async {
+      String teamId, String targetTodoId, bool isDone) async {
     try {
+      // Zugriff auf die spezifische targetTodo-Aufgabe im Team
       DocumentReference targetTodoRef = _firestore
-          .collection('users')
-          .doc(userId)
+          .collection('teams')
+          .doc(teamId) // Verwenden Sie die teamId statt userId
           .collection('targetTodo')
           .doc(targetTodoId);
 
-      DocumentSnapshot targetTodoDoc = await targetTodoRef.get();
-      Map<String, dynamic> targetTodoData =
-          targetTodoDoc.data() as Map<String, dynamic>;
-      int points = targetTodoData['points'] ?? 0;
-
-      DocumentReference userRef = _firestore.collection('users').doc(userId);
-      DocumentSnapshot userDoc = await userRef.get();
-      Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
-      int currentPoints = userData['points'] ?? 0;
-      int updatedPoints =
-          isDone ? currentPoints + points : currentPoints - points;
-
-      await userRef.update({'points': updatedPoints});
+      // Aktualisieren des isDone-Status der Aufgabe
       await targetTodoRef.update({'isDone': isDone});
+      debugPrint('Aufgabenstatus erfolgreich aktualisiert.');
+
+      // Optional: Benutzerpunkte aktualisieren, wenn das Teil Ihrer Logik ist
+      // Hinweis: Dies setzt voraus, dass Sie die userId irgendwie verfügbar haben
+      // Beispiel: Sie könnten die userId als Parameter der Methode übergeben oder global speichern
+      // Hier ist ein einfaches Beispiel, wie Sie die Benutzerpunkte basierend auf dem Aufgabenstatus aktualisieren könnten:
+      if (isDone) {
+        // Beispiellogik, anpassen nach Bedarf
+        DocumentSnapshot targetTodoDoc = await targetTodoRef.get();
+        Map<String, dynamic> targetTodoData =
+            targetTodoDoc.data() as Map<String, dynamic>;
+        int points = targetTodoData['points'] ?? 0;
+
+        // Hier müssten Sie die userId haben, um das Benutzerdokument zu aktualisieren
+        String userId =
+            "userId"; // Dies muss entsprechend Ihrer Logik festgelegt werden
+        DocumentReference userRef = _firestore.collection('users').doc(userId);
+        DocumentSnapshot userDoc = await userRef.get();
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        int currentPoints = userData['points'] ?? 0;
+        int updatedPoints = currentPoints + points;
+
+        await userRef.update({'points': updatedPoints});
+        debugPrint('Benutzerpunkte basierend auf Aufgabenstatus aktualisiert.');
+      }
     } catch (e) {
-      debugPrint('Fehler beim Aktualisieren des Status: $e');
+      debugPrint('Fehler beim Aktualisieren des Aufgabenstatus: $e');
     }
   }
 
@@ -158,75 +196,87 @@ class _TaskPageState extends State<TaskPage> {
                 ),
               ),
               Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                stream: _firestore
-                    .collection('users')
-                    .doc(getCurrentUserId())
-                    .collection('targetTodo')
-                    .snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  }
+                  child: _teamId == null
+                      ? const Center(
+                          child:
+                              CircularProgressIndicator()) // Ladeanzeige, wenn _teamId null ist
+                      : StreamBuilder<QuerySnapshot>(
+                          // Verwenden von StreamBuilder mit _teamId
+                          stream: _firestore
+                              .collection('teams')
+                              .doc(_teamId)
+                              .collection('targetTodo')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            }
+                            if (!snapshot.hasData ||
+                                snapshot.data!.docs.isEmpty) {
+                              return const Text(
+                                  'Keine zielorientierten Aufgaben gefunden.');
+                            }
 
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Text(
-                        'Keine zielorientierten Aufgaben gefunden.');
-                  }
+                            var tasks = snapshot.data!.docs;
+                            return ListView.builder(
+                              itemCount: tasks.length,
+                              itemBuilder: (context, index) {
+                                var task =
+                                    tasks[index].data() as Map<String, dynamic>;
+                                bool isTaskDone = task['isDone'] ?? false;
 
-                  var tasks = snapshot.data!.docs;
-                  return ListView.builder(
-                    itemCount: tasks.length,
-                    itemBuilder: (context, index) {
-                      var task = tasks[index].data() as Map<String, dynamic>;
-                      bool isTaskDone = task['isDone'] ?? false;
-                      String docId = tasks[index].id;
+                                return ListTile(
+                                  title: Text(
+                                    task['text'],
+                                    style: TextStyle(
+                                      decoration: isTaskDone
+                                          ? TextDecoration.lineThrough
+                                          : null,
+                                    ),
+                                  ),
+                                  subtitle: Text('Punkte: ${task['points']}'),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      // Checkbox
+                                      Checkbox(
+                                        value: isTaskDone,
+                                        onChanged: (bool? newValue) {
+                                          if (_teamId != null) {
+                                            _updateTaskStatus(
+                                                _teamId!,
+                                                tasks[index].id,
+                                                newValue ?? false);
+                                          }
+                                        },
+                                      ),
 
-                      return ListTile(
-                        title: Text(
-                          task['text'],
-                          style: TextStyle(
-                            decoration:
-                                isTaskDone ? TextDecoration.lineThrough : null,
-                          ),
-                        ),
-                        subtitle: Text('Punkte: ${task['points']}'),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Checkbox
-                            Checkbox(
-                              value: isTaskDone,
-                              onChanged: (bool? newValue) {
-                                _updateTaskStatus(getCurrentUserId(), docId,
-                                    newValue ?? false);
+                                      if (isTaskDone)
+                                        IconButton(
+                                          icon: const Icon(Icons.undo),
+                                          onPressed: () {
+                                            _updateTaskStatus(
+                                                getCurrentUserId(),
+                                                docId,
+                                                false);
+                                          },
+                                        ),
+
+                                      // Lösch-Button
+                                      IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        onPressed: () {
+                                          _deleteTask(tasks[index].id);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
                               },
-                            ),
-
-                            // Reaktivierungs-Button (nur wenn die Aufgabe erledigt ist)
-                            if (isTaskDone)
-                              IconButton(
-                                icon: Icon(Icons.undo),
-                                onPressed: () {
-                                  _updateTaskStatus(
-                                      getCurrentUserId(), docId, false);
-                                },
-                              ),
-
-                            // Lösch-Button
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                _deleteTask(docId);
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
-              ))
+                            );
+                          },
+                        ))
             ])),
           ))
         ]));
