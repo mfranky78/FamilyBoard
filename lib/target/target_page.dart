@@ -42,11 +42,6 @@ class TargetPage extends StatelessWidget {
                 CustomButton(onTap: (){
                   Navigator.pushNamed(context, "/targetoverview");
                 }, 
-                icon: Icons.tornado_rounded, 
-                text:  Text('Target / Overview',style: kTextHeadLine9)),
-                 CustomButton(onTap: (){
-                  Navigator.pushNamed(context, "/addtarget");
-                 }, 
                  icon: Icons.account_balance_rounded, 
                  text:  Text('Add Wishes',style: kTextHeadLine9)),
                   CustomButton(onTap: (){
