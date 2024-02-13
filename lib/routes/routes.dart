@@ -18,7 +18,6 @@ import 'package:famibo/target/target_page.dart';
 import 'package:famibo/target/target_points_page.dart';
 import 'package:famibo/target/target_setting_page.dart';
 import 'package:famibo/target/target_wish_page.dart';
-import 'package:famibo/target/targets_overview_page.dart';
 import 'package:famibo/team/memeber_invitaion_page.dart';
 import 'package:famibo/team/team_administration.dart';
 import 'package:famibo/team/team_member_page.dart';
@@ -57,7 +56,6 @@ class RoutePage extends ConsumerWidget {
       "/targetpoint": (context) => const TargetPointPage(),
       "/addtarget": (context) => const WishPage(),
       "/targetsettings": (context) => const TargetSettingsPage(),
-      "/targetoverview": (context) => const TargetOverviewPage(),
       "/teampage": (context) =>  const TeamPage(),
       "/teammemeber": (context) =>  const TeamMemberPage(),
       "/memberinvitation": (context) => const MemberInvitationPage(),
