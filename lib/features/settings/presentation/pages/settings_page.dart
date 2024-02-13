@@ -65,6 +65,7 @@ class SettingsPage extends ConsumerWidget {
                       },
                       icon: Icons.delete_rounded,
                       text: const Text('Account Löschen')),
+                      const SizedBox(height: 20,),
                   Row(mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const GlassContainerFix(
