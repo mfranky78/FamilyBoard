@@ -112,7 +112,7 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
                         const SizedBox(
                           width: 50,
                         ),
-                        Text('Target Settings', style: kTextHeadLine5),
+                        Text('ToDo Settings', style: kTextHeadLine5),
                       ],
                     ),
                     SizedBox(

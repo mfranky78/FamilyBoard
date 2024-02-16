@@ -23,7 +23,7 @@ class ListPage extends StatelessWidget {
                       Navigator.of(context).pop();
                     }, icon: const Icon(Icons.arrow_back_sharp, size: 30,)),
                     const SizedBox(width: 110,),
-                      Text('List',style: kTextHeadLine5),],),
+                      Text('Liste',style: kTextHeadLine5),],),
                     Container(
                       height: 200,
                       width: 300,
@@ -40,7 +40,7 @@ class ListPage extends StatelessWidget {
                       height: 20,),
                      Padding(
                        padding: const EdgeInsets.fromLTRB(32,0,0,0),
-                       child: Text('You can view your shopping list and tasks that are still pending. ',style: kTextHeadLine2,),
+                       child: Text('Hier kannst du deine Einkaufsliste oder Aufgabenliste erstellen und verwalten. ',style: kTextHeadLine2,),
                      ),
                     const SizedBox(
                       height: 50,
@@ -53,7 +53,7 @@ class ListPage extends StatelessWidget {
                                 builder: (context) =>  const ShoppingPage()));
                       },
                       icon: Icons.shop,
-                      text:  Text('Shopping',style: kTextHeadLine2),
+                      text:  Text('Einkäufe',style: kTextHeadLine2),
                     ),
                     const SizedBox(
                       height: 10,
@@ -66,7 +66,7 @@ class ListPage extends StatelessWidget {
                                 builder: (context) => const TaskPage()));
                         },
                         icon: Icons.task,
-                        text:  Text('ToDo',style: kTextHeadLine2)),
+                        text:  Text('Aufgaben',style: kTextHeadLine2)),
                     const SizedBox(
                       height: 10,
                     ),

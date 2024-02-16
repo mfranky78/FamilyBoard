@@ -53,7 +53,7 @@ class TargetPage extends StatelessWidget {
                     Navigator.pushNamed(context, "/targetsettings");
                   }, 
                   icon: Icons.settings,
-                  text:  Text('Target Settings',style: kTextHeadLine9)),
+                  text:  Text('ToDo Settings',style: kTextHeadLine9)),
                           ],),
               ),
             ))

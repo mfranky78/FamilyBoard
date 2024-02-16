@@ -4,6 +4,7 @@ import 'package:famibo/core/text_style_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({super.key});
@@ -164,7 +165,7 @@ class _TaskPageState extends State<TaskPage> {
                   const SizedBox(
                     width: 90,
                   ),
-                  Text('Task List', style: kTextHeadLine5),
+                  Text('ToDo List', style: kTextHeadLine5),
                 ],
               ),
               SizedBox(
@@ -199,9 +200,8 @@ class _TaskPageState extends State<TaskPage> {
                   child: _teamId == null
                       ? const Center(
                           child:
-                              CircularProgressIndicator()) // Ladeanzeige, wenn _teamId null ist
+                              CircularProgressIndicator()) 
                       : StreamBuilder<QuerySnapshot>(
-                          // Verwenden von StreamBuilder mit _teamId
                           stream: _firestore
                               .collection('teams')
                               .doc(_teamId)
@@ -219,62 +219,63 @@ class _TaskPageState extends State<TaskPage> {
                             }
 
                             var tasks = snapshot.data!.docs;
-                            return ListView.builder(
-                              itemCount: tasks.length,
-                              itemBuilder: (context, index) {
-                                var task =
-                                    tasks[index].data() as Map<String, dynamic>;
-                                bool isTaskDone = task['isDone'] ?? false;
+                           return ListView.builder(
+  itemCount: tasks.length,
+  itemBuilder: (context, index) {
+    var task = tasks[index].data() as Map<String, dynamic>;
+    bool isTaskDone = task['isDone'] ?? false;
 
-                                return ListTile(
-                                  title: Text(
-                                    task['text'],
-                                    style: TextStyle(
-                                      decoration: isTaskDone
-                                          ? TextDecoration.lineThrough
-                                          : null,
-                                    ),
-                                  ),
-                                  subtitle: Text('Punkte: ${task['points']}'),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      // Checkbox
-                                      Checkbox(
-                                        value: isTaskDone,
-                                        onChanged: (bool? newValue) {
-                                          if (_teamId != null) {
-                                            _updateTaskStatus(
-                                                _teamId!,
-                                                tasks[index].id,
-                                                newValue ?? false);
-                                          }
-                                        },
-                                      ),
+    Timestamp timestamp = task['date']; 
+    DateTime dateTime = timestamp.toDate();
+    String formattedDate = DateFormat('dd.MM.yyyy HH:mm').format(dateTime); 
 
-                                      if (isTaskDone)
-                                        IconButton(
-                                          icon: const Icon(Icons.undo),
-                                          onPressed: () {
-                                            _updateTaskStatus(
-                                                getCurrentUserId(),
-                                                docId,
-                                                false);
-                                          },
-                                        ),
+    return ListTile(
+      title: Text(
+        task['text'],
+        style: TextStyle(
+          decoration: isTaskDone ? TextDecoration.lineThrough : null,
+        ),
+      ),
+      subtitle: Text('Punkte: ${task['points']}\n$formattedDate'), 
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Checkbox
+          Checkbox(
+            value: isTaskDone,
+            onChanged: (bool? newValue) {
+              if (_teamId != null) {
+                _updateTaskStatus(
+                    _teamId!,
+                    tasks[index].id,
+                    newValue ?? false);
+              }
+            },
+          ),
 
-                                      // Lösch-Button
-                                      IconButton(
-                                        icon: const Icon(Icons.delete),
-                                        onPressed: () {
-                                          _deleteTask(tasks[index].id);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
+          if (isTaskDone)
+            IconButton(
+              icon: const Icon(Icons.undo),
+              onPressed: () {
+                _updateTaskStatus(
+                    _teamId!,
+                    tasks[index].id,
+                    false);
+              },
+            ),
+
+          // Löschen-Button
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              _deleteTask(tasks[index].id);
+            },
+          ),
+        ],
+      ),
+    );
+  },
+);
                           },
                         ))
             ])),
