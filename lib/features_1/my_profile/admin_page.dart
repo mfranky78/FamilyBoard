@@ -1,4 +1,4 @@
-import 'package:famibo/core/backround_screen.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:flutter/material.dart';
 
 class AdminPage extends StatelessWidget {
@@ -10,7 +10,8 @@ class AdminPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Administration'),),
        body: const Stack(
         children: [
-          BackgroundScreen(Column())
+          HoneycombBackground(
+           child: Column())
          ],
      ) );
   }

@@ -1,4 +1,5 @@
 import 'package:famibo/core/backround_screen.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordPage extends StatelessWidget {
@@ -10,7 +11,8 @@ class ChangePasswordPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Change Password'),),
        body: const Stack(
         children: [
-          BackgroundScreen(Column())
+          HoneycombBackground(
+           child: Column())
          ],
      ) );
   }

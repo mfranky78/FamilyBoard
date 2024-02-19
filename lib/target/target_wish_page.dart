@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button_icon.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/core/textfield_email.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +63,8 @@ class _WishPageState extends State<WishPage> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            BackgroundScreen(Padding(
+            HoneycombBackground(
+             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
               child: ContainerGlassFlex(
                 child: Column(

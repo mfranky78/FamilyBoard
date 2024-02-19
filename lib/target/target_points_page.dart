@@ -3,6 +3,7 @@ import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/custom_glasscontainer_text.dart';
 import 'package:famibo/core/text_style_page.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -74,7 +75,8 @@ Future<double> _getUserProgress() async {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(children: [
-          BackgroundScreen(Padding(
+          HoneycombBackground(
+           child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
               child: ContainerGlassFlex(
                   child: Center(

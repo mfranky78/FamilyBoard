@@ -1,5 +1,5 @@
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:flutter/material.dart';
 
 class TermsOfBusiness extends StatelessWidget {
@@ -13,8 +13,8 @@ class TermsOfBusiness extends StatelessWidget {
       ),
       body: const Stack(
         children: [
-          BackgroundScreen(
-            ContainerGlassFlex(
+          HoneycombBackground(
+          child:  ContainerGlassFlex(
               child: Padding(
                 padding: EdgeInsets.all(32.0),
                 child: SingleChildScrollView(

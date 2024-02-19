@@ -1,6 +1,6 @@
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:flutter/material.dart';
  import 'package:firebase_auth/firebase_auth.dart';
 
@@ -59,8 +59,8 @@ Future<void> _deleteAccount() async {
     return  Scaffold(
       appBar: AppBar(title: const Text('Delete Account')),
       body: Stack(children: [
-        BackgroundScreen(
-          ContainerGlassFlex(
+        HoneycombBackground(
+         child: ContainerGlassFlex(
             child: Column(children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),

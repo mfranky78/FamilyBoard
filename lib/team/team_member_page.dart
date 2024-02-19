@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/text_style_page.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:famibo/team/team_model.dart';
 import 'package:famibo/user/user_model.dart';
 import 'package:flutter/material.dart';
@@ -58,8 +58,8 @@ class _TeamMemberPageState extends State<TeamMemberPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BackgroundScreen(
-        Padding(
+      body: HoneycombBackground(
+      child:  Padding(
           padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
           child: ContainerGlassFlex(
             child: Column(

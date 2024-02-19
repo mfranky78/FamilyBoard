@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/text_style_page.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:famibo/team/team_firebase_service.dart';
 import 'package:famibo/team/team_model.dart';
 import 'package:flutter/material.dart';
@@ -33,8 +33,8 @@ class _TeamPageState extends State<TeamPage> {
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          BackgroundScreen(
-            Padding(
+          HoneycombBackground(
+          child:  Padding(
               padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
               child: ContainerGlassFlex(
                 child: Column(

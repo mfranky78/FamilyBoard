@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/text_style_page.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:famibo/user/user_firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -64,8 +64,8 @@ class _MyProfileSettingsState extends State<MyProfileSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        children: [BackgroundScreen(
-          Padding(
+        children: [HoneycombBackground(
+         child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 32.0, 0, 32.0),
             child: ContainerGlassFlex(
               child: Column(

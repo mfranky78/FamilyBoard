@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:famibo/core/backround_screen.dart';
@@ -80,7 +81,8 @@ class _TeamAdminPageState extends State<TeamAdminPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BackgroundScreen(Padding(
+        body: HoneycombBackground(
+         child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
             child: ContainerGlassFlex(
                 child: Column(children: [

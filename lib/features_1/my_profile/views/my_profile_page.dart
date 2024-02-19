@@ -1,7 +1,7 @@
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:famibo/features_1/my_profile/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/custom_glasscontainer_text.dart';
 import 'package:famibo/core/text_style_page.dart';
@@ -19,8 +19,8 @@ class MyProfilePage extends ConsumerWidget {
 
     return Scaffold(
         body: Stack(children: [
-      BackgroundScreen(
-        Padding(
+      HoneycombBackground(
+       child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
           child: ContainerGlassFlex(
             child: Column(children: [

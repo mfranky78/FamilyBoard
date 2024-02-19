@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/text_style_page.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,8 +15,8 @@ class MyCalendar extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(children: [
-          BackgroundScreen(
-            Column(children: [
+          HoneycombBackground(
+          child:  Column(children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 32, 16, 0),
                 child: Row(

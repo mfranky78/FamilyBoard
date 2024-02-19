@@ -1,9 +1,9 @@
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/textfield_email.dart';
 import 'package:famibo/core/textfield_password.dart';
 import 'package:famibo/core/textfield_text.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:famibo/login/bloc_cubit/auth_cubit.dart';
 import 'package:famibo/user/user_firebase_service.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +31,8 @@ final TextEditingController _controllerName = TextEditingController();
       resizeToAvoidBottomInset: false,
       body: 
        Stack(children: [
-         BackgroundScreen(
-           Padding(
+         HoneycombBackground(
+          child: Padding(
              padding: const EdgeInsets.fromLTRB(10,80,10,20),
              child: Center(
                child: ContainerGlassFlex(

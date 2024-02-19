@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_button_icon.dart';
 import 'package:famibo/core/custom_button_text.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
 import 'package:famibo/core/text_style_page.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -45,8 +45,8 @@ class _MultipleTimetablesState extends State<MultipleTimetables> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(children: [
-        BackgroundScreen(
-          Column(
+        HoneycombBackground(
+        child:  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(

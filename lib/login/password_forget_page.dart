@@ -1,6 +1,6 @@
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/textfield_email.dart';
+import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:famibo/login/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -49,8 +49,8 @@ class PasswordForgetPage extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          BackgroundScreen(
-            Padding(
+          HoneycombBackground(
+          child:  Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
