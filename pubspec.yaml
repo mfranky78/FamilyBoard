@@ -14,6 +14,8 @@ dependencies:
   flutter_simple_calculator: 
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.9
+  
 
 
 
@@ -21,7 +23,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   glassmorphism: ^3.0.0
   html: ^0.15.4
-  http: ^1.1.0
   animated_gesture_detector: ^1.0.0
   glassmorphism_buttons: ^0.0.8
   scrollable_clean_calendar: ^1.4.1
@@ -48,9 +49,8 @@ dependencies:
   flutter_inset_box_shadow: ^1.0.8
   google_fonts: ^6.1.0
   url_launcher: ^6.2.2
-  intl: ^0.18.1
   flutter_riverpod: ^2.4.9
-  flutter_svg: ^2.0.9
+  intl: ^0.18.1
   
 
 dev_dependencies:
@@ -67,7 +67,7 @@ flutter_launcher_icons:
 flutter:
   assets:
     - assets/images/
-    - assets/wabenstruktur.svg
+    
 
   uses-material-design: true
 
