@@ -8,12 +8,12 @@ class HoneycombBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color.fromARGB(211, 92, 92, 92),
+      color: Color.fromARGB(255, 100, 100, 100),
       child: Stack(
         children: [
           Positioned.fill(
             child: SvgPicture.asset(
-              'assets/images/wabenstruktur.svg',
+              'assets/images/wabensoftlight.svg',
               fit: BoxFit.cover, 
             ),
           ),
