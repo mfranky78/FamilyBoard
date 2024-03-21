@@ -17,9 +17,9 @@ class PrivatPolicePage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back, size: 30, color: Colors.black),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.of(context).pop();
                     },
                   ),
                   Text( 'Datenschutzerklärung', style: kTextHeadLine5,),
@@ -28,7 +28,7 @@ class PrivatPolicePage extends StatelessWidget {
             ),
             const HoneycombBackground(
              child: Padding(
-                padding: EdgeInsets.fromLTRB(0,32,0,0),
+                padding: EdgeInsets.fromLTRB(0,54,0,0),
                 child: ContainerGlassFlex(
                   child: Padding(
                     padding: EdgeInsets.all(20.0),
