@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Navigator.pushNamed(
                                         context, "/myprofile");
                                   },
-                                  icon: Icons.flag,
+                                  icon: Icons.person,
                                   text: Text(
                                     'My Profile',
                                     style: kTextHeadLine9,
