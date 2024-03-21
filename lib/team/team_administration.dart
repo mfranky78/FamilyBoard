@@ -82,88 +82,86 @@ class _TeamAdminPageState extends State<TeamAdminPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: HoneycombBackground(
-         child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-            child: ContainerGlassFlex(
-                child: Column(children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: const Icon(Icons.arrow_back_sharp, size: 30),
-                  ),
-                  const SizedBox(
-                    width: 70,
-                  ),
-                  Text('Team Rights', style: kTextHeadLine5),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              const Divider(
-                thickness: 2,
-                color: Colors.black,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    'Administratoren verfügen über die vollständige Kontrolle der Anwendungen und können Mitglieder des Teams verwalten',
-                    style: kTextHeadLine2),
-              ),
-              const Divider(
-                thickness: 2,
-                color: Colors.black,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Image.asset('assets/images/adminVector.png'),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Team Member List',
-                style: kTextHeadLine10,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Expanded(
-                child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('teams')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const CircularProgressIndicator();
-                    }
-                    var teamDocs = snapshot.data?.docs;
-                    teams = teamDocs!
-                        .map((doc) => CustomTeam.fromJson(
-                            doc.data(), doc.id, ''))
-                        .toList();
-
-                    return ListView.builder(
-  itemCount: teams.length,
-  itemBuilder: (context, index) {
-    CustomTeam team = teams[index];
-
-    return TeamListItem(
-      team: team,
-      allUsers: allUsers,
-      onAdminToggle: toggleAdminStatus,
-      isCurrentUserAdmin: isCurrentUserAdmin, // Übergeben der Methode als Parameter
-    );
-  },
-);
-
-                  },
-                ),
-              )
-            ])))));
+         child: ContainerGlassFlex(
+             child: Column(children: [
+           Row(
+             children: [
+               IconButton(
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+                 icon: const Icon(Icons.arrow_back_sharp, size: 30),
+               ),
+               const SizedBox(
+                 width: 70,
+               ),
+               Text('Team Rights', style: kTextHeadLine5),
+             ],
+           ),
+           const SizedBox(
+             height: 30,
+           ),
+           const Divider(
+             thickness: 2,
+             color: Colors.black,
+           ),
+           Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Text(
+                 'Administratoren verfügen über die vollständige Kontrolle der Anwendungen und können Mitglieder des Teams verwalten',
+                 style: kTextHeadLine2),
+           ),
+           const Divider(
+             thickness: 2,
+             color: Colors.black,
+           ),
+           const SizedBox(
+             height: 20,
+           ),
+           Image.asset('assets/images/adminVector.png'),
+           const SizedBox(
+             height: 20,
+           ),
+           Text(
+             'Team Member List',
+             style: kTextHeadLine10,
+           ),
+           const SizedBox(
+             height: 20,
+           ),
+           Expanded(
+             child: StreamBuilder(
+               stream: FirebaseFirestore.instance
+                   .collection('teams')
+                   .snapshots(),
+               builder: (context, snapshot) {
+                 if (!snapshot.hasData) {
+                   return const CircularProgressIndicator();
+                 }
+                 var teamDocs = snapshot.data?.docs;
+                 teams = teamDocs!
+                     .map((doc) => CustomTeam.fromJson(
+                         doc.data(), doc.id, ''))
+                     .toList();
+         
+                 return ListView.builder(
+           itemCount: teams.length,
+           itemBuilder: (context, index) {
+             CustomTeam team = teams[index];
+         
+             return TeamListItem(
+               team: team,
+               allUsers: allUsers,
+               onAdminToggle: toggleAdminStatus,
+               isCurrentUserAdmin: isCurrentUserAdmin, // Übergeben der Methode als Parameter
+             );
+           },
+         );
+         
+               },
+             ),
+           )
+         ]))));
   }
 }
 

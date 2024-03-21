@@ -32,12 +32,12 @@ class _ShoppingPageState extends State<ShoppingPage> {
         'text': todoText,
       });
       _textEditingController.clear();
-      print('Subcollection "shopping" erfolgreich erstellt.');
+      debugPrint('Subcollection "shopping" erfolgreich erstellt.');
     } else {
-      print('Eingabe ist leer.');
+      debugPrint('Eingabe ist leer.');
     }
   } catch (e) {
-    print('Fehler beim Erstellen der Subcollection "shopping": $e');
+    debugPrint('Fehler beim Erstellen der Subcollection "shopping": $e');
   }
 }
  
@@ -57,99 +57,96 @@ class _ShoppingPageState extends State<ShoppingPage> {
       resizeToAvoidBottomInset: false,
         body: Stack(children: [
           HoneycombBackground(
-          child: Padding(
-              padding: const EdgeInsets.fromLTRB(0,32,0,0),
-              child: ContainerGlassFlex(
-                child: Column(children: [
-                  Row(children: [
-                    IconButton(onPressed: (){
-                      Navigator.of(context).pop();
-                    }, icon: const Icon(Icons.arrow_back_sharp, size: 30,)),
-                    const SizedBox(width: 70,),
-                    Text('Shopping List',style: kTextHeadLine5),],),
-                  SizedBox(
-                    height: 200,
-                    child: ContainerGlassFlex(
-                        child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Image.asset(
-                          'assets/images/market.png',
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    )),
-                  ),
-                   Text('Create a list of your purchases',style: kTextHeadLine2),
-                  TextfieldText(
-                    hintText: 'Enter your shopping:',
-                    textController: _textEditingController,
-                  ),
-                  Padding(
+          child: ContainerGlassFlex(
+            child: Column(children: [
+              Row(children: [
+                IconButton(onPressed: (){
+                  Navigator.of(context).pop();
+                }, icon: const Icon(Icons.arrow_back_sharp, size: 30,)),
+                const SizedBox(width: 70,),
+                Text('Shopping List',style: kTextHeadLine5),],),
+              SizedBox(
+                height: 200,
+                child: ContainerGlassFlex(
+                    child: Center(
+                  child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                      CustomButtonIcon(
-                            onTap: () {
-                              String uid = getCurrentUserId(); 
-                              _addShopping(uid);
-                            },
-                            icon: Icons.add,
-                        ),
-                      ],
+                    child: Image.asset(
+                      'assets/images/market.png',
+                      fit: BoxFit.contain,
                     ),
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  const Text('Liste',style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                      child: Divider(
-                        color: Colors.black26,
-                        height: 1,
-                        thickness: 2,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: StreamBuilder(
-                      // daten aus der DB holen
-                      stream: _firestore.collection('users').doc(getCurrentUserId()).collection('shopping').snapshots(),
-                      builder: ((context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const CircularProgressIndicator();
-                        }
-                        // liste der todos zwischenspeichern
-                        var shoppings = snapshot.data?.docs;
-                        return ContainerGlassFlex(
-                          child: ListView.builder(
-                            itemCount: shoppings!.length,
-                            itemBuilder: ((context, index) { 
-                              var shopping = shoppings[index];
-                              
-                              return ListTile(
-                                trailing: IconButton(
-                                  onPressed: () {
-                                    _deleteShopping(shopping.id);
-                                  },
-                                  icon: const Icon(Icons.delete),
-                                ),
-                                title: Text(
-                                  shopping['text'],style: kTextHeadLine4,
-                                ),
-                              );
-                            }),
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
-                ]),
+                )),
               ),
-            ),
+               Text('Create a list of your purchases',style: kTextHeadLine2),
+              TextfieldText(
+                hintText: 'Enter your shopping:',
+                textController: _textEditingController,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                  CustomButtonIcon(
+                        onTap: () {
+                          String uid = getCurrentUserId(); 
+                          _addShopping(uid);
+                        },
+                        icon: Icons.add,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              const Text('Liste',style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  child: Divider(
+                    color: Colors.black26,
+                    height: 1,
+                    thickness: 2,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: StreamBuilder(
+                  // daten aus der DB holen
+                  stream: _firestore.collection('users').doc(getCurrentUserId()).collection('shopping').snapshots(),
+                  builder: ((context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const CircularProgressIndicator();
+                    }
+                    // liste der todos zwischenspeichern
+                    var shoppings = snapshot.data?.docs;
+                    return ContainerGlassFlex(
+                      child: ListView.builder(
+                        itemCount: shoppings!.length,
+                        itemBuilder: ((context, index) { 
+                          var shopping = shoppings[index];
+                          
+                          return ListTile(
+                            trailing: IconButton(
+                              onPressed: () {
+                                _deleteShopping(shopping.id);
+                              },
+                              icon: const Icon(Icons.delete),
+                            ),
+                            title: Text(
+                              shopping['text'],style: kTextHeadLine4,
+                            ),
+                          );
+                        }),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ]),
+          ),
           )
         ]));
   }

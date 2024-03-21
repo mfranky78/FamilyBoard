@@ -76,110 +76,108 @@ Future<double> _getUserProgress() async {
         resizeToAvoidBottomInset: false,
         body: Stack(children: [
           HoneycombBackground(
-           child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-              child: ContainerGlassFlex(
-                  child: Center(
-                child: Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_back_sharp,
-                                  size: 30,
-                                )),
-                            const SizedBox(
-                              width: 50,
-                            ),
-                            Text('Target Point', style: kTextHeadLine5),
-                          ],
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                    height: 200,
-                                    child:
-                                        Image.asset('assets/images/child.png')),
-                                Padding(
-                                  padding: const EdgeInsets.all(32.0),
-                                  child: Text('Your Points:',
-                                      textAlign: TextAlign.center,
-                                      style: kTextHeadLine2),
-                                ),
-                                FutureBuilder<int>(
-                                  future: _getUserPoints(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const CircularProgressIndicator();
-                                    }
-                                    if (snapshot.hasError) {
-                                      return Text('Fehler: ${snapshot.error}');
-                                    }
-                                    int points = snapshot.data ?? 0;
-                                    return GlassContainerFixText(
-                                      child: Text('**$points**',
-                                          textAlign: TextAlign.center,
-                                          style: kTextHeadLine2),
-                                    );
-                                  },
-                                ),
-                                Text(
-                                    style: kTextHeadLine2,
-                                    'keep an eye on your goals'),
-                                const SizedBox(
-                                  height: 70,
-                                ),
-                                FutureBuilder<double>(
-                                  future: _getUserProgress(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const CircularProgressIndicator();
-                                    }
-                                    if (snapshot.hasError) {
-                                      return Text('Fehler: ${snapshot.error}');
-                                    }
-                                    double progress = snapshot.data ?? 0.0;
-                                    return CircularPercentIndicator(
-                                      radius: 70.0,
-                                      lineWidth: 13.0,
-                                      animation: true,
-                                      percent: progress,
-                                      center: Text(
-                                        "${(progress * 100).toStringAsFixed(1)}%",
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.0),
-                                      ),
-                                      footer: const Text(
-                                        "Percent of target",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17.0),
-                                      ),
-                                      circularStrokeCap:
-                                          CircularStrokeCap.round,
-                                      progressColor: Colors.green,
-                                    );
-                                  },
-                                )
-                              ],
-                            ))
-                      ],
-                    ),
-                  ),
-                ]),
-              ))))
+           child: ContainerGlassFlex(
+               child: Center(
+             child: Column(children: [
+               Padding(
+                 padding: const EdgeInsets.all(16.0),
+                 child: Column(
+                   children: [
+                     Row(
+                       children: [
+                         IconButton(
+                             onPressed: () {
+                               Navigator.of(context).pop();
+                             },
+                             icon: const Icon(
+                               Icons.arrow_back_sharp,
+                               size: 30,
+                             )),
+                         const SizedBox(
+                           width: 50,
+                         ),
+                         Text('Target Point', style: kTextHeadLine5),
+                       ],
+                     ),
+                     Padding(
+                         padding: const EdgeInsets.all(16.0),
+                         child: Column(
+                           children: [
+                             SizedBox(
+                                 height: 200,
+                                 child:
+                                     Image.asset('assets/images/child.png')),
+                             Padding(
+                               padding: const EdgeInsets.all(32.0),
+                               child: Text('Your Points:',
+                                   textAlign: TextAlign.center,
+                                   style: kTextHeadLine2),
+                             ),
+                             FutureBuilder<int>(
+                               future: _getUserPoints(),
+                               builder: (context, snapshot) {
+                                 if (snapshot.connectionState ==
+                                     ConnectionState.waiting) {
+                                   return const CircularProgressIndicator();
+                                 }
+                                 if (snapshot.hasError) {
+                                   return Text('Fehler: ${snapshot.error}');
+                                 }
+                                 int points = snapshot.data ?? 0;
+                                 return GlassContainerFixText(
+                                   child: Text('**$points**',
+                                       textAlign: TextAlign.center,
+                                       style: kTextHeadLine2),
+                                 );
+                               },
+                             ),
+                             Text(
+                                 style: kTextHeadLine2,
+                                 'keep an eye on your goals'),
+                             const SizedBox(
+                               height: 70,
+                             ),
+                             FutureBuilder<double>(
+                               future: _getUserProgress(),
+                               builder: (context, snapshot) {
+                                 if (snapshot.connectionState ==
+                                     ConnectionState.waiting) {
+                                   return const CircularProgressIndicator();
+                                 }
+                                 if (snapshot.hasError) {
+                                   return Text('Fehler: ${snapshot.error}');
+                                 }
+                                 double progress = snapshot.data ?? 0.0;
+                                 return CircularPercentIndicator(
+                                   radius: 70.0,
+                                   lineWidth: 13.0,
+                                   animation: true,
+                                   percent: progress,
+                                   center: Text(
+                                     "${(progress * 100).toStringAsFixed(1)}%",
+                                     style: const TextStyle(
+                                         fontWeight: FontWeight.bold,
+                                         fontSize: 20.0),
+                                   ),
+                                   footer: const Text(
+                                     "Percent of target",
+                                     style: TextStyle(
+                                         fontWeight: FontWeight.bold,
+                                         fontSize: 17.0),
+                                   ),
+                                   circularStrokeCap:
+                                       CircularStrokeCap.round,
+                                   progressColor: Colors.green,
+                                 );
+                               },
+                             )
+                           ],
+                         ))
+                   ],
+                 ),
+               ),
+             ]),
+           )))
         ]));
   }
 }

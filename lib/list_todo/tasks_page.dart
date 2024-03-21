@@ -148,139 +148,136 @@ class _TaskPageState extends State<TaskPage> {
         resizeToAvoidBottomInset: false,
         body: Stack(children: [
           HoneycombBackground(
-          child:  Padding(
-            padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-            child: ContainerGlassFlex(
-                child: Column(children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_sharp,
-                      size: 30,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 90,
-                  ),
-                  Text('ToDo List', style: kTextHeadLine5),
-                ],
-              ),
-              SizedBox(
-                height: 200,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Image.asset(
-                      'assets/images/todo_work.png',
-                      fit: BoxFit.contain,
-                    ),
+          child:  ContainerGlassFlex(
+              child: Column(children: [
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_sharp,
+                    size: 30,
                   ),
                 ),
-              ),
-              Text('Add your tasks', style: kTextHeadLine2),
-              const SizedBox(
-                height: 20,
-              ),
-              Text('Liste', style: kTextHeadLine5),
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 1,
-                    thickness: 1,
-                  ),
+                const SizedBox(
+                  width: 90,
                 ),
-              ),
-              Expanded(
-                  child: _teamId == null
-                      ? const Center(
-                          child:
-                              CircularProgressIndicator()) 
-                      : StreamBuilder<QuerySnapshot>(
-                          stream: _firestore
-                              .collection('teams')
-                              .doc(_teamId)
-                              .collection('targetTodo')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const CircularProgressIndicator();
-                            }
-                            if (!snapshot.hasData ||
-                                snapshot.data!.docs.isEmpty) {
-                              return const Text(
-                                  'Keine zielorientierten Aufgaben gefunden.');
-                            }
-
-                            var tasks = snapshot.data!.docs;
-                           return ListView.builder(
-  itemCount: tasks.length,
-  itemBuilder: (context, index) {
-    var task = tasks[index].data() as Map<String, dynamic>;
-    bool isTaskDone = task['isDone'] ?? false;
-
-    Timestamp timestamp = task['date']; 
-    DateTime dateTime = timestamp.toDate();
-    String formattedDate = DateFormat('dd.MM.yyyy HH:mm').format(dateTime); 
-
-    return ListTile(
-      title: Text(
-        task['text'],
-        style: TextStyle(
-          decoration: isTaskDone ? TextDecoration.lineThrough : null,
-        ),
-      ),
-      subtitle: Text('Punkte: ${task['points']}\n$formattedDate'), 
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Checkbox
-          Checkbox(
-            value: isTaskDone,
-            onChanged: (bool? newValue) {
-              if (_teamId != null) {
-                _updateTaskStatus(
-                    _teamId!,
-                    tasks[index].id,
-                    newValue ?? false);
-              }
-            },
-          ),
-
-          if (isTaskDone)
-            IconButton(
-              icon: const Icon(Icons.undo),
-              onPressed: () {
-                _updateTaskStatus(
-                    _teamId!,
-                    tasks[index].id,
-                    false);
-              },
+                Text('ToDo List', style: kTextHeadLine5),
+              ],
             ),
-
-          // Löschen-Button
+            SizedBox(
+              height: 200,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Image.asset(
+                    'assets/images/todo_work.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+            Text('Add your tasks', style: kTextHeadLine2),
+            const SizedBox(
+              height: 20,
+            ),
+            Text('Liste', style: kTextHeadLine5),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Divider(
+                  color: Colors.black,
+                  height: 1,
+                  thickness: 1,
+                ),
+              ),
+            ),
+            Expanded(
+                child: _teamId == null
+                    ? const Center(
+                        child:
+                            CircularProgressIndicator()) 
+                    : StreamBuilder<QuerySnapshot>(
+                        stream: _firestore
+                            .collection('teams')
+                            .doc(_teamId)
+                            .collection('targetTodo')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          }
+                          if (!snapshot.hasData ||
+                              snapshot.data!.docs.isEmpty) {
+                            return const Text(
+                                'Keine zielorientierten Aufgaben gefunden.');
+                          }
+          
+                          var tasks = snapshot.data!.docs;
+                         return ListView.builder(
+            itemCount: tasks.length,
+            itemBuilder: (context, index) {
+              var task = tasks[index].data() as Map<String, dynamic>;
+              bool isTaskDone = task['isDone'] ?? false;
+          
+              Timestamp timestamp = task['date']; 
+              DateTime dateTime = timestamp.toDate();
+              String formattedDate = DateFormat('dd.MM.yyyy HH:mm').format(dateTime); 
+          
+              return ListTile(
+                title: Text(
+                  task['text'],
+                  style: TextStyle(
+                    decoration: isTaskDone ? TextDecoration.lineThrough : null,
+                  ),
+                ),
+                subtitle: Text('Punkte: ${task['points']}\n$formattedDate'), 
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Checkbox
+                    Checkbox(
+          value: isTaskDone,
+          onChanged: (bool? newValue) {
+            if (_teamId != null) {
+              _updateTaskStatus(
+                  _teamId!,
+                  tasks[index].id,
+                  newValue ?? false);
+            }
+          },
+                    ),
+          
+                    if (isTaskDone)
           IconButton(
-            icon: const Icon(Icons.delete),
+            icon: const Icon(Icons.undo),
             onPressed: () {
-              _deleteTask(tasks[index].id);
+              _updateTaskStatus(
+                  _teamId!,
+                  tasks[index].id,
+                  false);
             },
           ),
-        ],
-      ),
-    );
-  },
-);
-                          },
-                        ))
-            ])),
-          ))
+          
+                    // Löschen-Button
+                    IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            _deleteTask(tasks[index].id);
+          },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+                        },
+                      ))
+          ])))
         ]));
   }
 }

@@ -94,82 +94,79 @@ class _TargetSettingsPageState extends State<TargetSettingsPage> {
           : Stack(
         children: [
           HoneycombBackground(
-           child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-              child: ContainerGlassFlex(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: const Icon(
-                              Icons.arrow_back_sharp,
-                              size: 30,
-                            )),
-                        const SizedBox(
-                          width: 50,
-                        ),
-                        Text('ToDo Settings', style: kTextHeadLine5),
-                      ],
-                    ),
-                    SizedBox(
-                        height: 150,
-                        width: 150,
-                        child: Image.asset('assets/images/child.png')),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text('Give your activities points. Create a list:',
-                        style: kTextHeadLine2),
-                    TextfieldEmail(
-                      lableText: 'z.B. clean up',
-                      textController: _targetTodoController,
-                    ),
-                    TextfieldEmail(
-                      lableText: 'Points',
-                      textController: _pointsController,
-                    ),
-                    CustomButton(
-                      onTap: _addTargetTodo,
-                      icon: Icons.add_box,
-                      text: Text('Insert', style: kTextHeadLine2),
-                    ),
-                    Expanded(
-  child:  StreamBuilder<QuerySnapshot>(
-            stream: _firestore
-                .collection('teams')
-                .doc(_teamId) // Verwenden Sie _teamId hier
-                .collection('targetTodo')
-                .snapshots(),
-            builder: (context, snapshot) {
-    if (snapshot.hasError) {
-      return Text('Error: ${snapshot.error}');
-    }
-    switch (snapshot.connectionState) {
-      case ConnectionState.waiting: return Text('Loading...');
-      default:
-        return ListView(
-          children: snapshot.data!.docs.map((DocumentSnapshot document) {
-            Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-            return ListTile(
-              title: Text(data['text']),
-              subtitle: Text('Punkte: ${data['points']}'),
-              // Weitere Elemente oder Aktionen
-            );
-          }).toList(),
-        );
-    }
-  },
-)
-),
-
-                  ],
-                ),
-              ),
-            ),
+           child: ContainerGlassFlex(
+             child: Column(
+               children: [
+                 Row(
+                   children: [
+                     IconButton(
+                         onPressed: () {
+                           Navigator.of(context).pop();
+                         },
+                         icon: const Icon(
+                           Icons.arrow_back_sharp,
+                           size: 30,
+                         )),
+                     const SizedBox(
+                       width: 50,
+                     ),
+                     Text('ToDo Settings', style: kTextHeadLine5),
+                   ],
+                 ),
+                 SizedBox(
+                     height: 150,
+                     width: 150,
+                     child: Image.asset('assets/images/child.png')),
+                 const SizedBox(
+                   height: 20,
+                 ),
+                 Text('Give your activities points. Create a list:',
+                     style: kTextHeadLine2),
+                 TextfieldEmail(
+                   lableText: 'z.B. clean up',
+                   textController: _targetTodoController,
+                 ),
+                 TextfieldEmail(
+                   lableText: 'Points',
+                   textController: _pointsController,
+                 ),
+                 CustomButton(
+                   onTap: _addTargetTodo,
+                   icon: Icons.add_box,
+                   text: Text('Insert', style: kTextHeadLine2),
+                 ),
+                 Expanded(
+             child:  StreamBuilder<QuerySnapshot>(
+                       stream: _firestore
+             .collection('teams')
+             .doc(_teamId) // Verwenden Sie _teamId hier
+             .collection('targetTodo')
+             .snapshots(),
+                       builder: (context, snapshot) {
+               if (snapshot.hasError) {
+                 return Text('Error: ${snapshot.error}');
+               }
+               switch (snapshot.connectionState) {
+                 case ConnectionState.waiting: return Text('Loading...');
+                 default:
+                   return ListView(
+                     children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                       Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                       return ListTile(
+           title: Text(data['text']),
+           subtitle: Text('Punkte: ${data['points']}'),
+           // Weitere Elemente oder Aktionen
+                       );
+                     }).toList(),
+                   );
+               }
+             },
+           )
+           ),
+           
+               ],
+             ),
+           ),
           ),
         ],
       ),

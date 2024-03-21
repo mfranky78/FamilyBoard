@@ -59,155 +59,152 @@ class _TeamMemberPageState extends State<TeamMemberPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: HoneycombBackground(
-      child:  Padding(
-          padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-          child: ContainerGlassFlex(
-            child: Column(
+      child:  ContainerGlassFlex(
+        child: Column(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back_sharp,
-                        size: 30,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 50,
-                    ),
-                    Text(
-                      'Teammitglieder',
-                      style: kTextHeadLine5,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text('Liste der Mitglieder', style: kTextHeadLine10),
-                const SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('teams')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator();
-                      }
-                      var teamDocs = snapshot.data?.docs;
-                      teams = teamDocs!
-                          .map((doc) =>
-                              CustomTeam.fromJson(doc.data(), doc.id, ''))
-                          .toList();
-
-                      return ListView.builder(
-                        itemCount: teams.length,
-                        itemBuilder: (context, index) {
-                          var team = teams[index];
-
-                          return ListTile(
-                            title: Padding(
-                              padding: const EdgeInsets.all(32.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(100, 255, 255, 255),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    team.teamName,
-                                    style: kTextHeadLine10,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            subtitle: FutureBuilder<Map<String, String>>(
-                              future: fetchMembersNames(team.members),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const CircularProgressIndicator();
-                                } else {
-                                  Map<String, String> memberInfos =
-                                      snapshot.data ?? {};
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: memberInfos.entries.map((entry) {
-                                      String memberName = entry.key;
-                                      String memberId = entry.value;
-                                      return Container(
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border:
-                                                Border.all(color: Colors.white),
-                                            color: const Color.fromARGB(
-                                                100, 255, 255, 255)),
-                                        margin:
-                                            const EdgeInsets.only(bottom: 12),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      32, 0, 0, 0),
-                                              child: Text(
-                                                memberName,
-                                                style: kTextHeadLine9,
-                                              ),
-                                            ),
-                                            if (team.isAdmin(getCurrentUserId())) 
-                                            GestureDetector(
-                                              onTap: () {
-                                                _showDeleteDialog(
-                                                    context,
-                                                    team.teamId,
-                                                    memberId,
-                                                    index,
-                                                    memberName);
-                                              },
-                                              child: const Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    0, 0, 16, 0),
-                                                child: Icon(
-                                                  Icons.outbond,
-                                                  size: 32,
-                                                ),
-                                            
-                                              ),
-                                            ),
-                                            
-                                            
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  );
-                                }
-                              },
-                            ),
-                          );
-                        },
-                      );
-                    },
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_sharp,
+                    size: 30,
                   ),
+                ),
+                const SizedBox(
+                  width: 50,
+                ),
+                Text(
+                  'Teammitglieder',
+                  style: kTextHeadLine5,
                 ),
               ],
             ),
-          ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text('Liste der Mitglieder', style: kTextHeadLine10),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('teams')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  }
+                  var teamDocs = snapshot.data?.docs;
+                  teams = teamDocs!
+                      .map((doc) =>
+                          CustomTeam.fromJson(doc.data(), doc.id, ''))
+                      .toList();
+      
+                  return ListView.builder(
+                    itemCount: teams.length,
+                    itemBuilder: (context, index) {
+                      var team = teams[index];
+      
+                      return ListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10),
+                              color:
+                                  const Color.fromARGB(100, 255, 255, 255),
+                            ),
+                            child: Center(
+                              child: Text(
+                                team.teamName,
+                                style: kTextHeadLine10,
+                              ),
+                            ),
+                          ),
+                        ),
+                        subtitle: FutureBuilder<Map<String, String>>(
+                          future: fetchMembersNames(team.members),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              Map<String, String> memberInfos =
+                                  snapshot.data ?? {};
+                              return Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: memberInfos.entries.map((entry) {
+                                  String memberName = entry.key;
+                                  String memberId = entry.value;
+                                  return Container(
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10),
+                                        border:
+                                            Border.all(color: Colors.white),
+                                        color: const Color.fromARGB(
+                                            100, 255, 255, 255)),
+                                    margin:
+                                        const EdgeInsets.only(bottom: 12),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.fromLTRB(
+                                                  32, 0, 0, 0),
+                                          child: Text(
+                                            memberName,
+                                            style: kTextHeadLine9,
+                                          ),
+                                        ),
+                                        if (team.isAdmin(getCurrentUserId())) 
+                                        GestureDetector(
+                                          onTap: () {
+                                            _showDeleteDialog(
+                                                context,
+                                                team.teamId,
+                                                memberId,
+                                                index,
+                                                memberName);
+                                          },
+                                          child: const Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0, 0, 16, 0),
+                                            child: Icon(
+                                              Icons.outbond,
+                                              size: 32,
+                                            ),
+                                        
+                                          ),
+                                        ),
+                                        
+                                        
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
+      ),
       ),
     );
   }

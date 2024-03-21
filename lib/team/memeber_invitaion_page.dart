@@ -133,50 +133,47 @@ class _MemberInvitationPageState extends State<MemberInvitationPage> {
       body: Stack(
         children: [
           HoneycombBackground(
-           child: Padding(
-              padding: const EdgeInsets.fromLTRB(0,32,0,32),
-              child: ContainerGlassFlex(
-                child: Column(
-                  children: [
-                    Row(children: [
-                      IconButton(onPressed: (){
-                        Navigator.of(context).pop();  
-                      }, icon: const Icon(Icons.arrow_back_sharp, size: 30,)),
-                      const SizedBox(width: 40,),
-                      Text(appBarTitle, style: kTextHeadLine5,)],),
-                    SizedBox(height: 250,
-                      child: Image.asset('assets/images/invite.png')),
-                    Text('Team-ID:', style: kTextHeadLine4,),
-                    GlassContainerFixText(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-                        child: Text('$teamId', style: kTextHeadLine4,),
-                      ),),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                      child: TextfieldEmail(
-                        textController: emailController,
-                       // keyboardType: TextInputType.emailAddress,
-                          lableText: 'E-Mail-Adresse',
-                      ),
-                    ),
-                    const SizedBox(height: 20,),
-                    CustomButton(
-                      onTap: () => sendEmailInvitation(emailController.text, teamId),
-                      icon: Icons.email,
-                      text:  Text('Invitation with E-mail',style: kTextHeadLine2,),
-                    ),
-                    CustomButton(
-                      onTap: () => _showJoinTeamDialog(),
-                        
-                      
-                      icon: Icons.link,
-                      text:  Text('Join about TeamId',style: kTextHeadLine2,),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+           child: ContainerGlassFlex(
+             child: Column(
+               children: [
+                 Row(children: [
+                   IconButton(onPressed: (){
+                     Navigator.of(context).pop();  
+                   }, icon: const Icon(Icons.arrow_back_sharp, size: 30,)),
+                   const SizedBox(width: 40,),
+                   Text(appBarTitle, style: kTextHeadLine5,)],),
+                 SizedBox(height: 250,
+                   child: Image.asset('assets/images/invite.png')),
+                 Text('Team-ID:', style: kTextHeadLine4,),
+                 GlassContainerFixText(
+                   child: Padding(
+                     padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                     child: Text('$teamId', style: kTextHeadLine4,),
+                   ),),
+                 Padding(
+                   padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                   child: TextfieldEmail(
+                     textController: emailController,
+                    // keyboardType: TextInputType.emailAddress,
+                       lableText: 'E-Mail-Adresse',
+                   ),
+                 ),
+                 const SizedBox(height: 20,),
+                 CustomButton(
+                   onTap: () => sendEmailInvitation(emailController.text, teamId),
+                   icon: Icons.email,
+                   text:  Text('Invitation with E-mail',style: kTextHeadLine2,),
+                 ),
+                 CustomButton(
+                   onTap: () => _showJoinTeamDialog(),
+                     
+                   
+                   icon: Icons.link,
+                   text:  Text('Join about TeamId',style: kTextHeadLine2,),
+                 ),
+               ],
+             ),
+           ),
           ),
         ],
       ),

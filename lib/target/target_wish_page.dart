@@ -64,97 +64,94 @@ class _WishPageState extends State<WishPage> {
         body: Stack(
           children: [
             HoneycombBackground(
-             child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-              child: ContainerGlassFlex(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: const Icon(Icons.arrow_back_sharp, size: 30)),
-                        const SizedBox(
-                          width: 110,
-                        ),
-                        Text('Wish', style: kTextHeadLine5),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: SizedBox(
-                          height: 200,
-                          child: Image.asset('assets/images/child3.png')),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextfieldEmail(
-                      textController: _textEditingController,
-                      lableText: 'Your Wish',
-                    ),
-                    TextfieldEmail(
-                      textController: _wishPointsController,
-                      lableText: 'Points for this Wish',
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CustomButtonIcon(
-                            onTap: () {
-                              String uid = getCurrentUserId();
-                              _addWish(uid);
-                            },
-                            icon: Icons.add,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text('Add your Wish:', style: kTextHeadLine2),
-                    Expanded(
-                      child: StreamBuilder(
-                        // daten aus der DB holen
-                        stream: _firestore
-                            .collection('users')
-                            .doc(getCurrentUserId())
-                            .collection('wishes')
-                            .snapshots(),
-                        builder: ((context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const CircularProgressIndicator();
-                          }
-                          // liste der todos zwischenspeichern
-                          var wishes = snapshot.data?.docs;
-                          return ListView.builder(
-                            itemCount: wishes!.length,
-                            itemBuilder: ((context, index) {
-                              // einzelnes todo anlegen
-                              var wish = wishes[index];
-
-                              return ListTile(
-                                trailing: IconButton(
-                                  onPressed: () {
-                                    _deleteWish(wish.id);
-                                  },
-                                  icon: const Icon(Icons.delete, size: 25),
-                                ),
-                                title:
-                                    Text(wish['text'], style: kTextHeadLine2),
-                                subtitle: Text('Punkte: ${wish['points']}'),
-                              );
-                            }),
-                          );
-                        }),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ))
+             child: ContainerGlassFlex(
+               child: Column(
+                 children: [
+                   Row(
+                     children: [
+                       IconButton(
+                           onPressed: () {
+                             Navigator.of(context).pop();
+                           },
+                           icon: const Icon(Icons.arrow_back_sharp, size: 30)),
+                       const SizedBox(
+                         width: 110,
+                       ),
+                       Text('Wish', style: kTextHeadLine5),
+                     ],
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.all(18.0),
+                     child: SizedBox(
+                         height: 200,
+                         child: Image.asset('assets/images/child3.png')),
+                   ),
+                   const SizedBox(
+                     height: 10,
+                   ),
+                   TextfieldEmail(
+                     textController: _textEditingController,
+                     lableText: 'Your Wish',
+                   ),
+                   TextfieldEmail(
+                     textController: _wishPointsController,
+                     lableText: 'Points for this Wish',
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.all(16.0),
+                     child: Row(
+                       mainAxisAlignment: MainAxisAlignment.end,
+                       children: [
+                         CustomButtonIcon(
+                           onTap: () {
+                             String uid = getCurrentUserId();
+                             _addWish(uid);
+                           },
+                           icon: Icons.add,
+                         ),
+                       ],
+                     ),
+                   ),
+                   Text('Add your Wish:', style: kTextHeadLine2),
+                   Expanded(
+                     child: StreamBuilder(
+                       // daten aus der DB holen
+                       stream: _firestore
+                           .collection('users')
+                           .doc(getCurrentUserId())
+                           .collection('wishes')
+                           .snapshots(),
+                       builder: ((context, snapshot) {
+                         if (!snapshot.hasData) {
+                           return const CircularProgressIndicator();
+                         }
+                         // liste der todos zwischenspeichern
+                         var wishes = snapshot.data?.docs;
+                         return ListView.builder(
+                           itemCount: wishes!.length,
+                           itemBuilder: ((context, index) {
+                             // einzelnes todo anlegen
+                             var wish = wishes[index];
+             
+                             return ListTile(
+                               trailing: IconButton(
+                                 onPressed: () {
+                                   _deleteWish(wish.id);
+                                 },
+                                 icon: const Icon(Icons.delete, size: 25),
+                               ),
+                               title:
+                                   Text(wish['text'], style: kTextHeadLine2),
+                               subtitle: Text('Punkte: ${wish['points']}'),
+                             );
+                           }),
+                         );
+                       }),
+                     ),
+                   ),
+                 ],
+               ),
+             ))
           ],
         ));
   }

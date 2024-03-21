@@ -47,89 +47,86 @@ class TeamOverview extends StatelessWidget {
     return Scaffold(
       body: Stack(children: [
         HoneycombBackground(
-         child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-            child: ContainerGlassFlex(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back_sharp,
-                            size: 30,
-                          )),
-                      const SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        'Teamoverview',
-                        style: kTextHeadLine5,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: Image.asset('assets/images/teamall.png'),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Here you can see all the teams that have been created.',
-                      style: kTextHeadLine2,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Divider(
-                      color: Colors.black,
-                    ),
-                  ),
-                  Expanded(
-                      child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('teams')
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text(
-                            'Fehler beim Laden der Teams: ${snapshot.error}');
-                      }
-
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      }
-
-                      var teamDocs = snapshot.data?.docs ?? [];
-                      return ListView.builder(
-                        // Änderung hier: Füge `return` hinzu
-                        itemCount: teamDocs.length,
-                        itemBuilder: (context, index) {
-                          var team = teamDocs[index];
-                          return ListTile(
-                            title: Text(team[
-                                'teamName'], style: kTextHeadLine2,), // Ersetze 'teamName' durch dein tatsächliches Feld
-                            trailing: IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () => _showDeleteConfirmationDialog(
-                                  context, team.id),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  )),
-                ],
-              ),
-            ),
-          ),
+         child: ContainerGlassFlex(
+           child: Column(
+             children: [
+               Row(
+                 children: [
+                   IconButton(
+                       onPressed: () {
+                         Navigator.of(context).pop();
+                       },
+                       icon: const Icon(
+                         Icons.arrow_back_sharp,
+                         size: 30,
+                       )),
+                   const SizedBox(
+                     width: 50,
+                   ),
+                   Text(
+                     'Teamoverview',
+                     style: kTextHeadLine5,
+                   ),
+                 ],
+               ),
+               Padding(
+                 padding: const EdgeInsets.all(32.0),
+                 child: Image.asset('assets/images/teamall.png'),
+               ),
+               const SizedBox(
+                 height: 30,
+               ),
+               Padding(
+                 padding: const EdgeInsets.all(16.0),
+                 child: Text(
+                   'Here you can see all the teams that have been created.',
+                   style: kTextHeadLine2,
+                 ),
+               ),
+               const Padding(
+                 padding: EdgeInsets.all(8.0),
+                 child: Divider(
+                   color: Colors.black,
+                 ),
+               ),
+               Expanded(
+                   child: StreamBuilder(
+                 stream: FirebaseFirestore.instance
+                     .collection('teams')
+                     .snapshots(),
+                 builder: (BuildContext context,
+                     AsyncSnapshot<QuerySnapshot> snapshot) {
+                   if (snapshot.hasError) {
+                     return Text(
+                         'Fehler beim Laden der Teams: ${snapshot.error}');
+                   }
+         
+                   if (snapshot.connectionState == ConnectionState.waiting) {
+                     return const CircularProgressIndicator();
+                   }
+         
+                   var teamDocs = snapshot.data?.docs ?? [];
+                   return ListView.builder(
+                     // Änderung hier: Füge `return` hinzu
+                     itemCount: teamDocs.length,
+                     itemBuilder: (context, index) {
+                       var team = teamDocs[index];
+                       return ListTile(
+                         title: Text(team[
+                             'teamName'], style: kTextHeadLine2,), // Ersetze 'teamName' durch dein tatsächliches Feld
+                         trailing: IconButton(
+                           icon: const Icon(Icons.delete),
+                           onPressed: () => _showDeleteConfirmationDialog(
+                               context, team.id),
+                         ),
+                       );
+                     },
+                   );
+                 },
+               )),
+             ],
+           ),
+         ),
         ),
       ]),
     );
