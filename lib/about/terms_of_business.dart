@@ -1,4 +1,5 @@
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -8,12 +9,26 @@ class TermsOfBusiness extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Terms of Business'),
-      ),
-      body: const Stack(
-        children: [
-          HoneycombBackground(
+       resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20,46.0,0,0),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, size: 30, color: Colors.black),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  Text( 'Geschäftsbedingungen', style: kTextHeadLine5,),
+                ],
+              ),
+            ),
+          const HoneycombBackground(
+             child: Padding(
+                padding: EdgeInsets.fromLTRB(0,54,0,0),
           child:  ContainerGlassFlex(
               child: Padding(
                 padding: EdgeInsets.all(32.0),
@@ -46,7 +61,7 @@ class TermsOfBusiness extends StatelessWidget {
                 ),
               ),
             ))
-        ],
+        )],
       ),
     );
   }
