@@ -1,4 +1,3 @@
-import 'package:famibo/core/backround_screen.dart';
 import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:flutter/material.dart';
 
