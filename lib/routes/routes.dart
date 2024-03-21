@@ -48,7 +48,7 @@ class RoutePage extends ConsumerWidget {
       "/MyApp": (context) => MyApp(),
       "/logopage": (context) => const LogoPage(),
       "/onboarding": (context) => const OnboardingPage(),
-      "/homescreen": (context) =>   HomeScreen(),
+      "/homescreen": (context) =>   const HomeScreen(),
       "/myprofile": (context) =>  const MyProfilePage(),
       "/myprofilesetting": (context) => const MyProfileSettings(),
       "/calculator": (context) => const Calculator(),

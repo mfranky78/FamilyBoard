@@ -1,4 +1,6 @@
 import 'package:famibo/core/custom_button.dart';
+import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/core/textfield_email.dart';
 import 'package:famibo/core/wabenstruktur_screen.dart';
 import 'package:famibo/login/login_page.dart';
@@ -44,44 +46,59 @@ class PasswordForgetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('Forget Password'),
-      ),
       body: Stack(
         children: [
           HoneycombBackground(
-          child:  Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 200,
-                    width: 350,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      border: Border.fromBorderSide(
-                          BorderSide(color: Colors.white, width: 2)),
-                      image: DecorationImage(  
-                        image: AssetImage("assets/images/password_forget.png"),
-                        fit: BoxFit.cover,
-                      ),
+          child: ContainerGlassFlex(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.arrow_back_sharp, size: 30),
+                    ),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      'Passwort vergessen',
+                      style: kTextHeadLine5,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 200,
+                  width: 300,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    border: Border.fromBorderSide(
+                        BorderSide(color: Colors.white, width: 2)),
+                    image: DecorationImage(  
+                      image: AssetImage("assets/images/password_forget.png"),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(height: 40),
-                   TextfieldEmail(lableText: 'E-Mail Adresse', textController: _emailController,),
-                  const SizedBox(height: 160),
-                  CustomButton(
-                    onTap: () {
-                      // Hier wird das Popup aufgerufen
-                      _showResetPasswordDialog(context);
-                    },
-                    icon: Icons.password_outlined,
-                    text: const Text('Passwort zurücksetzen'),
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 40),
+                 TextfieldEmail(lableText: 'E-Mail Adresse', textController: _emailController,),
+                const SizedBox(height: 160),
+                CustomButton(
+                  onTap: () {
+                    // Hier wird das Popup aufgerufen
+                    _showResetPasswordDialog(context);
+                  },
+                  icon: Icons.password_outlined,
+                  text: const Text('Passwort zurücksetzen'),
+                ),
+              ],
             ),
+          ),
           ),
         ],
       ),

@@ -402,15 +402,13 @@ String getWeekdayName(String dayNumber) {
     'Samstag',
     'Sonntag'
   ];
-  return weekdays[int.parse(dayNumber) -
-      1]; // Beachte, dass wir dayNumber - 1 verwenden, da die Liste bei 0 anfängt
+  return weekdays[int.parse(dayNumber) - 1]; // Beachte, dass wir dayNumber - 1 verwenden, da die Liste bei 0 anfängt
 }
 
 int extractDayNumber(String dayString) {
   final match = RegExp(r'\d+').firstMatch(dayString);
   if (match != null) {
-    return int.tryParse(match.group(0) ?? '') ??
-        1; // Standardmäßig auf 1 setzen, wenn keine Zahl gefunden wird
+    return int.tryParse(match.group(0) ?? '') ?? 1; // Standardmäßig auf 1 setzen, wenn keine Zahl gefunden wird
   }
   return 1; // Standardmäßig auf 1 setzen, wenn keine Übereinstimmung gefunden wird
 }
@@ -444,6 +442,11 @@ class _DayTimetableState extends State<DayTimetable> {
                 Expanded(
                   flex: 2,
                   child: TextFormField(
+                    decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black54),
+                      ),
+                    ),
                     initialValue: _getTimetableEntry(widget.day, i),
                     onChanged: (entry) {
                       widget.onUpdate(widget.day, i, entry);

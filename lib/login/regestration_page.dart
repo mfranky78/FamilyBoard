@@ -1,5 +1,6 @@
 import 'package:famibo/core/custom_button.dart';
 import 'package:famibo/core/custom_glasscontainer_flex.dart';
+import 'package:famibo/core/text_style_page.dart';
 import 'package:famibo/core/textfield_email.dart';
 import 'package:famibo/core/textfield_password.dart';
 import 'package:famibo/core/textfield_text.dart';
@@ -32,57 +33,56 @@ final TextEditingController _controllerName = TextEditingController();
       body: 
        Stack(children: [
          HoneycombBackground(
-          child: Padding(
-             padding: const EdgeInsets.fromLTRB(10,80,10,20),
-             child: Center(
-               child: ContainerGlassFlex(
-                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: 
-                  [
-                    Title(
-                    color: Colors.black, 
-                    child: const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text('User Regestration', 
-                      style: TextStyle(fontSize: 30),),
-                    )),
-                    const SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Image.asset('assets/images/regestration_image.png'),
+          child: ContainerGlassFlex(
+            child: Column(
+             children:[
+               Row(
+                 children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.arrow_back, size: 30,),
                     ),
-                    const SizedBox(height: 40),
-                     TextfieldText(
-                      textController: _controllerName, 
-                      hintText: 'Name',),
-                    TextfieldEmail(
-                      textController: _controllerEmail, 
-                      lableText: 'E-Mail',),
-                    TextfieldPassword(
-                      hintText: 'Password', 
-                      textController: _controllerPassword, 
-                      isPassword: true),
-                    CustomButton(
-                      onTap: ()async {
-                        await context
-                            .read<AuthCubit>()
-                            .createUserWithEmailAndPassword(
-                              _controllerEmail.text,
-                              _controllerPassword.text,
-                              context,
-                            );
-                            saveUserData(name: _controllerName.text, email:_controllerEmail.text);
-                           Navigator.pushNamed(context, "/loginpage"); 
-
-                      }, 
-                      icon: Icons.app_registration, 
-                      text: const Text('Regestration')),
-                    ]
-                           ),
+                    const SizedBox(width: 40),
+                    Text('User Regestration', 
+                   style: kTextHeadLine5),
+                 ],
                ),
-             ),
-           ),
+               const SizedBox(height: 10,),
+               Padding(
+                 padding: const EdgeInsets.all(16.0),
+                 child: Image.asset('assets/images/regestration_image.png'),
+               ),
+               const SizedBox(height: 40),
+                TextfieldText(
+                 textController: _controllerName, 
+                 hintText: 'Name',),
+               TextfieldEmail(
+                 textController: _controllerEmail, 
+                 lableText: 'E-Mail',),
+               TextfieldPassword(
+                 hintText: 'Password', 
+                 textController: _controllerPassword, 
+                 isPassword: true),
+               CustomButton(
+                 onTap: ()async {
+                   await context
+                       .read<AuthCubit>()
+                       .createUserWithEmailAndPassword(
+                         _controllerEmail.text,
+                         _controllerPassword.text,
+                         context,
+                       );
+                       saveUserData(name: _controllerName.text, email:_controllerEmail.text);
+                      Navigator.pushNamed(context, "/loginpage"); 
+                    
+                 }, 
+                 icon: Icons.app_registration, 
+                 text: Text('Regestration',style: kTextHeadLine2)),
+               ]
+                      ),
+          ),
         ),
       ]),
     );
